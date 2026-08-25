@@ -1,0 +1,72 @@
+{
+  "render_width": 720,
+  "render_height": 681,
+  "projected_bounds_epsg27700": [
+    529495.5494798634,
+    179872.22133769788,
+    530489.8135297153,
+    180811.9447703719
+  ],
+  "source_tiles": [
+    {
+      "file": "TQ27ne_FZ_DSM_1m.tif",
+      "crs": "EPSG:27700",
+      "resolution_m": [
+        1.0,
+        1.0
+      ],
+      "nodata": -3.4028234663852886e+38,
+      "filled_render_cells": 33945
+    },
+    {
+      "file": "TQ28se_FZ_DSM_1m.tif",
+      "crs": "EPSG:27700",
+      "resolution_m": [
+        1.0,
+        1.0
+      ],
+      "nodata": -3.4028234663852886e+38,
+      "filled_render_cells": 214620
+    },
+    {
+      "file": "TQ37nw_FZ_DSM_1m.tif",
+      "crs": "EPSG:27700",
+      "resolution_m": [
+        1.0,
+        1.0
+      ],
+      "nodata": -3.4028234663852886e+38,
+      "filled_render_cells": 33015
+    },
+    {
+      "file": "TQ38sw_FZ_DSM_1m.tif",
+      "crs": "EPSG:27700",
+      "resolution_m": [
+        1.0,
+        1.0
+      ],
+      "nodata": -3.4028234663852886e+38,
+      "filled_render_cells": 208740
+    }
+  ],
+  "satellite_coordinate_stem_count": 306,
+  "satellite_grid_lonlat_bounds": [
+    -0.13532915147930094,
+    51.50295288834737,
+    -0.12133884852069905,
+    51.51118011165263
+  ],
+  "valid_render_cells": 490320,
+  "total_render_cells": 490320,
+  "valid_ratio": 1.0,
+  "elevation_m": {
+    "minimum": -34.617088317871094,
+    "maximum": 82.4638442993164,
+    "mean": 19.351003646850586,
+    "p05": 3.109999895095825,
+    "p95": 43.80267200469971
+  },
+  "vertical_exaggeration": 3.0,
+  "oblique_display_mesh_spacing_m": 4.14852871990297,
+  "figure_statement": "Qualitative source-DSM morphology; not a patch-completeness or building-height accuracy measurement."
+}

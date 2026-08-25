@@ -1,0 +1,616 @@
+\chapter{Results and Analysis} \label{Chap4}\label{chap:results}
+
+\section{Evaluation scope}
+
+Results are organised around the evaluation questions: data integrity,
+large-image density and colour inference, independent-mesh behaviour,
+coordinate control, static and on-demand integration, matched representation,
+and component verification.  Quantitative findings are tied to the data population or
+processing stage from which they were measured.
+
+\section{Prototype feasibility and empirical focus}
+
+A retained London GLB and corresponding server record establish compatibility
+with the released Sat3DGen inference interface.  The Unity/Ubiq client also
+compiled with the intended acquisition, request, retrieval, and scene-loading
+stages, informing the design of the downstream interface.  The principal
+experiments comprise a fresh contiguous London large-image run, a matched
+overlap-fusion comparison, global vertex-colour recovery, an independent-OBJ
+mesh-processing study, and ChordAtlas publication.  Retained ChordAtlas
+appearance exports provide representation-level evidence, while the earlier
+format-conversion prototypes contribute architectural context.
+
+\section{Data construction and integrity}\label{sec:data-results}
+
+The London builder is assessed for dataset readiness and downstream geospatial
+reuse.  The results address coverage, independence, label geometry, and
+auxiliary-channel integrity rather than model-training performance.
+
+\subsection{Inventory and physical extent}
+
+Panorama acquisition covered the majority of target locations, while the satellite, DSM, OSM, and grid channels cover only a subset; sampling density and overlap also differ between branches.
+
+Projected tile unions expose the difference between file count and physical
+coverage.  The 127-tile set covers approximately
+\SI{0.45}{\kilo\metre\squared}; the repaired grid covers
+\SI{0.96}{\kilo\metre\squared}.  The 50 and 10 per cent overlap layouts cover
+approximately \SI{0.93}{\kilo\metre\squared} and
+\SI{0.89}{\kilo\metre\squared}, respectively.  Despite containing 306 tiles,
+the latter supports 2,331/2,333 queries because its stride and boundary handling
+omit two locations.  Tile count is therefore an insufficient coverage measure.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data_builder_coverage_channels.pdf}
+\caption{Estimated grid-footprint union, matched-query coverage, and stored
+channel availability.  Areas use a local-scale Web-Mercator estimate.}
+\label{fig:data-builder-coverage-channels}
+\end{figure}
+
+\subsection{DSM channel}
+
+The four Environment Agency inputs are adjacent 5,000-by-5,000 float rasters at
+\SI{1}{\metre} resolution in EPSG:27700.  The product is the Composite 2022 DSM
+\cite{environmentAgencyDSM2022}; it measures visible surfaces, not bare earth.
+The source rasters cover all 2,343 query points and all 272 repaired
+grid centres.
+
+Figure~\ref{fig:data-builder-dsm-views} visualises the metric source mosaic
+before per-patch percentile normalisation.  Mosaicking the four rasters across
+the approximately 1.00-by-0.94-kilometre footprint provides complete coverage
+at the displayed sampling grid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data_builder_dsm_views.pdf}
+\caption{North-up and oblique views of the Environment Agency 2022
+\SI{1}{\metre} first-return DSM mosaic over the London study area.  The plan
+view preserves equal east--north scales and NoData; the oblique view uses
+threefold vertical exaggeration.  Colour shows elevation relative to Ordnance
+Datum Newlyn.  Source: Environment Agency, LIDAR Composite DSM 2022; Open
+Government Licence v3.0
+\cite{environmentAgencyDSM2022,nationalArchivesOGL3}.}
+\label{fig:data-builder-dsm-views}
+\end{figure}
+
+Independent 5th--95th-percentile scaling makes the patches suitable as relative
+surface-height channels but removes cross-patch comparability in absolute
+elevation.  A legacy DSM derivative without traceable production metadata was
+therefore excluded from the evaluated channel.
+
+\subsection{OSM semantic channel}
+
+The Overpass query retrieves support nodes recursively, and the extractor emits
+all returned nodes as point features even when they have no category tags.  Of
+67,281 category records, 57,623 are such support-node records (85.65 per cent).
+Multipolygon fragments are also treated as
+independent outer rings, and inner-ring assignment can fill intended holes.
+Semantic validity therefore requires geometry- and tag-aware validation rather
+than file-count checks.
+The active mesh loader adds 19,682 ordinary-building and 9,237 height-building
+records to the same index
+\cite{openstreetmapData}.
+
+\section{Large-image density and colour inference}
+\label{sec:large-image-results}
+
+\subsection{Contiguous London configuration}
+
+The contiguous run covered approximately \SI{285.5}{\metre} by
+\SI{475.8}{\metre} from a 3,072-by-5,120-pixel zoom-20 mosaic.  Each
+640-pixel source window was passed through the unchanged 256-pixel Sat3DGen
+image transform.  A 160-pixel stride produced a 17-by-29 schedule, or 493
+windows, with 75 per cent nominal overlap.  The mesh-resolution setting was
+192 voxels; it did not change the network image size.  After fractional
+placement, the fused density volume measured $1232\times740\times173$ and had
+no zero-weight cells.
+
+One global Marching Cubes extraction produced 3,122,922 vertices and 6,241,862
+faces.  Density inference and fusion required 129.0 seconds and reached
+\SI{6.62}{\gibi\byte} peak allocated GPU memory.
+
+\subsection{Window-boundary comparison}
+
+The hard-box and fractional-feather runs used the same source image,
+checkpoint, windows, overlap, voxel resolution, and isovalue.  The baseline is
+described as release-style because it retains the released wrapper's hard
+boundary crop and equal-weight overlap rule, while using the matched project
+settings rather than the release defaults.  Figure~\ref{fig:large-image-feather}
+shows the resulting top surfaces.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{big_image_feather_comparison.pdf}
+\caption[Hard-box and fractional-feather large-image fusion.]{Matched
+large-image fusion comparison.  Hard-box averaging produces repeated
+window-aligned height steps; fractional placement and raised-cosine feathering
+replace the abrupt contributor changes with smooth overlap transitions.  The
+false colour and shading encode density-derived top-surface height, not
+satellite texture or appearance accuracy.}
+\label{fig:large-image-feather}
+\end{figure}
+
+At the former hard-crop contribution boundaries, mean absolute density jumps
+fell from 0.710 to 0.286 along rows and from 0.963 to 0.491 along columns
+(Table~\ref{tab:large-image-seams}).  Mean top-surface jumps fell from 2.596 to
+0.659 voxels and from 3.065 to 1.214 voxels, respectively.  The corresponding
+reductions are 49--60 per cent for density and 60--75 per cent for the derived
+top surface.  Geometry runtime increased by 8.6 per cent, while peak allocated
+GPU memory was unchanged at the reported precision.  The comparison therefore
+supports a reduction in boundary discontinuity.
+
+\begin{table}[H]
+\centering
+\caption{Matched hard-box and fractional-feather fusion results.}
+\label{tab:large-image-seams}
+\small
+\begin{tabularx}{\textwidth}{Xrrr}
+\toprule
+Measure & Hard-box & Fractional feather & Change\\
+\midrule
+Mean density jump, row boundary & 0.710 & 0.286 & $-59.8\%$\\
+Mean density jump, column boundary & 0.963 & 0.491 & $-49.0\%$\\
+Mean top-surface jump, row (voxels) & 2.596 & 0.659 & $-74.6\%$\\
+Mean top-surface jump, column (voxels) & 3.065 & 1.214 & $-60.4\%$\\
+Geometry stage (s) & 118.7 & 129.0 & $+8.6\%$\\
+Peak allocated GPU memory (GiB) & 6.62 & 6.62 & unchanged\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Global vertex-colour recovery}
+
+The second pass accumulated 42.6 million positive window contributions over
+the fixed global surface.  Every vertex received support from at least one
+window, with no uncovered or all-black vertices.  Reloading the coloured PLY
+preserved every vertex position and face index and reproduced the exported RGB
+values.  The colour stage required 97.3 seconds, of which 80.9 seconds were
+model queries, and reached \SI{1.86}{\gibi\byte} peak allocated GPU memory.
+The exported PLY displayed its blended vertex colours in MeshLab.  These checks
+establish complete and index-consistent appearance transfer.
+
+\subsection{Current myProject large-image publication}
+
+The large-image path was also exercised through the ChordAtlas bridge on a
+1,536-by-1,536-pixel, 49-window selection.  Its retained job records a
+340,825-vertex, 678,726-face density surface followed by complete colour
+support.  The geometry stage required 17.0 seconds and the colour stage 23.2
+seconds.  The final colour-enabled publication reused the validated geometry
+stage from the same retained job before running and validating the second pass.
+
+After one local-coordinate conversion, the context crop contained 66,666
+vertices and 132,440 faces.  DSM processing covered every retained vertex and
+preserved its RGB index while changing vertical position by at most
+\SI{30.7}{\metre}.  Footprint extraction published two non-exclusive coarse
+building assets.  Their geometric union, represented by the top-level
+selection crop, contains 17,571 vertices and 34,383 faces; the two building
+files share 266 vertex positions and 452 triangles.  Both OBJ files contain
+RGB on every vertex and pass the Java colour parser; per-building MiniMesh
+trees also exist.  In ChordAtlas, the RGB OBJ is displayed by a dedicated
+vertex-colour renderer, while MiniMesh remains a separate geometric workspace
+representation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{big_image_coloured_publication.pdf}
+\caption{Oblique and plan views of the current large-image building
+publication after coordinate conversion, DSM processing, and footprint
+extraction.  Face colour is the mean of the predicted per-vertex RGB values;
+the figure demonstrates colour retention through publication, not comparison
+with a reference texture.}
+\label{fig:large-image-coloured-publication}
+\end{figure}
+
+\section{Mesh-space post-inference experiment}\label{sec:sat-results}
+
+\subsection{Evaluated processing scope}
+
+The experiment processes 15 coordinate-paired OBJ tiles through OSM/DSM
+loading, crop and placement, lower-surface removal, stitching, DSM correction,
+and building extraction.  The associated cache records describe geometry but
+do not bind a model checkpoint and configuration, so the measurements below
+characterise the mesh-processing stages.
+
+Qian et al. report FID 19.2 and DSM RMSE \SI{5.20}{\metre} on VIGOR-OOD
+\cite{qian2026sat3dgen}.  Those metrics assess the published model protocol;
+this experiment measures downstream operations on retained mesh tiles and uses
+the external DSM as a processing input.  Unlike the density-domain experiment
+in Section~\ref{sec:large-image-results}, it combines independently extracted
+meshes and therefore evaluates a complementary assembly strategy.
+
+\subsection{Geographic composition of the mesh batch}
+
+Recursive discovery selected two disconnected clusters: nine eastern tiles in
+a 3-by-3 arrangement and six western tiles in a 2-by-3 arrangement.  Their
+centres are approximately \SI{666}{\metre} apart, more than eleven nominal tile widths.
+Figure~\ref{fig:tile-clusters} plots every centre and nominal footprint.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth]{tile_clusters.pdf}
+\caption{Geographic composition of the 15 OBJ meshes selected by the merge
+experiment.  Filename coordinates identify two disconnected sites.}
+\label{fig:tile-clusters}
+\end{figure}
+
+The merged output consequently combines two sites rather than one contiguous
+London scene.  This geographic inconsistency originates in cache selection,
+not the upstream Sat3DGen generator \cite{qian2026sat3dgen}.
+
+\subsection{Geometry retained through processing}
+
+Table~\ref{tab:stage-counts} gives the exact geometry counts.  From raw inputs
+to the stitched scene, 1,724,759/3,640,214
+vertices (47.38 per cent) and 3,184,234/7,281,608 faces (43.73 per cent) were
+removed or consolidated.  This large, intended reduction makes the crop,
+bottom-removal, and stitching predicates central to output validity.
+
+\begin{table}[H]
+\centering
+\caption{Geometry counts by post-processing stage.}
+\label{tab:stage-counts}
+\small
+\begin{tabular}{lrrr}
+\toprule
+Stage & Vertices & Faces & Change from previous stage\\
+\midrule
+Raw 15 OBJ inputs & 3,640,214 & 7,281,608 & ---\\
+Cropped & 2,828,613 & 5,615,039 & $-811{,}601$ V; $-1{,}666{,}569$ F\\
+Bottom removed & 2,252,373 & 4,474,289 & $-576{,}240$ V; $-1{,}140{,}750$ F\\
+Stitched & 1,915,455 & 4,097,374 & $-336{,}918$ V; $-376{,}915$ F\\
+DSM scene & 1,915,455 & 4,097,374 & topology unchanged\\
+DSM building extraction & 1,001,507 & 2,116,136 & branch result\\
+No-DSM building extraction & 907,370 & 1,911,272 & branch result\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:tile09-bottom-removal} shows the saved crop-stage and
+bottom-removal outputs for one representative tile.  The horizontal footprint
+is unchanged, while the operation removes a near-horizontal generated support
+sheet spanning almost the full tile.  Every tile lost exactly 38,416 vertices
+and 76,050 faces at this stage, consistent with removal of the same standard
+lower grid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{tile09_bottom_removal.pdf}
+\caption[Bottom removal in representative tile 09.]{Representative tile~09 at
+two consecutive saved stages.  Panel (a) is the cropped, placed, and
+OSM-pre-aligned mesh before bottom removal, with the removed lower sheet
+highlighted in orange; panel (b) is the retained mesh immediately afterwards.
+Both use the same underside camera and metric frame, and stored vertex colour
+is omitted to expose the geometric change.}
+\label{fig:tile09-bottom-removal}
+\end{figure}
+
+The controlled bottom-removal fixture also showed that the active predicate
+removes a triangle when only one vertex is close to the lowest surface,
+although the documented rule requires all three vertices to satisfy the
+threshold.  In the stitching fixture, two triangles separated by
+\SI{10}{\metre} in Y collapsed from six vertices to three because matching used
+X/Z coincidence without the configured vertical-separation test.  In the
+north-western two-by-three subset used below, the six pre-stitch tiles contain
+819,191 vertices and 1,626,029 faces; the saved post-stitch subset contains
+696,199 vertices and 1,485,998 faces with the same horizontal extent.  The
+sub-metre consolidation is quantified here because it is not distinguishable
+in a scene-scale silhouette.
+
+\subsection{DSM displacement is scene-wide}
+
+DSM correction changed all 1,915,455 vertices in the saved scene and every
+change was positive.  The median displacement is \SI{36.08}{\metre}, the mean
+is \SI{42.24}{\metre}, and values range from \SI{15.81}{\metre} to
+\SI{62.63}{\metre}.  The scene's vertical range changes from
+\SIrange{-26.77}{18.76}{\metre} to \SIrange{1.86}{67.94}{\metre}
+(Figure~\ref{fig:dsm-displacement}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{dsm_displacement.pdf}
+\caption{Per-vertex vertical displacement introduced by DSM correction.  The
+distribution characterises implementation behaviour rather than surveyed
+height error.}
+\label{fig:dsm-displacement}
+\end{figure}
+
+
+\subsection{North-western stitched scene and representative topology}
+
+Figure~\ref{fig:dsm-scene-nw-2x3} isolates the north-western two-by-three
+cluster in the stitched scene before and after the saved DSM stage.  The two
+OBJ files preserve vertex order, horizontal coordinates, RGB attributes, and
+face indices within this subset, so the stage changes only Y.  The subset
+contains 696,199 vertices and 1,485,998 faces.  All paired vertices move
+upward; median displacement is \SI{38.58}{\metre}, with a 5th--95th percentile
+range of \SIrange{32.96}{60.49}{\metre}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{dsm_scene_nw_2x3_comparison.pdf}
+\caption[DSM-stage vertical transformation in the north-western two-by-three
+cluster.]{DSM-stage transformation in the north-western two-by-three stitched
+scene cluster.  Panel (a) is the post-stitch output before DSM processing;
+panel (b) is the same mesh after DSM height correction.  Both use uniform
+materials, a shared camera, and a common metric frame.  Panel (c) reports
+paired $\Delta Y$ at the highest pre-correction vertex in each occupied
+1-metre X/Z cell.  Stored RGB is omitted to expose the vertical change; the
+values describe implemented behaviour rather than surveyed elevation error.}
+\label{fig:dsm-scene-nw-2x3}
+\end{figure}
+
+A separate representative paired building remains a single connected
+component with finite vertices, valid indices, and no detected zero-area,
+duplicate, or non-manifold faces. Its mean paired vertical displacement is approximately
+\SI{58.0}{\metre}.  This building-level case establishes the presence of open
+boundaries; the population analysis in Section~\ref{sec:ondemand-results}
+evaluates their prevalence.
+
+\section{Static ChordAtlas integration}\label{sec:static-results}
+
+The static path converted a high-resolution source mesh into a structurally
+valid MiniMesh workspace with the required indices and generator structure.
+The mesh's rectangular X/Z extent overlaps approximately
+\SI{0.0096}{\kilo\metre\squared} of a \SI{1.00}{\kilo\metre\squared} target,
+or 0.96 per
+cent.  This is an axis-aligned extent proxy, not surface area, so it can include
+empty regions.  Footprint-associated assets were exported, with overlapping
+OSM filter categories reported separately.
+
+The evaluated result demonstrates
+
+\begin{center}
+cached meshes $\rightarrow$ coordinate/footprint processing $\rightarrow$
+MiniMesh conversion $\rightarrow$ structurally valid workspace,
+\end{center}
+
+using retained inputs.  It establishes coordinate, footprint, format, and
+workspace integration over the available geographic extent.
+
+\section{On-demand ChordAtlas integration}\label{sec:ondemand-results}
+
+\subsection{Independent-tile publication population and asset quality}
+
+The tile-based on-demand set contains ten publication records with
+building-level metrics and one earlier record without them.
+Table~\ref{tab:on-demand-cases} aggregates these records by corrected-scene
+decision.
+
+\begin{table}[H]
+\centering
+\caption{Independent-tile publication records by corrected-scene decision.}
+\label{tab:on-demand-cases}
+\small
+\begin{tabularx}{\textwidth}{XrrrX}
+\toprule
+Record category & Publications & Tile references & Buildings & Publication evidence\\
+\midrule
+Fresh correction & 5 & 90 & 11 & Modular building assets published\\
+Reused correction & 5 & 91 & 8 & Modular building assets published\\
+Earlier schema & 1 & 9 & --- & Publication boundary reached; no current metrics\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Across the ten metric-bearing independent-tile records, 181 tile references produced 19
+building assets: eleven following fresh correction and eight following cache
+reuse.  Figure~\ref{fig:on-demand-publications-update} distinguishes selection
+size from the number of modular outputs.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{on_demand_publications_update.pdf}
+\caption[On-demand publication records and corrected-scene reuse.]{On-demand publication records, tile counts, building counts, and
+corrected-scene reuse decisions.  The Python publication boundary precedes
+Java conversion.}
+\label{fig:on-demand-publications-update}
+\end{figure}
+
+Topology is the principal quality constraint in this published population.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{on_demand_building_topology_update.pdf}
+\caption{Boundary-edge metrics for all 19 independent-tile building publications and
+non-manifold-edge metrics for the ten v2 publications that record this field.}
+\label{fig:on-demand-topology-update}
+\end{figure}
+
+RGB attributes are preserved throughout the independent-tile publication set:
+every vertex in all 19 cropped OBJ assets carries colour data.  The
+representative output in Figure~\ref{fig:on-demand-vertex-colour} shows this
+appearance together with the open-edge topology identified above.
+
+All 19 independent-tile buildings also contain MiniMesh indices.  A real-asset Java check parsed
+vertex colours and constructed the generator layer successfully, confirming
+appearance transfer through OBJ parsing and generator construction.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{on_demand_vertex_colour_building.pdf}
+\caption{Oblique and plan views of a representative building-level
+vertex-colour OBJ.  Colour visualises the published appearance attributes.}
+\label{fig:on-demand-vertex-colour}
+\end{figure}
+
+
+\subsection{Spatially matched appearance references}
+
+The independent-tile bridge extends building publication with two forms of
+appearance input.  Four building assets have ready satellite roof references generated
+from the tiles bound to their selections.  Each reference covers its source
+footprint completely, records a footprint-derived style mask, and leaves the
+published geometry unchanged.  This creates a spatially matched roof-appearance
+input for the ChordAtlas style interface.
+
+A selected-block panorama run also completed its planning, sample approval,
+batch acquisition, and promotion stages.  Eight unique Street View panoramas
+were acquired and indexed in the ChordAtlas workspace using the project's
+local coordinate frame.  The result connects a chosen OSM footprint to a
+deduplicated, selection-specific set of street-level observations.
+
+Together, these results extend the bridge from geometry delivery to registered
+appearance inputs.  For this reference-registration experiment, the
+roof-reference style contract and panorama services pass their component
+checks; the evaluated outcome is reference preparation and spatial
+registration rather than a texture-quality measure.
+
+\subsection{Failure containment}
+
+Input validation rejected a duplicate footprint identity and an incomplete
+imagery set before inference.  Both cases reached explicit terminal states,
+demonstrating \gls{failclosed} behaviour at the request and input-validation
+boundaries.  Append-only selection logs preserve these transitions.
+
+
+\section{Matched London building comparison}
+\label{sec:matched-building-comparison}
+
+\subsection{Directly matched Sat3DGen routes}
+
+The large-image and independent-tile manifests request the same target bounds
+and the same two OSM footprints.  Figure~\ref{fig:matched-sat3dgen-building}
+compares the main building, OSM way~369245408, with identical cameras and
+metric display scale.  Both outputs store per-vertex RGB produced within their
+respective Sat3DGen routes, and both
+were processed against the same one-metre DSM with complete recorded vertex
+coverage.  Table~\ref{tab:matched-building-metrics} reports corresponding
+geometry, topology, relief, and colour-variation descriptors.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{matched_sat3dgen_building_comparison.pdf}
+\caption[Matched Sat3DGen building comparison.]{Directly matched building
+comparison for OSM way~369245408.  Panels (a,c) show the fractional-feather
+large-image publication and panels (b,d) the nine-mesh independent-tile
+publication.  The latter retains additional sheets, spikes, and detached
+fragments in this sample.  Colours are per-vertex RGB retained from the two
+Sat3DGen routes, not satellite pixels projected directly onto the mesh.}
+\label{fig:matched-sat3dgen-building}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Descriptive metrics for the directly matched main-building outputs.}
+\label{tab:matched-building-metrics}
+\small
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}p{0.18\textwidth}p{0.10\textwidth}p{0.18\textwidth}p{0.12\textwidth}X}
+\toprule
+Route & Vertices / faces & Relief (m) & Boundary / non-manifold & Luminance s.d. & Mean edge RGB $\Delta$\\
+\midrule
+Large-image & 16,644 / 32,597 & 28.12 & 681 / 0 & 0.154 & 0.053\\
+Independent tiles & 21,555 / 42,524 & 38.07 & 1,074 / 384 & 0.213 & 0.082\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The large-image sample has a more compact surface and fewer recorded boundary
+and non-manifold edges.  The independent-tile sample contains more geometry
+and stronger local RGB variation.  The latter observation is consistent with
+visibly higher-frequency colour detail, but it is not evidence of more accurate
+colour.  Similarly, complete DSM coverage shows that both outputs were
+vertically conditioned.
+
+\subsection{Procedural appearance representations}
+
+Figure~\ref{fig:procedural-representation-examples} places the CityEngine export
+and retained ChordAtlas artefacts under a common presentation camera and metric
+scale.  These are illustrative representation examples rather than a
+common reconstruction benchmark.  The route-labelled ChordAtlas envelopes are
+geometrically consistent with the main footprint, but their OBJ files do not
+embed its OSM identifier.  The standalone ChordAtlas model has neither a
+matched location nor a retained run manifest.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{procedural_representation_examples.pdf}
+\caption[Procedural model representation examples.]{Illustrative procedural
+representation examples, centred without rescaling.  The CityEngine export is
+a compact UV-mapped envelope with repeated facade atlases.  The two
+route-labelled ChordAtlas exports use generated UV materials rather than
+vertex-RGB encoding and preserve the broad building envelope.  The standalone
+ChordAtlas asset is included only as a stored
+contextual reference.  Different or undocumented inputs prevent a fidelity
+ranking across panels.}
+\label{fig:procedural-representation-examples}
+\end{figure}
+
+The CityEngine 2026 log records one initial shape exported as 120 vertex
+records, 49 polygon records, 84 texture coordinates, and three materials.  Its
+facades are regular, and the visible doors and windows reside in repeated
+texture atlases rather than separate door or window geometry.  This supports a
+conclusion about export compactness and material organisation, not about
+site-specific texture accuracy \cite{esriCityEngineIntro2026,
+esriCityEngineSDK2026}.
+
+The two ChordAtlas exports contain no vertex RGB.  Instead, the large-image
+route stores 27 and the independent-tile route 47 complete diffuse, normal, and
+specular map sets.  Window-labelled materials and the aligned map triplets
+provide a multi-channel material representation rather than a single RGB value
+at each vertex.  Figure~\ref{fig:appearance-map-encoding} illustrates that
+distinction.  The tile-derived export also contains one material named
+\texttt{error} on ten face records.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{appearance_map_encoding_examples.pdf}
+\caption[Facade appearance-map encodings.]{Selected facade material encodings.
+The CityEngine facade material uses a repeated diffuse atlas; no normal or
+specular map is stored for that facade material.  The retained ChordAtlas
+procedural appearance exports store aligned diffuse, normal, and specular maps
+for window-labelled regions \cite{kelly2018frankengan,kellyChordAtlas2024}.  These
+maps can depict frames, panes, and material response.}
+\label{fig:appearance-map-encoding}
+\end{figure}
+
+The retained route-labelled artefacts place satellite-route vertex colour and
+structured procedural appearance maps side by side, although the OBJ files do
+not provenance-lock a direct conversion between them.
+They do not show that ChordAtlas preserves the Sat3DGen triangulation,
+reconstructs the true facade texture, or produces a more accurate building.
+
+\FloatBarrier
+
+\section{Results synthesis}
+
+All component tests passed within their specified scope, supporting the
+coordinate, cache, geometry-processing, and publication contracts across
+Python and Java.  Appendix~\ref{app:evidence-record} provides the detailed test
+categories and results.  Tables~\ref{tab:results-synthesis} and
+\ref{tab:results-synthesis-reliability} consolidate the principal findings by
+evaluation dimension.
+
+\begin{table}[H]
+\centering
+\caption{Synthesis of principal findings and their evidential scope.}
+\label{tab:results-synthesis}
+\small
+\begin{tabularx}{\textwidth}{X p{0.20\textwidth}X}
+\toprule
+Evaluation dimension & Evidence basis & Finding and interpretation\\
+\midrule
+Static ChordAtlas conversion & Structural inspection & A cached high-resolution mesh produced a valid MiniMesh workspace.\\
+London data integrity & Hash and spatial analysis & Exact panorama duplication, split leakage, candidate-offset errors, and OSM support-node contamination require correction before learning use.\\
+Large-image reconstruction & Matched run and round-trip inspection & Feathering reduced window-boundary discontinuities; every global-mesh vertex received colour without changing geometry, and the current ChordAtlas path retained RGB through publication.\\
+Matched building representation & Shared OSM request, OBJ/MTL audit, and common-camera rendering & The large-image sample is more compact, while the tile sample has stronger colour variation and more fragments; CityEngine and ChordAtlas differences support representation-level, not accuracy, conclusions.\\
+Building and appearance publication & Execution and component tests & Nineteen independent-tile assets and two current large-image assets were published; the paths retain RGB and provide either registered appearance references or the second-pass colour renderer.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Synthesis of coordinate and geometry-reliability findings.}
+\label{tab:results-synthesis-reliability}
+\small
+\begin{tabularx}{\textwidth}{X p{0.20\textwidth}X}
+\toprule
+Evaluation dimension & Evidence basis & Finding and interpretation\\
+\midrule
+Coordinate control & Calculation and projection comparison & The local transform is reversible, with up to approximately \SI{19.1}{\metre} disagreement relative to EPSG:27700 displacement.\\
+Stitching rule & Controlled regression & A \SI{10}{\metre}-separated fixture collapsed from six to three vertices because vertical separation was omitted.\\
+DSM correction rule & Artefact comparison & Every scene vertex moved positively.\\
+Building topology & Population inspection & All 19 independent-tile publications and both current large-image publications retain boundary edges and none is watertight; nine of the ten v2 independent-tile assets reporting non-manifold incidence contain such edges.\\
+\bottomrule
+\end{tabularx}
+\end{table}

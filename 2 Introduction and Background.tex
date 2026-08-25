@@ -1,0 +1,273 @@
+\chapter{Background and Related Work} \label{Chap2}\label{chap:background}
+
+\section{Procedural and data-driven urban modelling}
+
+Procedural modelling represents architecture through rules and parameters
+rather than solely through sampled surfaces.  Early city systems used extended
+L-systems to generate street networks and building populations
+\cite{parish2001procedural}; split grammars then showed how attributes and
+rules could control architectural variation at scale \cite{wonka2003instant}.
+CGA shape grammar made the relationship between initial shapes, rule
+operations, and polygonal buildings explicit \cite{muller2006procedural}.
+ProceX made procedural extrusions
+interactive: footprint-driven operations create architectural massing that can
+be edited rather than merely viewed \cite{kelly2011procex}.  This structured
+representation is attractive for planning, simulation, visualisation, and
+content authoring because it preserves semantic parts.
+
+Open building-footprint collections provide initial shapes for applying this
+principle beyond manually authored scenes.  Microsoft's Global ML Building
+Footprints dataset supplies predicted building outlines at large geographic
+scale \cite{microsoftGlobalFootprints2026}.  These outlines provide location
+and plan extent, while height, appearance, and architectural semantics must
+still be reconstructed or generated.
+
+Real data rarely arrives as clean procedural parameters.  BigSUR addresses a
+closely related integration problem by combining noisy large-scale meshes,
+imagery, and \gls{gis} footprints to recover structured urban models
+\cite{kelly2017bigsur}.  FrankenGAN then enriches coarse mass models with
+semantic fa\c{c}ade detail and appearance through style-synchronised generative
+networks \cite{kelly2018frankengan}.  ChordAtlas exposes these research
+components in an interactive Java environment, with generators for GIS data,
+panoramas, meshes, and blocks \cite{kellyChordAtlas2024}.  FrankenGAN assumes a
+structured building-mass representation: it is neither a topology-repair
+method for arbitrary meshes nor a source of ground-truth fa\c{c}ade texture.
+ChordAtlas appearance exports are therefore treated here as procedurally
+generated assets rather than texture-preserving conversions of Sat3DGen
+triangles.
+
+Recent geospatial approaches divide geometry and appearance processing in
+different ways.  GeoTexBuild begins with map footprints and separates
+height-map generation, geometry reconstruction, and appearance stylisation
+\cite{wang2025geotexbuild}.  Buyukdemircioglu and Oude Elberink instead texture
+existing CityJSON geometry from oblique and nadir aerial imagery
+\cite{buyukdemircioglu2024texture}.  Their contrasting starting points clarify
+that geometric reconstruction, structured city representation, and appearance
+transfer are related but distinct stages.
+
+ArcGIS CityEngine is a relevant industrial authoring system in this procedural
+lineage.  Its central workflow combines streets, blocks, lots, initial shapes,
+GIS attributes, assets, and authored CGA rules to generate polygonal city
+content \cite{esriCityEngineIntro2026}.  File-geodatabase attributes can be
+retained and used to drive rules, while the documented runtime and SDK support
+scripted generation and export \cite{esriCityEngineGIS2026,
+esriCityEngineSDK2026}.  These capabilities favour controllable regeneration,
+scenario authoring, and attribute-aware content production.  They do not,
+however, imply automatic recovery of a real building from satellite pixels.
+Likewise, importing a dense OBJ does not by itself create stable building
+identity or roof, wall, and window semantics.  CityEngine therefore serves as
+a representation and workflow comparator, including an executed local
+example, but not as a satellite-reconstruction accuracy baseline.
+
+This lineage establishes two requirements for the present integration.  First,
+generated geometry must be spatially compatible with footprints and panoramas,
+not merely visually plausible in isolation.  Secondly, it must be converted
+into ChordAtlas's tiled \glspl{minimesh} and generator graph without corrupting
+an existing project when conversion fails.  The baseline ChordAtlas workflow
+can clip an already loaded mesh and construct a block.  The proposed path adds
+external, on-demand generation and publication, so state and failure handling
+become part of the research problem.
+
+\section{Satellite-conditioned street-level geometry}
+
+Satellite-to-ground synthesis is underconstrained: roofs and plan-view context
+are visible from above, while fa\c{c}ades and street-level occlusions are not.
+Cross-view datasets reduce that ambiguity by pairing overhead imagery with
+ground panoramas.  VIGOR formalised a setting in which a query is not
+necessarily centred in its reference satellite image and uses overlapping
+reference tiles \cite{zhu2021vigor}.  Its correspondence geometry is therefore
+not an incidental file format.  Candidate offsets must describe where the
+ground query lies within each aerial tile, and sufficient overlap is required
+if several candidates are meant to contain the same location.
+
+Sat2Density learns a neural density representation from satellite--ground
+pairs \cite{qian2023sat2density}.  Its successor extends the cross-view
+rendering lineage \cite{qian2026sat2densitypp}.  Sat2Scene uses diffusion for urban scene
+generation \cite{li2024sat2scene}, while Sat2City uses a cascaded latent
+diffusion formulation for city generation \cite{hua2025sat2city}.  These
+methods are related baselines, but their tasks, training data, and output
+representations differ.  The comparison therefore considers their
+architectures and evaluation protocols rather than treating their reported
+metrics as interchangeable.
+
+At the broader systems level, Meta's WorldGen and World Labs illustrate a move
+towards prompt- and observation-conditioned 3D environments
+\cite{metaWorldGen2025,worldLabs2026}.  Their relevance here is the objective of
+producing navigable and editable world content from location-specific
+observations; they provide systems context rather than directly comparable
+Sat3DGen baselines.
+
+Sat3DGen places particular emphasis on explicit geometry.  Its published
+pipeline uses a frozen DINOv3 image encoder, spatial padding tokens, a decoder
+that produces three feature planes, and a small network that predicts density
+and colour \cite{simeoni2025dinov3,qian2026sat3dgen}.  The tri-plane design is
+related to efficient geometry-aware neural rendering \cite{chan2022eg3d}.
+Training adds a gravity-based density-variation loss, a relative-depth prior
+derived from Depth Anything V2 \cite{yang2024depthanythingv2}, and randomly
+projected perspective views from ground panoramas.  The density representation
+can be rendered from satellite or street-level viewpoints and converted into
+an explicit surface through Marching Cubes
+\cite{qian2026sat3dgen,lorensen1987marching}.  Figure~\ref{fig:sat3dgen-model}
+separates this published model from the large-image and geospatial extensions
+studied here.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=7mm and 6mm,
+  model/.style={draw=evidenceblue,rounded corners,align=center,
+    minimum height=11mm,text width=25mm,fill=evidenceblue!8},
+  train/.style={draw=evidenceorange,rounded corners,align=center,
+    minimum height=9mm,text width=25mm,fill=evidenceorange!8},
+  downstream/.style={draw=evidencegreen,rounded corners,align=center,
+    minimum height=11mm,text width=32mm,fill=evidencegreen!8},
+  arrow/.style={-{Latex[length=2mm]},thick}
+]
+\node[model] (image) {Satellite RGB\\$256\!\times\!256$};
+\node[model,right=of image] (dino) {Frozen DINOv3\\token encoder};
+\node[model,right=of dino] (tokens) {$16\!\times\!16$ tokens\\+ spatial padding};
+\node[model,right=of tokens] (planes) {Decoder\\three feature planes};
+\node[model,right=of planes] (field) {MLP density\\and colour field};
+\node[model,right=of field] (mesh) {Rendering or\\Marching Cubes};
+\draw[arrow] (image) -- (dino);
+\draw[arrow] (dino) -- (tokens);
+\draw[arrow] (tokens) -- (planes);
+\draw[arrow] (planes) -- (field);
+\draw[arrow] (field) -- (mesh);
+\node[train,below=11mm of dino] (gravity) {Gravity density\\variation loss};
+\node[train,right=of gravity] (depth) {Relative-depth\\prior};
+\node[train,right=of depth] (persp) {Perspective\\views from\\panoramas};
+\draw[arrow,dashed,evidenceorange] (gravity.north) -- (tokens.south);
+\draw[arrow,dashed,evidenceorange] (depth.north) -- (planes.south);
+\draw[arrow,dashed,evidenceorange] (persp.north) -- (field.south);
+\node[downstream,below=11mm of field] (large) {This dissertation:\\fractional density fusion\\and vertex colour};
+\node[downstream,right=16mm of large] (bridge) {Geospatial mesh and\\ChordAtlas bridge};
+\draw[arrow,evidencegreen] (field.south) --
+  node[midway,right=1mm,font=\scriptsize,align=left]{overlapping\\windows}
+  (large.north);
+\draw[arrow,evidencegreen] (large.east) --
+  node[midway,above=1mm,font=\scriptsize,align=center]{global\\coloured mesh}
+  (bridge.west);
+\draw[arrow,dashed,evidencegreen] (mesh.south) to[out=-90,in=90]
+  node[pos=.55,right=1mm,font=\scriptsize,align=left]{independent\\mesh path}
+  (bridge.north);
+\end{tikzpicture}%
+}
+\caption{Published Sat3DGen components and the two project extensions.  Blue
+and orange identify the model and training components of Qian et al.; green
+identifies the large-image density/colour method and the subsequent geospatial
+integration developed in this dissertation.  The dashed link is the separate
+independent-mesh experiment \cite{qian2026sat3dgen}.}
+\label{fig:sat3dgen-model}
+\end{figure}
+
+The paper reports training on VIGOR-derived cross-view pairs, evaluation
+outside the training cities, and a large-scale strategy based on overlapping
+patches.  Its analysis identifies pose accuracy, orthographic projection,
+locally flat ground, and atypical architecture as important reconstruction
+factors.  The present study extends the systems context by examining
+local-to-world transforms, seam handling, DSM alignment, building association,
+and ChordAtlas publication \cite{qian2026sat3dgen}.
+
+Three processing domains must be distinguished.  The released Sat3DGen
+large-image wrapper predicts overlapping density volumes, applies hard boundary
+cropping and equal-weight averaging, and runs Marching Cubes once on the fused
+field; unlike its single-image mesh path, the wrapper does not query or export
+vertex colour \cite{qian2026sat3dgen,qianSat3DGenCode2026}.  The large-image
+extension developed here retains one global density-domain surface extraction
+but maps window locations at sub-voxel precision, feathers overlapping
+contributions, and performs a memory-bounded second pass for vertex RGB.  The
+subsequent geospatial path operates in mesh space, adding OSM/DSM alignment,
+footprint association, per-building extraction, and ChordAtlas publication.
+
+\section{Semantic city models, mesh validity, and provenance}
+
+A renderable triangle soup is not yet a semantic city model.  CityGML 3.0
+separates georeferenced geometry from urban-object semantics, relationships,
+and multiple spatial representations \cite{ogcCityGML3}.  Its Levels of Detail
+should not be reduced to a generic low/medium/high polygon-count switch:
+geometric complexity and semantic granularity are distinct
+\cite{biljecki2016lod}.  The bridge's footprint-linked identifiers are therefore a
+useful coarse association; the current OBJ outputs do not encode the validated
+roof and wall semantics required for a CityGML representation.
+
+Downstream validity is similarly task-dependent.  Local mesh repair may close
+holes or remove defects, but it can also change the observed surface
+\cite{attene2010repair}; standards-oriented validation distinguishes valid
+primitives from merely readable files \cite{ledoux2018val3dity}.  This motivates
+reporting boundary and non-manifold edges separately from geometric accuracy.
+
+Finally, a manifest is only a container unless it records causal lineage.
+PROV-O distinguishes entities, activities, and agents \cite{w3cProvO2013}; in
+this setting the equivalent minimum is an exact input allow-list and hashes,
+geographic extent and CRS, code/model/configuration identity and execution state.  
+
+\section{Geospatial contracts}
+
+\subsection{Coordinate order and reference systems}
+
+GeoJSON positions are written in longitude--latitude order
+\cite{butler2016geojson}, whereas an Overpass QL bounding box is ordered south,
+west, north, east \cite{overpassQL}.  Confusing the two conventions can send a
+valid query to the wrong region without producing a type error.  This is a
+representative integration defect: each subsystem may accept four floating
+point values while disagreeing about their meaning.
+
+The data-builder grid uses Web Mercator world pixels at zoom 20.  EPSG:3857 is
+appropriate for web mapping, but its registry explicitly notes scale
+distortion \cite{epsg3857}.  Metric analysis of the London DSM instead uses
+EPSG:27700, the British National Grid \cite{epsg27700}.  The bridge establishes
+a local frame whose origin is stored in WGS84 and whose axes are X east, Y
+height, and Z south.  The frame is convenient for ChordAtlas and Sat3DGen mesh
+operations, but a constant-metres-per-degree approximation is not equivalent
+to a projected CRS.  Chapter~\ref{chap:results} quantifies this difference.
+
+\subsection{Surface elevation and semantics}
+
+The Environment Agency's \SI{1}{\metre} LiDAR Composite DSM records surface
+height rather than bare-earth terrain.  It can therefore include buildings,
+vegetation, and vehicles; its 2022 composite also joins surveys acquired at
+different times \cite{environmentAgencyDSM2022}.  GeoTIFF provides the
+georeferenced raster interchange contract \cite{ogc2019geotiff}.  A DSM can
+help place generated geometry vertically, but it is not an exact and
+contemporaneous building-height ground truth.
+
+OSM supplies footprints and contextual categories.  It is a collaborative
+database under the ODbL \cite{openstreetmapData}.  Overpass queries commonly
+return ways, relations, and the supporting nodes needed to reconstruct their
+geometry.  Those support nodes must not automatically become category features,
+and multipolygon outer/inner rings must retain their roles.  The data audit in
+Chapter~\ref{chap:results} shows why semantic masks cannot be accepted solely
+because image files were produced.
+
+\section{Synthesis and research gap}
+
+The literature reviewed above addresses complementary parts of the target
+workflow.  Cross-view models connect satellite imagery to density fields,
+rendered views, or explicit meshes
+\cite{qian2023sat2density,qian2026sat3dgen}; procedural systems support
+structured and editable urban content
+\cite{kelly2017bigsur,kellyChordAtlas2024,esriCityEngineIntro2026}; and OSM,
+DSM, and city-model standards provide geographic context, elevation, and
+semantic conventions
+\cite{openstreetmapData,environmentAgencyDSM2022,ogcCityGML3}.  These
+components use different spatial frames and representations, so their outputs
+do not compose automatically.
+
+Among the reviewed approaches, none follows overlapping
+satellite-conditioned predictions through regional fusion, geospatial
+registration, footprint-based building extraction, and publication into an
+interactive procedural environment.  Neural reconstruction work primarily
+evaluates geometry or rendering, whereas procedural workflows generally begin
+with geometry and geographic structure already available.  The research gap
+is therefore the transition between these representations and the evaluation
+of that transition as an integrated workflow.
+
+Accordingly, this study evaluates whether satellite tiles, projected DSM data,
+local mesh coordinates, and ChordAtlas placement remain spatially consistent.
+It measures the effects of fusion, cropping, stitching, vertical correction,
+and building extraction.  These evaluation
+dimensions are operationalised in Chapter~\ref{chap:methodology} and provide
+the basis for the research question introduced in
+Chapter~\ref{chap:introduction}.

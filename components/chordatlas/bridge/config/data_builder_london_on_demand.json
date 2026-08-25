@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "project_id": "data_builder_london_on_demand",
+  "output_root": "../../projects",
+  "conda_environment": "sat3dgen",
+  "area": {
+    "target_bbox_wgs84": [-0.1349, 51.5029, -0.1205, 51.5119],
+    "fetch_bbox_wgs84": [-0.1379, 51.4999, -0.118167, 51.513913],
+    "note": "OSM selection workspace; MiniMesh is generated only after a GUI selection"
+  },
+  "paths": {
+    "chordatlas_root": "../..",
+    "sat3dgen_root": "../../../sat3dgen",
+    "data_builder_root": "../../../data_builder",
+    "facade_pytorch_root": "../../../../external/facade_pytorch",
+    "frankengan_root": "../../../../external/FrankenGAN/bikegan",
+    "conda_executable": "conda"
+  },
+  "footprints": {
+    "mode": "osm",
+    "source_geojson": "../../../../external/data/osm_features/building.geojson",
+    "selection_policy": "intersects",
+    "clip_to_mesh_bounds": false
+  },
+  "mesh": {
+    "mode": "on_demand",
+    "origin": {"mode": "bbox_center"},
+    "context_padding_m": 30.0,
+    "coverage_guard_m": 2.0,
+    "minimum_model_coverage": 0.9,
+    "minimum_building_relief_m": 1.5,
+    "sample_spacing_m": 1.0,
+    "strict_model_completeness": false,
+    "zoom": 20,
+    "tile_size": 640,
+    "overlap_ratio": 0.1,
+    "crop_ratio": 0.05,
+    "mesh_resolution": 192,
+    "gradio_url": "http://localhost:7860",
+    "apply_dsm": true,
+    "dsm_dir": "../../../../external/data/dsm",
+    "dsm_crs": "EPSG:27700",
+    "dsm_files": [
+      "TQ27ne_FZ_DSM_1m.tif",
+      "TQ28se_FZ_DSM_1m.tif",
+      "TQ37nw_FZ_DSM_1m.tif",
+      "TQ38sw_FZ_DSM_1m.tif"
+    ],
+    "osm_dir": "../../../../external/data/osm_features",
+    "big_image": {
+      "enabled": true,
+      "zoom": 20,
+      "request_size_px": 640,
+      "retained_cell_size_px": 512,
+      "context_padding_m": 30.0,
+      "image_window_size_px": 640,
+      "overlap": 0.75,
+      "mesh_resolution": 192,
+      "mesh_level": 4.5,
+      "fusion_mode": "fractional_feather",
+      "preserve_source_pixels": true,
+      "source_crop_padding_m": 8.0,
+      "building_crop_padding_m": 1.0,
+      "ground_percentile": 2.0,
+      "max_cells": 400,
+      "max_windows": 5000,
+      "download_timeout_s": 1800,
+      "inference_timeout_s": 3600,
+      "color_timeout_s": 3600,
+      "color_batch_size": 131072,
+      "color_spatial_bin_size": 4.0,
+      "color_model_path": "qian43/Sat3DGen",
+      "download_script": "../../../../research/scripts/download_google_static_zoom_mosaic.py",
+      "inference_script": "../../../../research/scripts/run_sat3dgen_big_image_app192.py",
+      "colorize_script": "../../../../research/scripts/colorize_sat3dgen_big_mesh.py",
+      "repo_root": "../../../sat3dgen/Sat3DGen",
+      "validated_cache_outputs": []
+    },
+    "allow_partial": false
+  },
+  "panoramas": {
+    "enabled": false,
+    "manifest_csv": "pano_manifest.example.csv",
+    "policy": "only self-owned or separately licensed 2:1 equirectangular JPG files"
+  },
+  "chordatlas": {
+    "java_executable": "java",
+    "heap_gb": 12,
+    "copy_example_assets": true,
+    "block_mesh_padding_m": 5.0
+  }
+}

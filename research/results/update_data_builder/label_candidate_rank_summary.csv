@@ -1,0 +1,5 @@
+rank,candidate_count,inside_count,outside_count,outside_percent,max_absolute_offset_px
+1,2333,2333,0,0.0,319.0
+2,2333,12,2321,99.4856408058294,628.3
+3,2333,0,2333,100.0,820.6
+4,2333,0,2333,100.0,948.7

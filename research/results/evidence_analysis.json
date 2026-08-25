@@ -1,0 +1,276 @@
+{
+  "tile_clusters": {
+    "input_count": 15,
+    "east_count": 9,
+    "west_count": 6,
+    "cluster_centre_separation_m": 666.4410077196716,
+    "tile_nominal_width_m": 59.469303,
+    "coordinates": [
+      {
+        "latitude": 51.50718,
+        "longitude": -0.125568,
+        "file": "sat_51.507180_-0.125568.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.50718,
+        "longitude": -0.126263,
+        "file": "sat_51.507180_-0.126263.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.50718,
+        "longitude": -0.126958,
+        "file": "sat_51.507180_-0.126958.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.507613,
+        "longitude": -0.125568,
+        "file": "sat_51.507613_-0.125568.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.507613,
+        "longitude": -0.126263,
+        "file": "sat_51.507613_-0.126263.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.507613,
+        "longitude": -0.126958,
+        "file": "sat_51.507613_-0.126958.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.508045,
+        "longitude": -0.125568,
+        "file": "sat_51.508045_-0.125568.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.508045,
+        "longitude": -0.126263,
+        "file": "sat_51.508045_-0.126263.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.508045,
+        "longitude": -0.126958,
+        "file": "sat_51.508045_-0.126958.obj",
+        "cluster": "east"
+      },
+      {
+        "latitude": 51.510303,
+        "longitude": -0.133978,
+        "file": "sat_51.510303_-0.133978.obj",
+        "cluster": "west"
+      },
+      {
+        "latitude": 51.510303,
+        "longitude": -0.134672,
+        "file": "sat_51.510303_-0.134672.obj",
+        "cluster": "west"
+      },
+      {
+        "latitude": 51.510303,
+        "longitude": -0.135367,
+        "file": "sat_51.510303_-0.135367.obj",
+        "cluster": "west"
+      },
+      {
+        "latitude": 51.510735,
+        "longitude": -0.133978,
+        "file": "sat_51.510735_-0.133978.obj",
+        "cluster": "west"
+      },
+      {
+        "latitude": 51.510735,
+        "longitude": -0.134672,
+        "file": "sat_51.510735_-0.134672.obj",
+        "cluster": "west"
+      },
+      {
+        "latitude": 51.510735,
+        "longitude": -0.135367,
+        "file": "sat_51.510735_-0.135367.obj",
+        "cluster": "west"
+      }
+    ]
+  },
+  "mesh_stage_counts": {
+    "stages": [
+      {
+        "stage": "Raw inputs",
+        "vertices": 3640214,
+        "faces": 7281608
+      },
+      {
+        "stage": "Cropped",
+        "vertices": 2828613,
+        "faces": 5615039
+      },
+      {
+        "stage": "Bottom removed",
+        "vertices": 2252373,
+        "faces": 4474289
+      },
+      {
+        "stage": "Stitched",
+        "vertices": 1915455,
+        "faces": 4097374
+      }
+    ]
+  },
+  "dataset_integrity": {
+    "panorama_files": 2333,
+    "unique_panorama_hashes": 1205,
+    "candidate_entries": 9332,
+    "candidate_inside": 2345,
+    "candidate_outside": 6987,
+    "candidate_outside_percent": 74.87
+  },
+  "dsm_displacement": {
+    "vertex_count": 1915455,
+    "changed_count": 1915455,
+    "positive_count": 1915455,
+    "mean_delta_y_m": 42.23621041785738,
+    "median_delta_y_m": 36.081838,
+    "min_delta_y_m": 15.811809,
+    "max_delta_y_m": 62.634977,
+    "before_y_min_m": -26.768325,
+    "before_y_max_m": 18.761214,
+    "after_y_min_m": 1.857015,
+    "after_y_max_m": 67.940354
+  },
+  "representative_building": {
+    "without_dsm": {
+      "path": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\buildings_no_dsm\\building_1140_1141.obj",
+      "vertices": 2804,
+      "faces": 5566,
+      "finite_vertices": true,
+      "invalid_face_indices": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces_ignoring_winding": 0,
+      "boundary_edges": 88,
+      "nonmanifold_edges": 0,
+      "connected_components": 1,
+      "watertight_by_edge_incidence": false,
+      "bounds_min_xyz": [
+        -27.945458,
+        -26.376396,
+        -337.160121
+      ],
+      "bounds_max_xyz": [
+        -19.529861,
+        -20.621045,
+        -319.690482
+      ]
+    },
+    "with_dsm": {
+      "path": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\buildings_dsm\\building_1140_1141.obj",
+      "vertices": 2804,
+      "faces": 5563,
+      "finite_vertices": true,
+      "invalid_face_indices": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces_ignoring_winding": 0,
+      "boundary_edges": 97,
+      "nonmanifold_edges": 0,
+      "connected_components": 1,
+      "watertight_by_edge_incidence": false,
+      "bounds_min_xyz": [
+        -27.945458,
+        31.669244,
+        -337.160121
+      ],
+      "bounds_max_xyz": [
+        -19.529861,
+        37.922942,
+        -319.690482
+      ]
+    },
+    "paired_vertices": {
+      "same_vertex_count": true,
+      "mean_delta_y_m": 58.042493697931526,
+      "min_delta_y_m": 57.769653999999996,
+      "max_delta_y_m": 58.543988
+    }
+  },
+  "coordinate_control": {
+    "origin_lon": -0.1277,
+    "origin_lat": 51.5074,
+    "axis_convention": "X east, Y height, Z south",
+    "points": [
+      {
+        "longitude": -0.1277,
+        "latitude": 51.5074,
+        "local_x_m": 0.0,
+        "local_z_m": -0.0,
+        "bng_delta_easting_m": 0.0,
+        "bng_delta_south_m": -0.0,
+        "round_trip_residual_m": 0.0,
+        "local_vs_bng_residual_m": 0.0
+      },
+      {
+        "longitude": -0.1349,
+        "latitude": 51.5029,
+        "local_x_m": -498.86695333477377,
+        "local_z_m": 500.940000000019,
+        "bng_delta_easting_m": -486.8795308074914,
+        "bng_delta_south_m": 513.1610040671658,
+        "round_trip_residual_m": 0.0,
+        "local_vs_bng_residual_m": 17.118739417866475
+      },
+      {
+        "longitude": -0.1349,
+        "latitude": 51.5119,
+        "local_x_m": -498.86695333477377,
+        "local_z_m": -500.940000000019,
+        "bng_delta_easting_m": -512.396417734446,
+        "bng_delta_south_m": -487.6491040835972,
+        "round_trip_residual_m": 0.0,
+        "local_vs_bng_residual_m": 18.96560890673315
+      },
+      {
+        "longitude": -0.1205,
+        "latitude": 51.5029,
+        "local_x_m": 498.8669533347757,
+        "local_z_m": 500.940000000019,
+        "bng_delta_easting_m": 512.4941875718068,
+        "bng_delta_south_m": 487.59886751440354,
+        "round_trip_residual_m": 0.0,
+        "local_vs_bng_residual_m": 19.070588059880514
+      },
+      {
+        "longitude": -0.1205,
+        "latitude": 51.5119,
+        "local_x_m": 498.8669533347757,
+        "local_z_m": -500.940000000019,
+        "bng_delta_easting_m": 486.7804508359404,
+        "bng_delta_south_m": -513.2084841702599,
+        "round_trip_residual_m": 0.0,
+        "local_vs_bng_residual_m": 17.22205697615135
+      }
+    ],
+    "max_algebraic_round_trip_residual_m": 0.0,
+    "max_local_approximation_vs_epsg27700_residual_m": 19.070588059880514
+  },
+  "synthetic_regressions": {
+    "bottom_predicate": {
+      "input_faces": 2,
+      "documented_faces_eligible": 0,
+      "output_faces": 1,
+      "output_vertices": 3,
+      "finding": "A triangle with only one bottom-near vertex was removed."
+    },
+    "vertical_stitch_threshold": {
+      "configured_vertical_separation_m": 10.0,
+      "input_vertices": 6,
+      "output_vertices": 3,
+      "input_faces": 2,
+      "output_faces": 2,
+      "finding": "Coincident X/Z vertices ten metres apart in Y were merged."
+    }
+  }
+}

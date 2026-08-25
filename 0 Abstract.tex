@@ -1,0 +1,25 @@
+Recent AI-based approaches, particularly deep-learning models, can reconstruct three-dimensional urban geometry from satellite imagery. But bounded inference windows, discontinuities between overlapping
+predictions, incomplete large-area appearance output, and limited geospatial
+interoperability constrain regional use.  This dissertation develops and
+evaluates a hybrid workflow that extends Sat3DGen large-image inference and
+connects its outputs to open geospatial data and ChordAtlas.
+
+The proposed large-image method processes a rectangular satellite mosaic with
+overlapping windows, maps their predictions into a shared density field at
+sub-voxel precision, and blends them with raised-cosine weights before a single
+surface extraction.  A memory-bounded second pass reconstructs the window
+features and blends per-vertex colour on the fixed global mesh.  In a London case study, this reduced mean density discontinuities at the
+former window boundaries by 49--60 per cent and mean top-surface
+discontinuities by 60--75 per cent relative to a matched hard-crop baseline.
+Every extracted vertex received colour support without changing the mesh
+geometry.
+
+OpenStreetMap footprints and a one-metre Environment Agency digital surface
+model then provide geographic identity, semantic context, and a common
+vertical reference.  The resulting assets are cropped by footprint, retain
+vertex RGB, and are published through explicit coordinate, manifest, cache,
+and validation contracts to the ChordAtlas environment.  A separate
+mesh-space study evaluates the behaviour of independent-tile stitching and
+DSM correction.  Together, the results establish a large-area reconstruction
+and asset-integration framework that combines learned density and appearance
+with explicit spatial and publication contracts for editable urban content.

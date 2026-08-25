@@ -1,0 +1,5 @@
+channel,london_files,seattle_files,common_names,byte_identical_common_files,london_only,seattle_only
+panorama,2333,2333,2333,2333,0,0
+satellite,127,127,127,127,0,0
+pano_sky_mask,2333,2333,2333,2333,0,0
+sat_depth,127,127,127,127,0,0

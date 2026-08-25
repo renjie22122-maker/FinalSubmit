@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "project_id": "data_builder_london_smoke",
+  "output_root": "../../projects",
+  "conda_environment": "sat3dgen",
+  "area": {
+    "target_bbox_wgs84": [-0.1349, 51.5029, -0.1205, 51.5119],
+    "fetch_bbox_wgs84": [-0.1379, 51.4999, -0.118167, 51.513913],
+    "note": "target range from data_builder/builder.ipynb; fetch range from osm_features/meta.json"
+  },
+  "paths": {
+    "chordatlas_root": "../..",
+    "sat3dgen_root": "../../../sat3dgen",
+    "data_builder_root": "../../../data_builder",
+    "facade_pytorch_root": "../../../../external/facade_pytorch",
+    "frankengan_root": "../../../../external/FrankenGAN/bikegan",
+    "conda_executable": "conda"
+  },
+  "footprints": {
+    "mode": "osm",
+    "source_geojson": "../../../../external/data/osm_features/building.geojson",
+    "selection_policy": "intersects",
+    "clip_to_mesh_bounds": false
+  },
+  "mesh": {
+    "mode": "generate",
+    "work_dir": "../../projects/_mesh_jobs/data_builder_london_smoke_top_level",
+    "output_name": "data_builder_london_smoke_top_level",
+    "pipeline_bbox_wgs84": [-0.135367, 51.510303, -0.133978, 51.510735],
+    "tile_source": "discovered",
+    "satellite_dirs": [
+      "../../../../external/data/satellite"
+    ],
+    "existing_mesh_dirs": [
+      "../../../../external/data/meshes"
+    ],
+    "osm_dir": "../../../../external/data/osm_features",
+    "dsm_dir": "../../../../external/data/dsm",
+    "lat_step": 0.000481,
+    "lon_step": 0.000772,
+    "overlap_ratio": 0.1,
+    "crop_ratio": 0.05,
+    "download_missing": false,
+    "run_inference": false,
+    "allow_partial": false,
+    "osm_prealign": false,
+    "apply_dsm": false,
+    "origin": {
+      "mode": "top_level_manifest"
+    },
+    "ground_reference": {
+      "mode": "percentile",
+      "percentile": 2.0
+    },
+    "use_minimesh": true,
+    "coverage": "partial_smoke_test"
+  },
+  "panoramas": {
+    "enabled": false,
+    "manifest_csv": "pano_manifest.example.csv",
+    "policy": "only self-owned or separately licensed 2:1 equirectangular JPG files"
+  },
+  "chordatlas": {
+    "java_executable": "java",
+    "heap_gb": 12,
+    "copy_example_assets": true,
+    "block_mesh_padding_m": 5.0
+  }
+}

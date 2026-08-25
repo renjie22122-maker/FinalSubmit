@@ -1,0 +1,636 @@
+\chapter{Methodology} \label{Chap3}\label{chap:methodology}
+
+\section{Research scope and methodological rationale}
+
+The empirical design evaluates six linked components: London data preparation,
+large-image density and colour inference, independent-mesh processing, static
+and on-demand ChordAtlas integration, a matched representation comparison, and
+component verification.  Together,
+they test whether overlapping satellite-conditioned predictions can form a
+continuous coloured surface and be converted into coordinate-explicit,
+building-level assets for an interactive procedural environment.
+
+A contiguous Sat3DGen experiment measures overlap fusion and global colour
+recovery.  A separate experiment uses retained OBJ outputs to isolate
+geospatial placement, mesh stitching, OSM/DSM processing, and building
+extraction.  Both routes are evaluated at the ChordAtlas publication boundary.
+Data-quality tests characterise the London multimodal collection.  Retained
+ChordAtlas appearance exports provide representation-level evidence.
+
+\section{Systems evaluation design}
+
+The evaluation combines data-integrity analysis, coordinate tests, staged
+geometry measurements, controlled regression cases, topological inspection,
+and cross-language integration tests.  Source tracing establishes the
+transformations applied by the active pipeline; generated artefacts and
+manifests provide stage-level measurements; and executable checks test the
+coordinate, geometry, cache, and publication contracts.  The ChordAtlas bridge
+is compared with the existing workflow at the level of representation,
+selection, conversion, and publication behaviour.
+
+The research was organised around five evaluation questions:
+
+\begin{description}
+  \item[EQ1] Are the source data and pairing conventions internally consistent
+  enough to support the intended cross-view and geospatial uses?
+  \item[EQ2] How do density-coordinate placement, overlap weighting, and
+  second-pass colour recovery affect boundary continuity, colour completeness,
+  and resource use in large-image inference?
+  \item[EQ3] How did the executed mesh-processing stages affect mesh structure, continuity, and height, and was their observed behaviour consistent with the intended design?
+  \item[EQ4] What do the static and on-demand paths demonstrably achieve in
+  ChordAtlas, and where do their atomicity and cache boundaries lie?
+  \item[EQ5] How do the retained CityEngine and ChordAtlas artefacts differ in
+  representation from the two matched Sat3DGen routes, and which comparisons
+  remain valid without geometric or appearance ground truth?
+\end{description}
+
+\section{Evaluated configuration}
+
+The evaluated configuration comprises the London data-preparation workflow,
+the released Sat3DGen checkpoint and large-image extension, the active
+independent-mesh package, and the ChordAtlas integration layer.  Runtime imports
+and entry-point tracing identify the components used by each experiment.
+Functional analysis covers GUI entry points, worker and process boundaries,
+stable selection identities, manifest fields, cache validation, publication
+order, rollback, and validation depth.  Reproduction details are recorded in
+Appendix~\ref{app:evidence-record}.
+
+\section{System overview}
+
+Figure~\ref{fig:system-overview} presents the conceptual data flow derived from
+the active implementation.  Chapter~\ref{chap:results} assigns execution and
+validation status to the individual paths.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  x=1mm,
+  y=1mm,
+  box/.style={draw=uclblue,rounded corners,align=center,minimum width=27mm,
+    minimum height=11mm,text width=24mm,fill=lightgrey},
+  data/.style={draw=evidencegreen,rounded corners,align=center,minimum width=25mm,
+    minimum height=10mm,text width=22mm,fill=evidencegreen!8},
+  context/.style={draw=evidencegreen,rounded corners,align=center,minimum width=30mm,
+    minimum height=10mm,text width=27mm,fill=evidencegreen!8},
+  arrow/.style={-{Latex[length=2.3mm]},thick,uclblue}
+]
+\node[data] (builder) at (0,22) {London imagery\\and metadata};
+\node[box] (sat) at (31,22) {Overlapping Sat3DGen\\window inference};
+\node[box] (density) at (63,22) {Fractional density\\fusion and one MC};
+\node[box] (colour) at (95,22) {Second-pass\\vertex RGB fusion};
+
+\node[data] (cached) at (0,0) {Cached Sat3DGen\\OBJ tiles};
+\node[box] (place) at (31,0) {Coordinate placement\\and crop};
+\node[box] (stitch) at (63,0) {Stitching and\\mesh cleanup};
+\node[box] (publish) at (95,0) {Building extraction\\and publication};
+\node[box] (chord) at (127,0) {ChordAtlas\\renderers and MiniMesh};
+\node[context] (geo) at (95,-22) {OSM footprints and\\EPSG:27700 DSM};
+
+\draw[arrow] (builder) -- (sat);
+\draw[arrow] (sat) -- (density);
+\draw[arrow] (density) -- (colour);
+\draw[arrow] (colour) -- (publish);
+\draw[arrow] (cached) -- (place);
+\draw[arrow] (place) -- (stitch);
+\draw[arrow] (stitch) -- (publish);
+\draw[arrow] (geo) -- (publish);
+\draw[arrow] (publish) -- (chord);
+\end{tikzpicture}%
+}
+\caption[Conceptual architecture of the two evaluated processing routes.]{Conceptual project architecture.  The upper route performs contiguous
+density-field fusion and colour recovery; the lower route evaluates
+independent-mesh assembly.  Both converge on building extraction and
+publication before ChordAtlas.  OSM footprints and the DSM enter from below as
+independent geospatial inputs rather than sequential processing stages.}
+\label{fig:system-overview}
+\end{figure}
+
+\section{London data preparation}
+
+The London data builder is evaluated as a staged data contract supporting
+cross-view pairing and downstream geospatial processing.  The protocol measures
+coverage, duplication, partition leakage, label geometry, and auxiliary-channel
+consistency.
+Figure~\ref{fig:data-builder-flow} links each processing stage to its available
+artefacts and audit denominator.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=8mm and 7mm,
+  source/.style={draw=evidenceblue,rounded corners,align=center,
+    minimum height=11mm,text width=29mm,fill=evidenceblue!8},
+  stage/.style={draw=uclblue,rounded corners,align=center,
+    minimum height=11mm,text width=29mm,fill=lightgrey},
+  warn/.style={draw=evidenceorange,rounded corners,align=center,
+    minimum height=11mm,text width=31mm,fill=evidenceorange!8},
+  arrow/.style={-{Latex[length=2mm]},thick,uclblue}
+]
+\node[source] (points) {OSM-highway\\query points};
+\node[stage,right=of points] (match) {Panorama\\matching};
+\node[stage,right=of match] (legacy) {Latitude-based\\data splits};
+\node[stage,right=of legacy] (grid) {Web Mercator\\tile grid};
+\node[stage,right=of grid] (overlap) {Overlapping\\grid variants};
+\draw[arrow] (points) -- (match);
+\draw[arrow] (match) -- (legacy);
+\draw[arrow] (match) -- (grid);
+\draw[arrow] (grid) -- (overlap);
+
+\node[source,below=15mm of match] (pano) {Panorama branches\\legacy + equirectangular};
+\node[warn,right=of pano] (labels) {VIGOR-like labels\\4 candidates/query};
+\node[warn,right=of labels] (channels) {Auxiliary channels\\DSM / OSM\\sky / relative depth};
+\node[source,right=of channels] (layouts) {London and Sat3DGen\\directory layouts};
+\draw[arrow] (match) -- (pano);
+\draw[arrow] (grid) -- (labels);
+\draw[arrow] (grid) -- (channels);
+\draw[arrow] (overlap) |- (layouts);
+\draw[arrow] (pano) -- (labels);
+\draw[arrow] (labels) -- (channels);
+\draw[arrow] (channels) -- (layouts);
+\end{tikzpicture}%
+}
+\caption{Data-builder stages and the contracts tested for completeness and
+geometric consistency.}
+\label{fig:data-builder-flow}
+\end{figure}
+
+\subsection{Point matching, tiling, and imagery}
+
+The data-builder begins from WGS84 point features derived from an OSM highway
+query.  A manually defined longitude--latitude region and a zoom-20 Web
+Mercator grid assign satellite centres.  A panorama is matched when its point
+lies inside a satellite tile's half-width and half-height.  Chapter~\ref{chap:results}
+reports the resulting population and coverage.
+
+For longitude $\lambda$ in degrees, latitude $\phi$ in radians, zoom $z$, and
+world-pixel scale $S=256\,2^z$, the scripts use the standard Web Mercator form
+
+\begin{align}
+p_x &= S\frac{\lambda+180}{360},\\
+p_y &= S\left[\frac{1}{2}-\frac{1}{4\pi}
+  \ln\left(\frac{1+\sin\phi}{1-\sin\phi}\right)\right].
+\end{align}
+
+Latitude is clamped to the Web Mercator limit.  The nominal ground resolution
+at latitude $\phi$ is
+
+\begin{equation}
+r(\phi,z)=\frac{2\pi R\cos\phi}{256\,2^z},
+\end{equation}
+
+where $R$ is the Web Mercator sphere radius.  At $\phi=51.5074^\circ$ and
+$z=20$, the implementation gives approximately
+\SI{0.093}{\metre\per\pixel}, so a 640-pixel tile spans about
+\SI{59.5}{\metre}.  Values used in the audit were recalculated from the
+coordinate metadata.
+
+The acquisition procedure requests 640-by-320 Street View images with a
+120-degree field of view and 640-by-640 satellite images, nominally at zoom 20.
+The legacy branch does not retain the returned panorama identifier or snapped
+coordinates.  The equirectangular branch requests six cube faces and projects them into 1,536-by-768
+equirectangular panoramas.  The projection and image dimensions were treated
+as data transformations, while observation independence was tested separately
+through content hashes.
+
+\subsection{Splits and candidate labels}
+
+The legacy training, validation, and test split sorts by latitude and assigns
+70, 15, and 15 per cent respectively.  Spatial sorting can reduce arbitrary
+mixing, but there is no boundary buffer, and duplicate returned panoramas can
+cross a boundary.
+
+The VIGOR-style branch fills a 16-by-17 Cartesian grid of observed
+latitude and longitude centres and chooses the four nearest satellite centres
+for every panorama.  For candidate $j$, an offset was classified as containing
+the query only when both absolute pixel components were at most 320.  The
+audit recorded the count outside this square by candidate rank and the maximum
+absolute component.  This tests geometric compatibility rather than mere
+four-column syntactic compatibility with VIGOR \cite{zhu2021vigor}.
+
+Two denser satellite grids were also reconstructed.  A 320-pixel stride gives
+approximately 50 per cent overlap, while a 576-pixel stride gives 10 per cent
+overlap.  Coverage calculations account for coordinate rounding and incomplete
+placement at non-divisible outer boundaries.
+
+\subsection{Auxiliary channels}
+
+The pipeline includes binary sky masks, model-derived relative depth, a
+DSM-derived normalised raster, and OSM semantic layers.  The DSM branch
+transforms WGS84 coordinates into the raster CRS, reprojects a patch with
+bilinear sampling, and scales its 5th--95th percentile range independently.
+Consequently, it was evaluated as a normalised surface-height channel, not
+metric depth.
+
+For OSM, raw element types and tags were counted separately from raster output.
+Supporting nodes returned by recursive Overpass queries were identified by
+their lack of category tags.  Multipolygon reconstruction and inner-ring
+assignment were traced through geometry construction and drawing.  This made
+it possible to distinguish an existing image from a semantically valid mask.
+
+\section{Coordinate and vertical-frame contract}
+
+The bridge defines a \gls{localframe} at $(\lambda_0,\phi_0)$ using
+$M=111{,}320$ metres per latitude degree:
+
+\begin{align}
+x &= (\lambda-\lambda_0)M\cos\phi_0,\\
+z &= -(\phi-\phi_0)M.
+\end{align}
+
+Thus X points east, Z points south, and Y is vertical.  The inverse uses the
+same constants, so algebraic round trips should be exact to floating-point
+precision.  The frame is illustrated in Figure~\ref{fig:coordinate-frame}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0,>=Latex]
+  \coordinate (o) at (0,0);
+  \draw[->,very thick,evidenceblue] (o) -- (4.2,0) node[right]{X: east};
+  \draw[->,very thick,evidencegreen] (o) -- (0,3.0) node[above]{Y: height};
+  \draw[->,very thick,evidenceorange] (o) -- (-2.2,-1.5) node[below left]{Z: south};
+  \fill (o) circle (2.2pt) node[above right]{stored WGS84 origin};
+  \draw[dashed,gray] (-3.0,0) -- (4.8,0);
+  \draw[dashed,gray] (0,-2.0) -- (0,3.5);
+  \node[align=left,anchor=west] at (4.8,2.0)
+    {$x=(\lambda-\lambda_0)M\cos\phi_0$\\
+     $z=-(\phi-\phi_0)M$};
+\end{tikzpicture}
+\caption{Local coordinate contract used by the bridge.  The reversible local
+approximation is convenient for block-scale processing but is not identical to
+EPSG:27700.}
+\label{fig:coordinate-frame}
+\end{figure}
+
+Coordinate evaluation had two parts.  First, the AOI centre and four corners
+were transformed to local coordinates and back, measuring residual in metres.
+Secondly, the same points were transformed from EPSG:4326 to EPSG:27700 using
+\code{pyproj}; projected easting/northing differences from the origin were
+compared with local X/south values.  This separates inverse consistency from
+external metric agreement.
+
+The vertical contract has three distinct quantities: generated-mesh local Y,
+DSM surface elevation, and a workspace vertical offset.  Their values were
+read from manifests and paired OBJ vertices.
+
+\section{Large-image and mesh-processing protocols}
+
+\subsection{Rectangular density-field fusion}
+
+The large-image extension retains the released Sat3DGen checkpoint and its
+standard 256-by-256 network transform.  It accepts a rectangular source mosaic
+without first truncating it to a central square.  In the evaluated setting, a
+640-pixel source window moves by 160 pixels, giving 75 per cent nominal overlap;
+each source window is resized by the unchanged model transform.  The
+\code{mesh resolution} parameter is the volumetric sampling size, not the image
+input size.  A value of $N=192$ and the checkpoint's 0.8 position scale produce
+a cropped density patch of $154\times154\times173$ samples with a 19-voxel
+border.
+
+Let $s_i$ be the source-image start of window $i$ on either horizontal axis and
+$L=154$ the cropped density width.  Its continuous density origin is
+
+\begin{equation}
+o_i=s_i\frac{L}{640}.
+\end{equation}
+
+The origin is retained as a floating-point value rather than rounded to an
+integer cell.  Each density sample is bilinearly distributed to the four
+neighbouring cells of the global horizontal grid.  A separable raised-cosine
+window tapers the interior 19-voxel boundary of each patch; an edge coincident
+with the outer mosaic boundary retains unit weight.  For a global density
+position $p$, the accumulated field is
+
+\begin{equation}
+\bar{D}(p)=\frac{\sum_i w_i(p)D_i(p)}{\sum_i w_i(p)},
+\label{eq:density-feather-fusion}
+\end{equation}
+
+where $D_i$ is the resampled prediction and $w_i$ combines its bilinear
+placement and spatial taper.  A zero denominator is treated as an invalid
+coverage state.  Marching Cubes is applied once to $\bar{D}$ at the evaluated
+isovalue of 4.5, so overlap is resolved before surface extraction.
+
+\subsection{Memory-bounded vertex-colour recovery}
+
+The released large-image wrapper discards each tri-plane after density
+prediction and therefore exports geometry without the vertex-colour query used
+by single-image inference \cite{qianSat3DGenCode2026}.  The added colour pass
+keeps the extracted global vertices and faces fixed.  It reprocesses one source
+window at a time, reconstructs that window's tri-plane, identifies the global
+vertices supported by the same fractional feather weights, and queries the
+pretrained colour network in batches.
+
+The global Marching-Cubes axes are $[\mathrm{row},\mathrm{column},z]$.  For a
+window with continuous origin $(o_r,o_c)$, a supported vertex is mapped back to
+the full $192^3$ model grid as
+
+\begin{equation}
+q=\left[\mathrm{column}-o_c+19,
+         \mathrm{row}-o_r+19,
+         z+19\right]\frac{2}{191}-1.
+\label{eq:large-image-colour-coordinate}
+\end{equation}
+
+The horizontal query is clamped only for the fractional halo outside the
+cropped density support; the support weight itself is evaluated without that
+clamp.  With $c_i(v)$ denoting the RGB query for vertex $v$, colour is blended
+in floating point as
+
+\begin{equation}
+\bar{C}(v)=\frac{\sum_i w_i(v)c_i(v)}{\sum_i w_i(v)}.
+\label{eq:colour-feather-fusion}
+\end{equation}
+
+A two-dimensional spatial index limits each window to nearby vertices, and
+only one tri-plane is resident at a time.  Export requires positive colour
+weight for every vertex, finite RGB values, unchanged vertex and face arrays,
+and an exact colour round trip after reloading the PLY.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=7mm and 6mm,
+  source/.style={draw=evidenceblue,rounded corners,align=center,
+    text width=25mm,minimum height=10mm,fill=evidenceblue!8},
+  stage/.style={draw=uclblue,rounded corners,align=center,
+    text width=27mm,minimum height=10mm,fill=lightgrey},
+  output/.style={draw=evidencegreen,rounded corners,align=center,
+    text width=27mm,minimum height=10mm,fill=evidencegreen!8},
+  arrow/.style={-{Latex[length=2mm]},thick,uclblue}
+]
+\node[source] (mosaic) {Rectangular zoom-20 mosaic};
+\node[stage,right=of mosaic] (windows) {Overlapping source windows};
+\node[stage,right=of windows] (patches) {Cropped density patches};
+\node[stage,right=of patches] (fusion) {Fractional splat and feather};
+\node[output,right=of fusion] (field) {Global density and one MC};
+\draw[arrow] (mosaic) -- (windows);
+\draw[arrow] (windows) -- (patches);
+\draw[arrow] (patches) -- (fusion);
+\draw[arrow] (fusion) -- (field);
+
+\node[stage,below=11mm of windows] (triplane) {Recomputed tri-plane per window};
+\node[stage,right=of triplane] (query) {Supported-vertex colour query};
+\node[stage,right=of query] (blend) {Weighted floating-point RGB};
+\node[output,right=of blend] (mesh) {Fixed geometry with vertex colour};
+\draw[arrow] (windows) -- (triplane);
+\draw[arrow] (triplane) -- (query);
+\draw[arrow] (query) -- (blend);
+\draw[arrow] (field) -- (mesh);
+\draw[arrow] (blend) -- (mesh);
+\end{tikzpicture}%
+}
+\caption{Two-pass large-image method.  The first pass blends density before a
+single surface extraction; the second revisits each window to blend colour on
+the unchanged global vertices.}
+\label{fig:large-image-method-flow}
+\end{figure}
+
+\subsection{Independent-mesh stages and relation to Sat3DGen}
+
+The evaluated sequence loads configuration, OSM, and DSM data; discovers OBJ
+tiles; parses, crops, transforms, classifies, and pre-aligns each tile; removes
+lower geometry; stitches vertex groups; applies DSM correction; and exports
+paired DSM and no-DSM building branches.  The experiment isolates these
+post-inference operations from upstream generation and optional fa\c{c}ade
+processing.
+
+Table~\ref{tab:sat3dgen-method-comparison} distinguishes the released
+large-image wrapper, the density/colour extension, and the independent-mesh
+geospatial path.
+
+\begin{table}[H]
+\centering
+\caption{Relationship among the released Sat3DGen large-image wrapper, the
+density/colour extension, and mesh-space geospatial integration.}
+\label{tab:sat3dgen-method-comparison}
+\footnotesize
+\begin{tabularx}{\textwidth}{p{0.16\textwidth}XXX}
+\toprule
+Aspect & Released large-image wrapper & Density/colour extension &
+Mesh-space and ChordAtlas path\\
+\midrule
+Learned representation & Released DINOv3-conditioned tri-plane density field &
+Same checkpoint and model transform; no retraining & Released model or cached
+OBJ enters explicit local coordinates\\
+Overlap & Integer-aligned cropped fields and equal-weight averaging &
+Fractional origins, bilinear placement, and raised-cosine weights & Independent
+OBJ tiles are cropped, placed, and stitched\\
+Surface and colour & One global Marching Cubes surface; large-image PLY has no
+colour & One global surface followed by weighted per-vertex RGB recovery & RGB
+OBJ assets, building extraction, and a separate ChordAtlas colour renderer\\
+Geospatial context & Normalised scene coordinates & Rectangular mosaic and
+explicit image-to-density scale & X-east/Y-up/Z-south frame, OSM footprints,
+and EPSG:27700 DSM\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Each stage was quantified using OBJ header counts and, where necessary,
+streamed vertex comparison.  The following metrics were computed:
+
+\begin{itemize}
+  \item vertices and faces before crop, after crop, after bottom removal, after
+  stitching, and after building extraction;
+  \item geographic cluster count and separation from filename coordinates;
+  \item number and distribution of per-vertex DSM $\Delta Y$ values;
+  \item finite vertices, valid indices, zero-area and duplicate faces, boundary
+  and non-manifold edges, connected components, and edge-incidence
+  watertightness for a representative paired building; 
+\end{itemize}
+
+\subsection{Controlled tests of geometry rules}
+
+Two small synthetic fixtures tested whether documentation and configuration
+were enforced.  For bottom removal, one triangle had only one vertex within
+\SI{0.5}{\metre} of the global minimum and a second triangle was fully elevated.
+The stated all-three-vertices rule predicts that neither should be removed.  The
+active function was invoked without modifying source code and its returned
+face set recorded.
+
+For stitching, two identically wound triangles had coincident X/Z coordinates
+but were separated by \SI{10}{\metre} in Y.  They were assigned different tile
+ranges and stitched with an X/Z radius of \SI{0.01}{\metre}.  The experiment
+recorded vertex/face counts and retained attributes.  It directly tests whether
+the configured maximum Y difference participates in matching.
+
+\section{ChordAtlas integration protocols}
+
+\subsection{Static workspace}
+
+The static bridge combines a target bounding box, geospatial footprints,
+existing mesh tiles, panoramas, and DSM prerequisites in a staged workspace.
+Python records the manifest and local-frame footprint geometry; Java constructs
+the ChordAtlas object graph and converts OBJ geometry into indexed MiniMesh
+tiles.  A stored source offset preserves the original centroid during
+conversion instead of implicitly recentering the input.
+
+Validation checks required files, footprint geometry, MiniMesh structure, and
+coordinate metadata.  Mesh coverage was independently intersected with the
+target AOI. 
+
+\subsection{On-demand selection and publication}
+
+The on-demand path is embedded in the existing ChordAtlas GIS generator.  A
+selected polygon is canonicalised by
+ring start, winding, holes, duplicate removal, and six-decimal rounding before
+generating a stable selection identifier.  Processing is serialised on one
+worker, and interface updates return to the GUI event thread.
+
+The Java service writes an atomic request file and launches the Python bridge.
+The request distinguishes independent satellite-tile processing from the
+large-image mode.  The tile path derives a geographically anchored allow-list
+and selects fresh or cached corrected geometry.  The large-image path plans a
+rectangular zoom-20 mosaic, executes or validates the density and colour
+stages, and converts the fused mesh
+once into the project local frame.  Both routes apply DSM processing and
+associate geometry with requested footprints.
+
+Each publishable building receives an exact source-mesh manifest, geometry
+after ground processing, and metadata in a staging tree.  Geometry ownership
+and filtering are applied per footprint rather than reusing one
+selection-wide mesh under several building identities.  In large-image mode,
+Python additionally requires RGB on every OBJ vertex and verifies that DSM
+processing preserves colour indices.  Java displays this OBJ through a
+dedicated vertex-colour renderer; the per-building MiniMesh is generated as a
+separate representation used by the ChordAtlas workspace.  The staged Python
+publication is installed atomically within its own boundary and marked
+complete before Java conversion and renderer construction.
+
+Figure~\ref{fig:publication-lifecycle} makes the transaction boundary explicit.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=7mm,
+  state/.style={draw=uclblue,rounded corners,align=center,text width=38mm,
+    minimum height=9mm,fill=lightgrey},
+  good/.style={draw=evidencegreen,rounded corners,align=center,text width=38mm,
+    minimum height=9mm,fill=evidencegreen!8},
+  arrow/.style={-{Latex[length=2mm]},thick}
+]
+\node[state] (select) {GIS polygon and stable ID};
+\node[state,right=of select] (python) {Python plan, inputs, generation, DSM, extraction};
+\node[good,right=of python] (ready) {Python publication\\complete};
+\node[state,below=of ready] (mini) {Java per-building MiniMesh conversion};
+\node[good,left=of mini] (gui) {GUI building-generator creation};
+\draw[arrow] (select) -- (python);
+\draw[arrow] (python) -- (ready);
+\draw[arrow] (ready) -- node[right,font=\scriptsize]{outside Python commit} (mini);
+\draw[arrow] (mini) -- (gui);
+\draw[dashed,evidenceorange,thick] ($(ready.south west)+(-1mm,-3mm)$) --
+  ($(ready.south east)+(1mm,-3mm)$) node[midway,below=1mm,font=\scriptsize]
+  {atomicity boundary};
+\end{tikzpicture}
+\caption{On-demand publication lifecycle.  Python completion precedes
+the Java conversion required by ChordAtlas, so end-to-end publication is not a
+single atomic transaction.}
+\label{fig:publication-lifecycle}
+\end{figure}
+
+\subsection{Selection-scoped appearance inputs}
+
+The appearance branch reuses the same geographic selection and local frame as
+the building publication.  For roofs, the bridge selects the satellite tiles
+already bound to the request, mosaics them in north-up orientation, clips them
+to the building footprint, and publishes a reference image and style
+mask.  Existing ready references can be added to an earlier building
+publication without modifying its geometry.  ChordAtlas validates the
+reference metadata before exposing it to the fa\c{c}ade and roof style
+interface.
+
+For street-level context, candidate viewpoints are sampled around the selected
+OSM footprint and converted to WGS84.  Street View metadata are resolved and
+deduplicated before acquisition.  The service presents one sample for approval,
+downloads the remaining accepted batch, promotes the complete set, and writes
+the panorama positions into ChordAtlas's local coordinate frame.  Figure~\ref{fig:appearance-input-flow}
+summarises the two paths.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=7mm and 6mm,
+  source/.style={draw=evidenceblue,rounded corners,align=center,
+    text width=27mm,minimum height=10mm,fill=evidenceblue!8},
+  stage/.style={draw=uclblue,rounded corners,align=center,
+    text width=29mm,minimum height=10mm,fill=lightgrey},
+  output/.style={draw=evidencegreen,rounded corners,align=center,
+    text width=30mm,minimum height=10mm,fill=evidencegreen!8},
+  arrow/.style={-{Latex[length=2mm]},thick,uclblue}
+]
+\node[source] (sat) {Selection-bound\\satellite tiles};
+\node[stage,right=of sat] (mosaic) {North-up mosaic\\and footprint mask};
+\node[output,right=of mosaic] (roof) {Hashed roof\\reference};
+\node[stage,right=of roof] (style) {ChordAtlas style\\input contract};
+\draw[arrow] (sat) -- (mosaic);
+\draw[arrow] (mosaic) -- (roof);
+\draw[arrow] (roof) -- (style);
+
+\node[source,below=11mm of sat] (footprint) {Selected OSM\\footprint};
+\node[stage,right=of footprint] (viewpoints) {Viewpoint sampling\\and metadata deduplication};
+\node[stage,right=of viewpoints] (approval) {Sample approval\\and batch acquisition};
+\node[output,right=of approval] (panos) {Local-frame\\panorama index};
+\draw[arrow] (footprint) -- (viewpoints);
+\draw[arrow] (viewpoints) -- (approval);
+\draw[arrow] (approval) -- (panos);
+\end{tikzpicture}%
+}
+\caption{Selection-scoped appearance-input workflows.  The roof path prepares
+a footprint-matched satellite reference for the style interface; the panorama
+path acquires and registers street-level observations in the same local frame.}
+\label{fig:appearance-input-flow}
+\end{figure}
+
+Selection logs and result manifests were classified by processing state:
+request rejection, planning, acquisition, inference, corrected-scene reuse,
+building publication, Java conversion, and GUI creation. 
+
+\section{Matched representation comparison}
+
+The directly matched comparison fixes OSM way~369245408 as the main-building
+identity.  The large-image and independent-tile requests contain the same
+target bounds and the same two footprint geometries.  The former begins from
+one fused density field; the latter begins from nine independently extracted
+meshes and adds OSM pre-alignment, lower-surface removal, stitching, and DSM
+processing.  Building-level vertices, faces, relief, edge incidence, and
+vertex-colour variation are compared under this shared spatial request.
+
+Cross-system inspection is restricted to representation.  A retained
+CityEngine 2026 export records one named initial shape, UV coordinates, and
+UV-mapped materials.  The two
+route-labelled ChordAtlas exports have envelopes consistent with the main
+footprint; the standalone
+ChordAtlas example has matched location.  All examples are
+rendered with a common orthographic camera and metric scale within each figure.
+The audit records polygon or triangle representation, vertex colour, texture
+coordinates, and diffuse/normal/specular map organisation.  These properties
+are not treated as fidelity scores because no surveyed geometry or registered
+street-level appearance reference is available.
+
+\section{Verification protocol}
+
+\subsection{Executable tests}
+
+Component tests cover configuration, coordinate frames, footprints, DSM
+prerequisites, OBJ inspection, tile planning, image integrity, manifests,
+cache freshness, publication, rollback, MiniMesh conversion, OBJ slicing, and
+vertex-colour parsing.  Separate large-image regression cases exercise
+fractional placement, non-zero fusion coverage, seam continuity, colour-query
+coordinates, weighted RGB, and PLY round trips.  The bridge suite also covers
+large-image selection, roof-reference and panorama planning, promotion, and
+coordinate transfer.  Python, algorithm, and Java tests are reported
+separately because they exercise different runtime and data-transfer
+boundaries.  Detailed results are provided in
+Appendix~\ref{app:evidence-record}.
+
+\subsection{Validity review}
+
+Construct validity was assessed by matching each measure to the property it
+was intended to represent.  The review distinguishes geographic extent from
+triangle coverage, file availability from semantic correctness, topological
+validity from geometric accuracy, and producer-side publication from
+consumer-side conversion.  External validity is examined through the spatial
+and dataset coverage of the case study.

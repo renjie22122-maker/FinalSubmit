@@ -1,0 +1,58 @@
+\makeglossaries
+
+% Acronyms used in the dissertation
+\newacronym{aoi}{AOI}{area of interest}
+\newacronym{api}{API}{application programming interface}
+\newacronym{bng}{BNG}{British National Grid}
+\newacronym{cli}{CLI}{command-line interface}
+\newacronym{crs}{CRS}{coordinate reference system}
+\newacronym{dsm}{DSM}{digital surface model}
+\newacronym{edt}{EDT}{Event Dispatch Thread}
+\newacronym{epsg}{EPSG}{European Petroleum Survey Group geodetic registry}
+\newacronym{gis}{GIS}{geographic information system}
+\newacronym{gui}{GUI}{graphical user interface}
+\newacronym{lidar}{LiDAR}{light detection and ranging}
+\newacronym{obj}{OBJ}{Wavefront object mesh format}
+\newacronym{odbl}{ODbL}{Open Data Commons Open Database Licence}
+\newacronym{ogl}{OGL}{Open Government Licence}
+\newacronym{osm}{OSM}{OpenStreetMap}
+\newacronym{ply}{PLY}{Polygon File Format}
+\newacronym{rmse}{RMSE}{root-mean-square error}
+\newacronym{wgs84}{WGS84}{World Geodetic System 1984}
+
+% Project-specific terms
+\newglossaryentry{manifest}{
+  name={manifest},
+  description={Machine-readable record that binds a job or publication to its inputs, configuration, state, and outputs}
+}
+
+\newglossaryentry{minimesh}{
+  name={MiniMesh},
+  plural={MiniMeshes},
+  description={ChordAtlas tiled mesh representation comprising an index and spatially partitioned model files}
+}
+
+\newglossaryentry{coarseready}{
+  name={\texttt{COARSE\_READY}},
+  description={On-demand publication state indicating that a building passed the configured coarse geometric gates; it does not mean that a complete or ground-truth-accurate building was reconstructed}
+}
+
+\newglossaryentry{ready}{
+  name={\texttt{READY}},
+  description={Publication state written after the Python assets and metadata pass their contract checks; Java MiniMesh conversion and GUI loading occur afterwards}
+}
+
+\newglossaryentry{localframe}{
+  name={local frame},
+  description={Project coordinate convention in metres with X pointing east, Y representing height, and Z pointing south from a recorded WGS84 origin}
+}
+
+\newglossaryentry{provenance}{
+  name={provenance},
+  description={Traceable relationship among source data, code revision, configuration, model, command, time, and generated artefact}
+}
+
+\newglossaryentry{failclosed}{
+  name={fail-closed},
+  description={Behaviour in which an invalid or incomplete prerequisite prevents later processing and prevents publication of a misleading success state}
+}

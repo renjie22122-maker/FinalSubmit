@@ -1,0 +1,2 @@
+source_path,lat,lon,elevation,heading,tilt,roll,id,ownership_confirmed
+E:/path/to/my_licensed_360.jpg,51.5105,-0.1345,0,0,90,0,mycamera001,true

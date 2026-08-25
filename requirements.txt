@@ -1,0 +1,23 @@
+# Install a CUDA-compatible torch/torchvision build for the target machine.
+torch
+torchvision
+einops
+
+# Sat3DGen published dependencies.
+-r components/sat3dgen/Sat3DGen/requirements.txt
+
+# Dissertation extensions, bridge, mesh pipeline, and analysis.
+numpy>=1.24,<2.0
+scipy
+Pillow
+pyproj
+rasterio
+shapely
+trimesh
+matplotlib
+numba
+open3d
+requests
+gradio_client
+folium
+ipyleaflet

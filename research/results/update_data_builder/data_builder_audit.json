@@ -1,0 +1,582 @@
+{
+  "audit": {
+    "generated_utc": "2026-08-13T17:33:20.548876+00:00",
+    "repository": "E:\\UCL\\Project\\data_builder\\data_builder",
+    "head": "57cb966ba6321b4f16781a2f4eddfc860ec9599d",
+    "origin_main_local_ref": "57cb966ba6321b4f16781a2f4eddfc860ec9599d",
+    "branch": "main",
+    "tracked_worktree_changes": 0,
+    "untracked_file_count": 20142,
+    "newest_non_git_file_utc": "2026-07-26T21:15:22.087780+00:00",
+    "non_git_file_count": 20241,
+    "non_git_total_bytes": 3279293166
+  },
+  "input_and_matching": {
+    "input_features": 2343,
+    "geometry_types": {
+      "Point": 2343
+    },
+    "unique_input_coordinates": 2343,
+    "input_bbox": {
+      "min_lat": 51.5030177,
+      "max_lat": 51.5110098,
+      "min_lon": -0.1377337,
+      "max_lon": -0.1201147,
+      "width_m_local_approx": 1220.7649356932163,
+      "height_m_local_approx": 889.680571999512
+    },
+    "matched_panoramas": 2333,
+    "match_percent": 99.57319675629535,
+    "unmatched_count": 10,
+    "unmatched_source_indices": [
+      160,
+      166,
+      190,
+      193,
+      448,
+      692,
+      1125,
+      1151,
+      1974,
+      1975
+    ],
+    "max_rounding_coordinate_error_m": 0.06556230613830386
+  },
+  "splits": {
+    "counts": {
+      "train": 1633,
+      "validation": 350,
+      "test": 350
+    },
+    "fractions": {
+      "train": 0.6999571367338191,
+      "validation": 0.15002143163309045,
+      "test": 0.15002143163309045
+    },
+    "id_union_count": 2333,
+    "pairwise_id_overlaps": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "latitude_ranges": {
+      "train": {
+        "min": 51.503131,
+        "max": 51.508385,
+        "mean": 51.50690976668708
+      },
+      "validation": {
+        "min": 51.508386,
+        "max": 51.509027,
+        "mean": 51.50864458285714
+      },
+      "test": {
+        "min": 51.509035,
+        "max": 51.510742,
+        "mean": 51.509526457142854
+      }
+    },
+    "four_candidate_full_ids": 2333,
+    "four_candidate_train_ids": 1633,
+    "four_candidate_test_ids": 350,
+    "four_candidate_validation_ids_exported": 0,
+    "four_candidate_ids_not_in_train_or_test_exports": 350
+  },
+  "images": {
+    "legacy_panorama": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\panorama",
+      "count": 2333,
+      "bytes": 108187659,
+      "dimensions": {
+        "640x320": 2333
+      },
+      "modes": {
+        "RGB": 2333
+      },
+      "unique_sha256": 2333,
+      "duplicate_hash_groups": 0,
+      "files_in_duplicate_hash_groups": 0,
+      "largest_duplicate_hash_group": 1
+    },
+    "equirectangular_panorama": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\panorama",
+      "count": 2333,
+      "bytes": 875259420,
+      "dimensions": {
+        "1536x768": 2333
+      },
+      "modes": {
+        "RGB": 2333
+      },
+      "unique_sha256": 1205,
+      "duplicate_hash_groups": 427,
+      "files_in_duplicate_hash_groups": 1555,
+      "largest_duplicate_hash_group": 26
+    },
+    "sparse_satellite": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\satellite",
+      "count": 127,
+      "bytes": 37003184,
+      "dimensions": {
+        "640x640": 127
+      },
+      "modes": {
+        "P": 127
+      },
+      "unique_sha256": 127,
+      "duplicate_hash_groups": 0,
+      "files_in_duplicate_hash_groups": 0,
+      "largest_duplicate_hash_group": 1
+    },
+    "filled_satellite": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite",
+      "count": 272,
+      "bytes": 76515257,
+      "dimensions": {
+        "640x640": 272
+      },
+      "modes": {
+        "P": 272
+      },
+      "unique_sha256": 272,
+      "duplicate_hash_groups": 0,
+      "files_in_duplicate_hash_groups": 0,
+      "largest_duplicate_hash_group": 1
+    },
+    "overlap50_satellite": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite_overlap50",
+      "count": 990,
+      "bytes": 281464550,
+      "dimensions": {
+        "640x640": 990
+      },
+      "modes": {
+        "P": 990
+      }
+    },
+    "overlap10_satellite": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite_overlap10",
+      "count": 306,
+      "bytes": 87589238,
+      "dimensions": {
+        "640x640": 306
+      },
+      "modes": {
+        "P": 306
+      }
+    },
+    "equirect_sky_mask": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\pano_sky_mask",
+      "count": 2333,
+      "bytes": 9780266,
+      "dimensions": {
+        "1536x768": 2333
+      },
+      "modes": {
+        "L": 2333
+      }
+    },
+    "filled_model_depth": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\sat_depth",
+      "count": 272,
+      "bytes": 18380058,
+      "dimensions": {
+        "640x640": 272
+      },
+      "modes": {
+        "L": 272
+      }
+    },
+    "sparse_dsm_raster_depth": {
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\london_vigor_root\\London\\sat_depth_dsm_raster",
+      "count": 127,
+      "bytes": 8143562,
+      "dimensions": {
+        "640x640": 127
+      },
+      "modes": {
+        "L": 127
+      }
+    }
+  },
+  "panorama_duplicates_and_leakage": {
+    "files": 2333,
+    "unique_hashes": 1205,
+    "duplicate_hash_groups": 427,
+    "files_in_duplicate_groups": 1555,
+    "largest_group": 26,
+    "legacy_panorama_unique_hashes": 2333,
+    "pairwise_split_leakage": [
+      {
+        "split_a": "train",
+        "split_b": "validation",
+        "shared_hashes": 7,
+        "affected_rows_a": 20,
+        "affected_rows_b": 11
+      },
+      {
+        "split_a": "train",
+        "split_b": "test",
+        "shared_hashes": 0,
+        "affected_rows_a": 0,
+        "affected_rows_b": 0
+      },
+      {
+        "split_a": "validation",
+        "split_b": "test",
+        "shared_hashes": 3,
+        "affected_rows_a": 4,
+        "affected_rows_b": 3
+      }
+    ]
+  },
+  "four_candidate_geometry": {
+    "query_count": 2333,
+    "candidate_count": 9332,
+    "inside_count": 2345,
+    "outside_count": 6987,
+    "outside_percent": 74.87141020145735,
+    "maximum_absolute_offset_px": 948.7,
+    "containing_candidate_count_distribution": {
+      "1": 2321,
+      "2": 12
+    },
+    "by_rank": [
+      {
+        "rank": 1,
+        "candidate_count": 2333,
+        "inside_count": 2333,
+        "outside_count": 0,
+        "outside_percent": 0.0,
+        "max_absolute_offset_px": 319.0
+      },
+      {
+        "rank": 2,
+        "candidate_count": 2333,
+        "inside_count": 12,
+        "outside_count": 2321,
+        "outside_percent": 99.4856408058294,
+        "max_absolute_offset_px": 628.3
+      },
+      {
+        "rank": 3,
+        "candidate_count": 2333,
+        "inside_count": 0,
+        "outside_count": 2333,
+        "outside_percent": 100.0,
+        "max_absolute_offset_px": 820.6
+      },
+      {
+        "rank": 4,
+        "candidate_count": 2333,
+        "inside_count": 0,
+        "outside_count": 2333,
+        "outside_percent": 100.0,
+        "max_absolute_offset_px": 948.7
+      }
+    ],
+    "all_referenced_satellites_exist": true
+  },
+  "satellite_grids": [
+    {
+      "name": "sparse_127",
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\satellite",
+      "tile_count": 127,
+      "distinct_latitudes": 16,
+      "distinct_longitudes": 17,
+      "cartesian_capacity": 272,
+      "missing_cartesian_centres": 145,
+      "centre_bbox": {
+        "min_lat": 51.5029,
+        "max_lat": 51.510913,
+        "min_lon": -0.1349,
+        "max_lon": -0.121167,
+        "width_m_local_approx": 951.5238874314575,
+        "height_m_local_approx": 892.0071600005986
+      },
+      "footprint_bbox": {
+        "min_lat": 51.50263286191746,
+        "max_lat": 51.51118008954114,
+        "min_lon": -0.1353291534423704,
+        "max_lon": -0.1207378465576312
+      },
+      "mean_latitude": 51.50718638582677,
+      "metres_per_pixel_at_mean_latitude": 0.09292122166528535,
+      "nominal_tile_width_m": 59.46958186578263,
+      "union_area_m2_local_scale_estimate": 448946.0792141277,
+      "sum_individual_tile_areas_m2": 449152.1582459598,
+      "overlap_fraction_from_rounded_centres": 0.00045881785949097864,
+      "panoramas_covered": 2333,
+      "panoramas_uncovered": 0,
+      "mean_covering_tiles_per_panorama": 1.0030004286326617,
+      "min_covering_tiles_per_panorama": 1,
+      "max_covering_tiles_per_panorama": 2
+    },
+    {
+      "name": "filled_272",
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite",
+      "tile_count": 272,
+      "distinct_latitudes": 16,
+      "distinct_longitudes": 17,
+      "cartesian_capacity": 272,
+      "missing_cartesian_centres": 0,
+      "centre_bbox": {
+        "min_lat": 51.5029,
+        "max_lat": 51.510913,
+        "min_lon": -0.1349,
+        "max_lon": -0.121167,
+        "width_m_local_approx": 951.5297298106149,
+        "height_m_local_approx": 892.0071600005986
+      },
+      "footprint_bbox": {
+        "min_lat": 51.50263286191746,
+        "max_lat": 51.51118008954114,
+        "min_lon": -0.1353291534423704,
+        "max_lon": -0.1207378465576312
+      },
+      "mean_latitude": 51.506906625,
+      "metres_per_pixel_at_mean_latitude": 0.0929217922037825,
+      "nominal_tile_width_m": 59.469947010420796,
+      "union_area_m2_local_scale_estimate": 961447.0080235415,
+      "sum_individual_tile_areas_m2": 961975.4904988541,
+      "overlap_fraction_from_rounded_centres": 0.000549372079155952,
+      "panoramas_covered": 2333,
+      "panoramas_uncovered": 0,
+      "mean_covering_tiles_per_panorama": 1.0030004286326617,
+      "min_covering_tiles_per_panorama": 1,
+      "max_covering_tiles_per_panorama": 2
+    },
+    {
+      "name": "overlap50_990",
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite_overlap50",
+      "tile_count": 990,
+      "distinct_latitudes": 30,
+      "distinct_longitudes": 33,
+      "cartesian_capacity": 990,
+      "missing_cartesian_centres": 0,
+      "centre_bbox": {
+        "min_lat": 51.503167,
+        "max_lat": 51.510913,
+        "min_lon": -0.1349,
+        "max_lon": -0.121167,
+        "width_m_local_approx": 951.5269444795252,
+        "height_m_local_approx": 862.2847200004978
+      },
+      "footprint_bbox": {
+        "min_lat": 51.50289986348265,
+        "max_lat": 51.51118008954114,
+        "min_lon": -0.1353291534423704,
+        "max_lon": -0.1207378465576312
+      },
+      "mean_latitude": 51.507039999999996,
+      "metres_per_pixel_at_mean_latitude": 0.092921520201817,
+      "nominal_tile_width_m": 59.46977292916288,
+      "union_area_m2_local_scale_estimate": 931882.7696387387,
+      "sum_individual_tile_areas_m2": 3501287.3533237325,
+      "overlap_fraction_from_rounded_centres": 0.733845675718643,
+      "panoramas_covered": 2333,
+      "panoramas_uncovered": 0,
+      "mean_covering_tiles_per_panorama": 4.006858122588941,
+      "min_covering_tiles_per_panorama": 2,
+      "max_covering_tiles_per_panorama": 6
+    },
+    {
+      "name": "overlap10_306",
+      "path": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\satellite_overlap10",
+      "tile_count": 306,
+      "distinct_latitudes": 17,
+      "distinct_longitudes": 18,
+      "cartesian_capacity": 306,
+      "missing_cartesian_centres": 0,
+      "centre_bbox": {
+        "min_lat": 51.50322,
+        "max_lat": 51.510913,
+        "min_lon": -0.1349,
+        "max_lon": -0.121768,
+        "width_m_local_approx": 909.8845501468041,
+        "height_m_local_approx": 856.3847600003652
+      },
+      "footprint_bbox": {
+        "min_lat": 51.502952863793325,
+        "max_lat": 51.51118008954114,
+        "min_lon": -0.1353291534423704,
+        "max_lon": -0.12133884655762017
+      },
+      "mean_latitude": 51.50706664705882,
+      "metres_per_pixel_at_mean_latitude": 0.09292146585834615,
+      "nominal_tile_width_m": 59.46973814934154,
+      "union_area_m2_local_scale_estimate": 887779.8759715526,
+      "sum_individual_tile_areas_m2": 1082214.825198682,
+      "overlap_fraction_from_rounded_centres": 0.1796639120993685,
+      "panoramas_covered": 2331,
+      "panoramas_uncovered": 2,
+      "mean_covering_tiles_per_panorama": 1.2301757393913417,
+      "min_covering_tiles_per_panorama": 0,
+      "max_covering_tiles_per_panorama": 4
+    }
+  ],
+  "dsm": {
+    "rasters": [
+      {
+        "file": "TQ27ne_FZ_DSM_1m.tif",
+        "crs": "EPSG:27700",
+        "width": 5000,
+        "height": 5000,
+        "resolution_x_m": 1.0,
+        "resolution_y_m": 1.0,
+        "min_x": 525000.0,
+        "min_y": 175000.0,
+        "max_x": 530000.0,
+        "max_y": 180000.0,
+        "nodata": -3.4028234663852886e+38,
+        "dtype": "float32"
+      },
+      {
+        "file": "TQ28se_FZ_DSM_1m.tif",
+        "crs": "EPSG:27700",
+        "width": 5000,
+        "height": 5000,
+        "resolution_x_m": 1.0,
+        "resolution_y_m": 1.0,
+        "min_x": 525000.0,
+        "min_y": 180000.0,
+        "max_x": 530000.0,
+        "max_y": 185000.0,
+        "nodata": -3.4028234663852886e+38,
+        "dtype": "float32"
+      },
+      {
+        "file": "TQ37nw_FZ_DSM_1m.tif",
+        "crs": "EPSG:27700",
+        "width": 5000,
+        "height": 5000,
+        "resolution_x_m": 1.0,
+        "resolution_y_m": 1.0,
+        "min_x": 530000.0,
+        "min_y": 175000.0,
+        "max_x": 535000.0,
+        "max_y": 180000.0,
+        "nodata": -3.4028234663852886e+38,
+        "dtype": "float32"
+      },
+      {
+        "file": "TQ38sw_FZ_DSM_1m.tif",
+        "crs": "EPSG:27700",
+        "width": 5000,
+        "height": 5000,
+        "resolution_x_m": 1.0,
+        "resolution_y_m": 1.0,
+        "min_x": 530000.0,
+        "min_y": 180000.0,
+        "max_x": 535000.0,
+        "max_y": 185000.0,
+        "nodata": -3.4028234663852886e+38,
+        "dtype": "float32"
+      }
+    ],
+    "raster_count": 4,
+    "union_area_m2": 100000000.0,
+    "input_points_inside_any_raster": 2343,
+    "input_point_count": 2343,
+    "filled_grid_centres_inside_any_raster": 272,
+    "filled_grid_centre_count": 272,
+    "realised_raster_patch_count": 127,
+    "fully_valid_patch_count": 113,
+    "partial_patch_count": 14,
+    "empty_patch_count": 0,
+    "valid_ratio_min": 0.56875,
+    "valid_ratio_median": 1.0,
+    "valid_ratio_mean": 0.9636318897637794,
+    "patches_by_selected_single_raster": {
+      "TQ27ne_FZ_DSM_1m.tif": 10,
+      "TQ28se_FZ_DSM_1m.tif": 54,
+      "TQ38sw_FZ_DSM_1m.tif": 63
+    },
+    "legacy_dsm_metadata_rows": 127,
+    "legacy_metadata_inside_extent_true": 0
+  },
+  "osm": {
+    "meta": {
+      "satellite_count": 127,
+      "bbox": {
+        "min_lat": 51.4999,
+        "min_lon": -0.1379,
+        "max_lat": 51.513913,
+        "max_lon": -0.118167
+      },
+      "zoom": 20,
+      "tile_size": 640,
+      "categories": [
+        "building",
+        "building_with_height",
+        "road",
+        "water",
+        "landuse",
+        "green",
+        "railway",
+        "barrier"
+      ]
+    },
+    "bbox_local_dimensions": {
+      "min_lat": 51.4999,
+      "max_lat": 51.513913,
+      "min_lon": -0.1379,
+      "max_lon": -0.118167,
+      "width_m_local_approx": 1367.2566962691674,
+      "height_m_local_approx": 1559.9271600006239
+    },
+    "total_category_feature_records": 67281,
+    "total_untagged_support_point_records": 57623,
+    "unique_feature_ids_across_categories": 49651,
+    "feature_ids_appearing_in_multiple_categories": 14270,
+    "maximum_category_multiplicity": 6,
+    "realised_mask_centres": 127
+  },
+  "london_data_under_seattle_alias": [
+    {
+      "channel": "panorama",
+      "london_files": 2333,
+      "seattle_files": 2333,
+      "common_names": 2333,
+      "byte_identical_common_files": 2333,
+      "london_only": 0,
+      "seattle_only": 0
+    },
+    {
+      "channel": "satellite",
+      "london_files": 127,
+      "seattle_files": 127,
+      "common_names": 127,
+      "byte_identical_common_files": 127,
+      "london_only": 0,
+      "seattle_only": 0
+    },
+    {
+      "channel": "pano_sky_mask",
+      "london_files": 2333,
+      "seattle_files": 2333,
+      "common_names": 2333,
+      "byte_identical_common_files": 2333,
+      "london_only": 0,
+      "seattle_only": 0
+    },
+    {
+      "channel": "sat_depth",
+      "london_files": 127,
+      "seattle_files": 127,
+      "common_names": 127,
+      "byte_identical_common_files": 127,
+      "london_only": 0,
+      "seattle_only": 0
+    }
+  ],
+  "coverage_alignment": {
+    "filled_base_satellite_tiles": 272,
+    "sparse_satellite_tiles": 127,
+    "sparse_fraction_of_filled_grid": 0.46691176470588236,
+    "real_dsm_raster_patches": 127,
+    "osm_mask_tiles_per_category": 127,
+    "panorama_and_sky_mask_pairs": 2333,
+    "note": "DSM raster patches and OSM masks align to the 127-tile sparse branch, not the 272-tile filled base grid or the overlap grids."
+  }
+}

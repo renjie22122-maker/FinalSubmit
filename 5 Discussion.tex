@@ -1,0 +1,288 @@
+\chapter{Discussion} \label{Chap5}\label{chap:discussion}
+
+\section{Interpretation of the research scope}
+
+This dissertation examines how overlapping satellite-conditioned predictions
+can form a continuous coloured regional surface and then become editable urban
+assets.  It contributes at two interfaces: density-domain fusion and colour
+recovery around the released Sat3DGen model, followed by geospatial association
+and publication through OSM, DSM, and ChordAtlas.  This addresses the gap
+between plausible window-level generation and spatially identified, reusable
+urban content.
+
+\section{Research question: extent and reliability boundary}
+
+The study establishes a working large-image reconstruction and
+coordinate-explicit integration at building-asset scale.  Overlapping density
+windows are fused into one surface, per-vertex appearance is recovered in a
+second pass, and the resulting mesh can be transformed, associated with OSM
+footprints, processed against DSM context, and converted for ChordAtlas.
+Stable selection identities, manifests, cache checks, and validation at the
+Python--Java boundary make these transformations inspectable rather than
+implicit.
+
+Reliable regional operation depends on four properties highlighted by the
+results.  Overlapping predictions need continuous placement and smooth
+weighting; spatial predicates must prevent unrelated or
+vertically separated surfaces from being combined; geometry processing must
+preserve topology and apply external height information selectively; and
+publication must be acknowledged by the consuming application.  These
+requirements connect large-area reconstruction quality to asset-level system
+reliability.
+
+\section{Contribution of the ChordAtlas integration}
+
+The contribution is defined by the new data and execution contracts introduced
+at the ChordAtlas boundary.  The integration extends the existing GIS workflow
+in the following ways:
+
+\begin{itemize}
+  \item a coordinate contract that preserves geographic selection, a local
+  origin, and building identity across mesh conversion;
+  \item a selectable large-image source mode that binds the mosaic plan,
+  density fusion, colour recovery, coordinate conversion, and footprint crop;
+  \item manifest-driven planning and cache validation that bind a request to
+  its required tiles and processing stages;
+  \item OSM- and DSM-aware processing that associates generated surfaces with
+  footprints and publishes separately editable building assets;
+  \item selection-scoped roof references and panoramas, exercised for the
+  independent-tile selections, that connect appearance inputs to the same
+  footprint identity and local coordinate frame;
+  \item staged Python--Java publication with explicit failure states,
+  background execution, and a dedicated per-vertex-colour renderer; and
+  \item executable checks for coordinate conversion, mesh prerequisites,
+  selection manifests, cache state, and publication contracts.
+\end{itemize}
+
+Together, these changes turn a fused or independently assembled surface into
+geographically identified ChordAtlas assets whose processing history and
+failure state can be examined.  Sat3DGen provides learned geometry and
+appearance, while ChordAtlas provides asset structure and procedural editing.
+The bridge preserves the coloured OBJ for display and builds MiniMesh as a
+separate workspace representation; successful colour transfer should not be
+conflated with colour being embedded in the MiniMesh tiles themselves.
+
+For the independent-tile selections, the roof-reference and panorama results
+are important because they associate
+appearance observations with the same building identity used by the geometry
+pipeline.  They provide registered inputs for ChordAtlas style generation.
+The separately retained appearance exports establish the availability of
+generated appearance artefacts, while reference registration, material
+completeness, and texture fidelity
+remain distinct evaluation questions.
+
+\section{Relationship among the evaluated systems}
+
+The project contributes at two interfaces to Sat3DGen.  First, it extends the
+released large-image wrapper while retaining the pretrained DINOv3/tri-plane
+representation and one global density-domain surface extraction
+\cite{qian2026sat3dgen,qianSat3DGenCode2026}.  Fractional placement and smooth
+overlap weighting address quantisation and hard contributor changes, while a
+second pass restores the colour capability available in single-image
+inference.  The matched hard-box experiment isolates the effect of this fusion
+rule on boundary continuity and resource use.
+
+Secondly, the mesh-space path introduces geographic placement, OSM/DSM
+constraints, building extraction, and ChordAtlas publication.  This path
+remains relevant where independently extracted or cached meshes are the
+available interface.  The two experiments therefore compare representation
+stages rather than treating mesh stitching as the only regional strategy.
+Independent reference geometry and street-level imagery are still required to
+evaluate metric and perceptual accuracy.
+
+The retained London examples clarify that the systems address different
+subproblems.  CityEngine generates controllable polygonal content from GIS
+shapes, attributes, assets, and CGA rules and supports scripted procedural
+runtimes \cite{esriCityEngineIntro2026,esriCityEngineGIS2026,
+esriCityEngineSDK2026}.  Its retained export is a compact UV-mapped envelope
+whose openings are represented primarily in repeated facade atlases.  Sat3DGen
+instead conditions dense geometry and vertex appearance on overhead imagery.
+The retained ChordAtlas exports organise surfaces into UV material groups and
+appearance maps.  The bridge connects these representations through stable
+identity, coordinates, and editable asset boundaries.
+
+Table~\ref{tab:paradigm-comparison} summarises the distinct evidence and role of
+each system in this study.
+
+\begin{table}[H]
+\centering
+\caption{Evaluated systems, output representations, and their roles in the
+study.}
+\label{tab:paradigm-comparison}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X
+>{\raggedright\arraybackslash}X}
+\toprule
+System & Input and control & Output representation & Evidence and role\\
+\midrule
+CityEngine / CGA & Platform support for GIS shapes, CGA rules, attributes, and
+assets; one initial shape in the retained case & Compact UV-mapped polygon
+export & Illustrative export for compactness and material organisation\\
+Sat3DGen large-image & Rectangular mosaic, overlap schedule, and fusion weights
+& One density-fused surface with predicted vertex RGB & Directly matched OSM
+case; evaluated for continuity, colour support, and topology\\
+Sat3DGen independent tiles & Nine image-conditioned meshes plus OSM/DSM
+operations & Stitched per-footprint assets with stored vertex RGB & Directly
+matched OSM case; evaluated for mesh-space assembly behaviour\\
+ChordAtlas procedural appearance & Structured procedural surfaces and style
+controls & Semantic UV groups with diffuse, normal, and specular maps &
+Retained procedural appearance representation; not reconstruction truth or topology
+preservation\\
+Hybrid bridge & Geographic selection, manifests, OSM/DSM context, and
+publication controls & Identified coloured OBJ, MiniMesh workspace, and
+registered appearance inputs & Integration contribution across learned and
+procedural representations\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+This is a partially matched representation case rather than a common reconstruction
+benchmark.  The two Sat3DGen routes share bounds and footprint identities,
+whereas the CityEngine export lacks the common OSM identifier and ChordAtlas
+changes the asset representation.  Topology and colour-variation statistics
+are therefore compared only between the two Sat3DGen paths.  Across systems,
+the evidence supports conclusions about compactness, material organisation,
+available control mechanisms, and workflow structure.
+
+\section{Architectural implications of the manifest-driven design}
+
+The main value of the manifests is that they turn hidden assumptions into
+explicit system state.  A request can record the intended geographic extent,
+required inputs, permitted tiles, completed stages, and reason for failure.
+This enables incomplete acquisition or processing to stop visibly instead of
+leaving an output directory that appears complete.  Exact tile selection is
+especially important in a shared cache, where recursively consuming every
+available mesh can combine unrelated locations while still producing
+syntactically valid output.
+
+However, a manifest is authoritative only when it binds outputs to their full
+provenance.  Imagery, coordinate reference system, model checkpoint,
+inference options, processing configuration, code revision, and output hashes
+all influence the meaning of a cached result.  The current design captures
+several of these fields but does not yet enforce all of them consistently.
+Stable geometric identity is therefore useful for request reuse, but it must be
+paired with configuration and source identity before cache reuse can imply
+reproducibility.
+
+The cross-language boundary introduces a related transaction problem.  Python
+can finish publication before Java has converted and loaded the corresponding
+asset. A stronger design would represent processing, conversion, and
+visible loading as separate acknowledged stages and would commit the final
+state only after the user confirms success.
+
+\section{Implications of the reliability findings}
+
+The large-image comparison shows that nominal overlap alone does not guarantee
+a continuous surface.  With hard cropping and equal weights, the set of
+contributing windows changes abruptly at regular intervals, turning local
+prediction disagreement into visible height steps.  Fractional placement and
+raised-cosine weighting substantially reduce those steps without increasing
+the measured GPU peak, at the cost of modest additional runtime.  Feathering
+smooths disagreement rather than resolving its cause; broad height bias shared
+by a window can therefore remain as a gradual surface variation.
+
+The data audit shows that structural completeness and semantic validity are
+different properties.  Files may be present while containing duplicates,
+cross-partition leakage, inconsistent coordinates, or candidates outside their
+intended spatial support.  Dataset preparation should therefore validate
+identity, containment, and geographic separation in addition to file counts
+and schema shape.  The London workflow is useful as prepared project data, but
+these findings prevent treating it as a validated training benchmark.
+
+The mesh experiments reveal the same distinction between execution and
+correctness.  A deterministic merge can still select non-contiguous inputs;
+a configured vertical threshold can remain ineffective if it is not applied
+by the matching predicate; and a DSM correction can produce a complete file
+while displacing surfaces that should not be treated as terrain.  The relevant
+engineering principle is that every geometric assumption should have both an
+executable invariant and a regression case that can falsify it.
+
+Building extraction also creates a trade-off between modularity and geometric
+quality.  Footprint association produces independently addressable assets,
+which is valuable for editing and procedural processing, but cropping and
+capping do not by themselves guarantee closed, manifold, or semantically
+separated buildings.  Topology and surface accuracy therefore require explicit
+post-processing and evaluation rather than being inferred from successful OBJ
+publication.
+
+These observations lead to four general requirements for reliable integration:
+
+\begin{itemize}
+  \item validate spatial and semantic relationships, not only the presence and
+  shape of files;
+  \item make tile membership and provenance authoritative at every stage;
+  \item test every geometric assumption and specify how conflicting attributes
+  are combined.
+\end{itemize}
+
+\section{Contribution assessment}
+
+The contribution is a hybrid reconstruction and integration method rather than
+a replacement for either learned reconstruction or procedural modelling.  It
+extends the released regional wrapper with continuous density and colour
+fusion, then connects the resulting surface to a shared spatial frame,
+building identity, external geographic context, modular publication, and
+executable data-transfer contracts.  The London data analysis and controlled
+geometry tests expose assumptions that would otherwise remain hidden at these
+interfaces.
+
+The project builds on Sat3DGen, ChordAtlas, ProceX, BigSUR, and FrankenGAN
+\cite{qian2026sat3dgen,kellyChordAtlas2024,kelly2011procex,
+kelly2017bigsur,kelly2018frankengan}.  The project-specific contribution is the
+London data workflow, large-image density and colour method, geospatial
+mesh-processing method, ChordAtlas bridge, and evaluation developed around
+these foundations.
+
+\section{Threats to validity}
+
+\subsection{Construct validity}
+
+Most reported measures concern structure and process: coordinates, manifests,
+vertices, faces, boundary discontinuity, topology, cache state, and publication
+state.  These measures show whether transformations and contracts operate as
+specified, but they are not substitutes for geometric or perceptual accuracy.
+In particular, smoother seams, complete colour coverage, footprint overlap,
+and successful publication do not by themselves establish fa\c{c}ade fidelity
+or visual realism.
+
+\subsection{Internal validity and provenance}
+
+The large-image records bind the input plan, script hashes, processing
+parameters, and output hashes, but identify the model by repository name rather
+than one immutable revision shared explicitly by the density and colour
+stages.  The current deployment also resolves those scripts through configured
+local paths.  Packaging the scripts with the bridge and binding both stages to
+one model revision would make the experiment portable.  At the consumer
+boundary, Python requires RGB for the large-image contract, whereas Java can
+still fall back from colour parsing; the same requirement should be enforced
+at both sides of the transaction.
+
+\subsection{External and statistical validity}
+
+The evaluation is concentrated in one London workflow.  The fusion comparison
+uses a matched input, but city, morphology, acquisition, and checkpoint were
+not varied.  External services also introduce network, credential, and
+licensing dependencies.  Broader claims require a versioned multi-area
+evaluation with independent geometry and appearance references.
+
+\section{Priorities for further work}
+
+Three experiments follow directly from the findings.  First, the matched
+fusion study should be repeated across multiple urban morphologies and model
+revisions, with independent surface and street-level colour references.  A
+release-default hard-box run, the fractional-feather method, and relevant
+weighting ablations would separate boundary continuity from metric and
+perceptual accuracy.
+
+Secondly, the global density path and the independent-mesh path should be run
+over the same area and coordinate contract.  Revised vertical stitching and
+DSM correction can then be assessed stage by stage for topology, height error,
+and surface preservation rather than compared through unrelated cached inputs.
+
+Thirdly, the model revision, scripts, RGB requirement, MiniMesh conversion,
+and visible loading acknowledgement should become one portable publication
+contract.  The resulting assets can then support a matched CityEngine/CGA
+authoring study that extends the present representation example with shared
+identity, inputs, and edit tasks, followed by a multi-user Ubiq study of
+interactive selection and editing.

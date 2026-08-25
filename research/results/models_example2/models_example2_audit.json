@@ -1,0 +1,327 @@
+{
+  "schema_version": 2,
+  "study": "modelsExample2 six-output same-building representation comparison",
+  "matched_identity": {
+    "footprint_id": "footprint-a688258f4d03",
+    "source_feature_id": "way/33719501",
+    "scope": "The BigImageModel and satelliteImageModel result manifests name the same footprint and OSM way. The six directories are the supplied same-building case; the four other OBJ files do not embed that OSM identifier."
+  },
+  "rendering": {
+    "camera": "shared orthographic direction; oblique azimuth -50 degrees and elevation 24 degrees",
+    "centring": "each OBJ translated to its own horizontal AABB centre and minimum Y; coordinate origins are not compared",
+    "presentation_transforms": {
+      "original_chordatlas": "180 degree rotation about the mesh-centred Y axis to present the same side as the other stored outputs; no rescaling and no source-file modification"
+    },
+    "scale": "one common metric projection bound for all six panels; no per-panel rescaling",
+    "common_oblique_projection_bounds_m": [
+      -60.7601611328125,
+      76.86857482910156,
+      -30.666858291625978,
+      53.25736770629883
+    ],
+    "appearance": "complete OBJ vertex RGB where present; otherwise OBJ/MTL diffuse UV materials rendered by the same rasteriser",
+    "uv_texture_atlas_resolution_per_material": 96,
+    "source_satellite_imagery_embedded": false,
+    "figures": {
+      "matched_sat3dgen": {
+        "pdf": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/figures/generated/models_example2_matched_sat3dgen.pdf",
+        "png": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/figures/generated/models_example2_matched_sat3dgen.png",
+        "png_pixels": [
+          2955,
+          2554
+        ]
+      },
+      "six_method_comparison": {
+        "pdf": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/figures/generated/models_example2_six_method_comparison.pdf",
+        "png": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/figures/generated/models_example2_six_method_comparison.png",
+        "png_pixels": [
+          2134,
+          1624
+        ],
+        "panel_order": [
+          "large_image",
+          "large_image_chordatlas",
+          "cityengine",
+          "independent_tiles",
+          "independent_tiles_chordatlas",
+          "original_chordatlas"
+        ]
+      }
+    }
+  },
+  "routes": {
+    "large_image": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/BigImageModel/buildings/footprint-a688258f4d03/cropped.obj",
+        "sha256": "79f1143848099808a027718c5609589d27d255176f900a96837a164dddd779fb",
+        "vertex_records": 122119,
+        "vertex_rgb_records": 122119,
+        "texture_coordinate_records": 0,
+        "obj_face_records": 242601,
+        "triangles_after_obj_triangulation": 242601,
+        "bounds_xyz_m": [
+          [
+            -425.1758728027344,
+            -0.03821102902293205,
+            -440.68438720703125
+          ],
+          [
+            -318.9801940917969,
+            37.7535514831543,
+            -311.133544921875
+          ]
+        ],
+        "extent_xyz_m": [
+          106.1956787109375,
+          37.79176330566406,
+          129.55084228515625
+        ],
+        "appearance_encoding": "complete per-vertex RGB",
+        "materials": {
+          "referenced_material_count": 0,
+          "diffuse_map_materials": 0,
+          "normal_map_materials": 0,
+          "specular_map_materials": 0,
+          "complete_diffuse_normal_specular_materials": 0,
+          "error_material_names": [],
+          "referenced_texture_file_count": 0
+        }
+      },
+      "manifest": {
+        "manifest": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/BigImageModel/result.json",
+        "pipeline_contract_version": "big-image-app192-v3-vertex-colour",
+        "selection_id": "big-image-7e7ae5a02937af9dd39e",
+        "footprint_id": "footprint-a688258f4d03",
+        "source_feature_id": "way/33719501",
+        "vertex_count": 122119,
+        "face_count": 242601,
+        "relief_m": 37.75355164761979,
+        "boundary_edge_count": 1617,
+        "nonmanifold_edge_count": 0,
+        "watertight": false,
+        "dsm_status": "APPLIED",
+        "dsm_crs": "EPSG:27700",
+        "dsm_mesh_vertex_coverage_ratio": 1.0,
+        "dsm_topology_changed": false,
+        "dsm_vertex_colours_preserved": true
+      }
+    },
+    "large_image_chordatlas": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/BigImageModelAfterchordatlas/BIMAC.obj",
+        "sha256": "2817403db4cddb8dbd7a068329060c399162b56e9a237f3c12b12eb05ba2417c",
+        "vertex_records": 89647,
+        "vertex_rgb_records": 0,
+        "texture_coordinate_records": 69041,
+        "obj_face_records": 728314,
+        "triangles_after_obj_triangulation": 728314,
+        "bounds_xyz_m": [
+          [
+            -423.1999816894531,
+            -3.477894782113496e-17,
+            -440.2201232910156
+          ],
+          [
+            -319.961181640625,
+            35.78767013549805,
+            -311.7442321777344
+          ]
+        ],
+        "extent_xyz_m": [
+          103.23880004882812,
+          35.78767013549805,
+          128.47589111328125
+        ],
+        "appearance_encoding": "OBJ/MTL UV materials",
+        "materials": {
+          "referenced_material_count": 527,
+          "diffuse_map_materials": 394,
+          "normal_map_materials": 394,
+          "specular_map_materials": 394,
+          "complete_diffuse_normal_specular_materials": 394,
+          "error_material_names": [],
+          "referenced_texture_file_count": 1182
+        }
+      }
+    },
+    "cityengine": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/CityEngineModel/London1_0.obj",
+        "sha256": "cce98df9741e565806e8cc974d7dcc79da26789bd6409f26a8380490d616fcfe",
+        "vertex_records": 66,
+        "vertex_rgb_records": 0,
+        "texture_coordinate_records": 52,
+        "obj_face_records": 23,
+        "triangles_after_obj_triangulation": 64,
+        "bounds_xyz_m": [
+          [
+            529488.8125,
+            19.577999114990234,
+            -180863.703125
+          ],
+          [
+            529593.5,
+            26.97800064086914,
+            -180735.828125
+          ]
+        ],
+        "extent_xyz_m": [
+          104.6875,
+          7.400001525878906,
+          127.875
+        ],
+        "appearance_encoding": "OBJ/MTL UV materials",
+        "materials": {
+          "referenced_material_count": 2,
+          "diffuse_map_materials": 2,
+          "normal_map_materials": 1,
+          "specular_map_materials": 0,
+          "complete_diffuse_normal_specular_materials": 0,
+          "error_material_names": [],
+          "referenced_texture_file_count": 2
+        }
+      }
+    },
+    "independent_tiles": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/satelliteImageModel/buildings/footprint-a688258f4d03/cropped.obj",
+        "sha256": "869fe5e384082da8b72a3fa70315c9ba3ddea8152dd14894beabce8dae9bdc56",
+        "vertex_records": 126983,
+        "vertex_rgb_records": 126983,
+        "texture_coordinate_records": 0,
+        "obj_face_records": 259125,
+        "triangles_after_obj_triangulation": 259125,
+        "bounds_xyz_m": [
+          [
+            -424.113525390625,
+            0.7531480193138123,
+            -439.73590087890625
+          ],
+          [
+            -320.16241455078125,
+            40.40990447998047,
+            -311.89031982421875
+          ]
+        ],
+        "extent_xyz_m": [
+          103.95111083984375,
+          39.65675735473633,
+          127.8455810546875
+        ],
+        "appearance_encoding": "complete per-vertex RGB",
+        "materials": {
+          "referenced_material_count": 0,
+          "diffuse_map_materials": 0,
+          "normal_map_materials": 0,
+          "specular_map_materials": 0,
+          "complete_diffuse_normal_specular_materials": 0,
+          "error_material_names": [],
+          "referenced_texture_file_count": 0
+        }
+      },
+      "manifest": {
+        "manifest": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/satelliteImageModel/result.json",
+        "pipeline_contract_version": "osm-prealign-v1",
+        "selection_id": "7e7ae5a02937af9dd39e",
+        "footprint_id": "footprint-a688258f4d03",
+        "source_feature_id": "way/33719501",
+        "vertex_count": 126983,
+        "face_count": 259125,
+        "relief_m": 40.2155236,
+        "boundary_edge_count": 4807,
+        "nonmanifold_edge_count": 6072,
+        "watertight": false,
+        "dsm_status": "APPLIED",
+        "dsm_crs": "EPSG:27700",
+        "dsm_mesh_vertex_coverage_ratio": 1.0,
+        "dsm_topology_changed": null,
+        "dsm_vertex_colours_preserved": null
+      }
+    },
+    "independent_tiles_chordatlas": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/satelliteImageModelAfterchordatlas/SIMAC.obj",
+        "sha256": "fdc85340f756c41059e634fcca63d7888e8267013d8e3ff9b54523a18aca1456",
+        "vertex_records": 226056,
+        "vertex_rgb_records": 0,
+        "texture_coordinate_records": 156686,
+        "obj_face_records": 2597150,
+        "triangles_after_obj_triangulation": 2597150,
+        "bounds_xyz_m": [
+          [
+            -423.6586608886719,
+            -2.0839026440870254e-15,
+            -439.0629577636719
+          ],
+          [
+            -320.2711486816406,
+            40.5379524230957,
+            -312.9761047363281
+          ]
+        ],
+        "extent_xyz_m": [
+          103.38751220703125,
+          40.5379524230957,
+          126.08685302734375
+        ],
+        "appearance_encoding": "OBJ/MTL UV materials",
+        "materials": {
+          "referenced_material_count": 3151,
+          "diffuse_map_materials": 2841,
+          "normal_map_materials": 2841,
+          "specular_map_materials": 2841,
+          "complete_diffuse_normal_specular_materials": 2841,
+          "error_material_names": [
+            "error_0.10.10.1"
+          ],
+          "referenced_texture_file_count": 8523
+        }
+      }
+    },
+    "original_chordatlas": {
+      "mesh": {
+        "obj": "E:/UCL/Project/UCL_Master_s_Thesis_Template2/modelsExample2/Originalchordatlas/OriginalChordatlas.obj",
+        "sha256": "9116620609c06ea8ba1174d6e52aec1d56a7a976692d313fd1593eddf54515a3",
+        "vertex_records": 149021,
+        "vertex_rgb_records": 0,
+        "texture_coordinate_records": 125922,
+        "obj_face_records": 1027970,
+        "triangles_after_obj_triangulation": 1027970,
+        "bounds_xyz_m": [
+          [
+            -1075.0433349609375,
+            -2.220444990459129e-16,
+            343.2162170410156
+          ],
+          [
+            -984.6903076171875,
+            40.249481201171875,
+            449.197021484375
+          ]
+        ],
+        "extent_xyz_m": [
+          90.35302734375,
+          40.249481201171875,
+          105.98080444335938
+        ],
+        "appearance_encoding": "OBJ/MTL UV materials",
+        "materials": {
+          "referenced_material_count": 572,
+          "diffuse_map_materials": 424,
+          "normal_map_materials": 424,
+          "specular_map_materials": 424,
+          "complete_diffuse_normal_specular_materials": 424,
+          "error_material_names": [],
+          "referenced_texture_file_count": 1272
+        }
+      }
+    }
+  },
+  "comparison_boundary": [
+    "All panels depict the supplied same-building case.",
+    "Only the two satellite-derived result manifests directly retain the common footprint and OSM identity.",
+    "Translation centring removes source-origin offsets; a shared orientation and metres-per-pixel scale preserve relative extent.",
+    "The figure compares stored representations and appearance encodings, not accuracy against surveyed ground truth.",
+    "Vertex RGB is model output conditioned by satellite imagery, not direct satellite-pixel projection."
+  ]
+}

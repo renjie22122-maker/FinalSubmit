@@ -1,0 +1,77 @@
+{
+  "audit_date": "2026-08-16",
+  "published_release_commit": "882cc66c363aa16b82fb2e494be7600003076890",
+  "standalone_large_aoi": {
+    "source_pixels": [3072, 5120],
+    "approximate_extent_metres": [285.5, 475.8],
+    "source_window_pixels": 640,
+    "network_input_pixels": 256,
+    "stride_pixels": 160,
+    "nominal_overlap": 0.75,
+    "window_grid": [17, 29],
+    "window_count": 493,
+    "mesh_resolution": 192,
+    "density_volume_shape": [1232, 740, 173],
+    "mesh_vertices": 3122922,
+    "mesh_faces": 6241862,
+    "geometry_seconds": 128.959,
+    "geometry_peak_allocated_gib": 6.623584,
+    "colour_positive_contributions": 42575796,
+    "colour_contributors_per_vertex_min": 1,
+    "colour_contributors_per_vertex_max": 20,
+    "colour_zero_weight_vertices": 0,
+    "colour_seconds": 97.311,
+    "colour_query_seconds": 80.923,
+    "colour_peak_allocated_gib": 1.860109,
+    "geometry_round_trip_unchanged": true,
+    "rgb_round_trip_exact": true
+  },
+  "matched_fusion_comparison": {
+    "row_mean_absolute_density_jump": {
+      "hard_box": 0.710465,
+      "fractional_feather": 0.285916
+    },
+    "column_mean_absolute_density_jump": {
+      "hard_box": 0.963417,
+      "fractional_feather": 0.491143
+    },
+    "row_mean_top_surface_jump_voxels": {
+      "hard_box": 2.59621,
+      "fractional_feather": 0.659238
+    },
+    "column_mean_top_surface_jump_voxels": {
+      "hard_box": 3.06469,
+      "fractional_feather": 1.21401
+    },
+    "hard_box_geometry_seconds": 118.728,
+    "fractional_feather_geometry_seconds": 128.959
+  },
+  "myproject_v3_publication": {
+    "contract": "big-image-app192-v3-vertex-colour",
+    "source_pixels": [1536, 1536],
+    "window_count": 49,
+    "density_mesh_vertices": 340825,
+    "density_mesh_faces": 678726,
+    "geometry_seconds": 16.987,
+    "colour_seconds": 23.212,
+    "colour_query_seconds": 10.694,
+    "colour_positive_contributions": 2800176,
+    "colour_zero_weight_vertices": 0,
+    "dsm_context_vertices": 66666,
+    "dsm_context_faces": 132440,
+    "dsm_source_coverage": 1.0,
+    "maximum_absolute_dsm_displacement_metres": 30.6966,
+    "published_buildings": 2,
+    "published_vertices": 17571,
+    "published_faces": 34383,
+    "vertex_rgb_preserved": true,
+    "per_building_minimesh_present": true,
+    "building_status": "COARSE_READY"
+  },
+  "verification": {
+    "large_image_algorithm_regressions": "9/9 passed",
+    "myproject_python_bridge": "124/124 passed",
+    "java_bridge_validators": "8/8 passed"
+  },
+  "claim_boundary": "Seam measures establish boundary continuity, and RGB checks establish coverage and index-preserving transfer; neither is a ground-truth geometry or appearance-accuracy measure."
+}

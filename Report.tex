@@ -1,0 +1,398 @@
+% Author: Joseph Rowell
+% Version: 3.0
+% This work is licensed under a Creative Commons Attribution 4.0 International License.
+\documentclass[12pt, a4paper]{report}
+\usepackage[a4paper, total={6.25in, 8.25in}]{geometry} %%%%%% CHECK MARGIN REQ. 8.25 in?
+\input{Packages.tex}
+\usepackage{multicol}
+\hypersetup{pdftitle = Large-Area Satellite-Derived Urban Reconstruction and Manifest-Driven Integration into ChordAtlas, pdfauthor = {Renjie Li}, pdfstartview=FitH, pdfkeywords = urban reconstruction, pdfpagemode = FullScreen, colorlinks, anchorcolor = black, citecolor = blue, urlcolor = blue, filecolor = green, linkcolor = blue, plainpages = false}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\rhead{}
+\chead{}
+\lhead{University College London}
+\lfoot{\date{}}
+\cfoot{}
+\rfoot{\thepage}
+% Top and Bottom Line Rules
+
+\renewcommand{\headrulewidth}{0.4pt} %0.4pt
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyheadoffset{8pt}
+\fancyfootoffset{8pt}
+% Line spacing
+\renewcommand{\baselinestretch}{1.5} %1.5
+
+\input{Glossary}
+
+\date{September 2026}
+
+\title{Large-Area Satellite-Derived Urban Reconstruction and Manifest-Driven Integration into ChordAtlas}
+\author{\\ \Large{Renjie Li}
+\\
+\\ Supervisor: Professor Anthony Steed
+\\ Faculty of Engineering, Department of Computer Science
+\\ University College London\\[0.4cm]
+A Project Report Presented in Partial Fulfillment of the Degree \\ \textit{MSc Computer Graphics, Vision and Imaging}
+\\[0.6cm]
+\parbox{0.88\textwidth}{\centering\small
+This report is submitted as part requirement for the MSc Degree in
+'Computer Graphics, Vision \& Imaging', at University College London. It is
+substantially the result of my own work except where explicitly indicated in
+the text.\\[0.4em]
+The report will be distributed to the internal and external examiners, but
+thereafter may not be copied or distributed except with permission from the
+author.}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%Adjust logo positions here
+% \AddToShipoutPicture*{\parbox[t][\paperheight][t]{\paperwidth}{%
+%           \includegraphics[width=\paperwidth]{\BackgroundPicturea{Logos/ucl_long%_logo.png}{3in}{3in}}
+%           }}
+% \AddToShipoutPicture*{\centering\BackgroundPictureb{Logos/Bentham2011_065_c623d.jpg}{3in}{3.7in}}
+\AddToShipoutPictureBG*{%
+  \AtPageUpperLeft{%
+    \raisebox{-\height}{%
+      \includegraphics[width=\paperwidth]{Logos/UCL page header.png}%
+    }}
+}
+\AddToShipoutPicture*{%
+      \parbox[t][\paperheight][t]{\paperwidth}{%
+          \includegraphics[width=1.2\paperwidth]{Logos/UCL page footer.png}
+      }}
+
+
+\thispagestyle{headings}
+\maketitle
+\FloatBarrier
+\pagenumbering{roman}
+
+\thispagestyle{empty}
+\begin{abstract}
+\input{0 Abstract}
+
+\keywords{urban reconstruction - satellite imagery - large-image inference - density fusion - vertex colour - ChordAtlas - geospatial integration}
+% \vspace{-10mm} %To remove added white space after
+\end{abstract}
+\newpage
+\thispagestyle{empty}
+\begin{center}
+To my family and everyone who supported this work.
+\end{center}
+
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+Copyright \copyright  \thinspace 2026 by Renjie Li \\ All Rights Reserved
+\end{center}
+\vspace*{\fill}
+\newpage
+\thispagestyle{empty}
+%\epigraph{The Book of Nature is written in the language of mathematics.}{--- \textup{Galileo Galilei}}
+\epigraph{The computer was born to solve problems that did not exist before.}{--- \textup{Bill Gates}}
+
+
+\thispagestyle{empty}
+\chapter*{Acknowledgements}
+
+I am grateful to Professor Anthony Steed for his supervision and for shaping
+the project from a broad world-generation theme into a concrete investigation
+of geographically steered urban reconstruction.
+
+
+\thispagestyle{empty}
+\chapter*{Declaration}
+I, Renjie Li, declare that the thesis has been composed by myself and that the work has not been submitted for any other degree or professional qualification. I confirm that the work submitted is my own, except where work which has formed part of jointly-authored publications has been included and referenced. The report may be freely copied and distributed provided the source is explicitly acknowledged. \\
+%Add signature png here.
+% \begin{figure}[H]
+% \includegraphics{Logos/signature.PNG}
+% \end{figure}
+\vspace{-2cm}
+\noindent\begin{tabular}{ll}
+ & 14/08/26 \\
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+\textit{Signature} & \textit{Date}\\
+\end{tabular}
+
+
+
+\tableofcontents
+
+\thispagestyle{plain}
+\listoffigures
+\listoftables
+%\lstlistoflistings
+\listofalgorithms
+
+
+%\begin{singlespace}
+\chapter*{List of Abbreviations}
+\begin{sortedlist} %sort alphabetically
+  \sortitem{AOI: Area of Interest}
+  \sortitem{API: Application Programming Interface}
+  \sortitem{BNG: British National Grid}
+  \sortitem{CRS: Coordinate Reference System}
+  \sortitem{DSM: Digital Surface Model}
+  \sortitem{GIS: Geographic Information System}
+  \sortitem{GUI: Graphical User Interface}
+  \sortitem{LiDAR: Light Detection and Ranging}
+  \sortitem{OBJ: Wavefront Object Mesh Format}
+  \sortitem{OSM: OpenStreetMap}
+  \sortitem{WGS84: World Geodetic System 1984}
+  \end{sortedlist}
+% \end{singlespace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{1 Project Plan}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{2 Introduction and Background}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{3 Methodology}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{4 Results and Analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{5 Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{6 Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\bibname}{References}
+\bibliographystyle{ieeetr}
+%\bibliography{Bibliography.bib}
+\bibliography{references.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+\begin{appendices}
+\chapter{Implementation and Reproducibility Record}\label{app:evidence-record}
+
+\section{Evaluated components}
+
+The empirical study uses four principal implementations: the London
+data-preparation workflow, the Sat3DGen large-image extension, the active mesh
+assembly package, and the ChordAtlas integration layer.
+Runtime import and entry-point tracing identify the implementation used for
+each experiment.  The published Sat3DGen,
+ChordAtlas, BigSUR, FrankenGAN, CityEngine, and Ubiq systems are referenced in
+the chapters where their methods or interfaces are discussed.
+
+\section{Component-test results}
+
+Table~\ref{tab:appendix-component-tests} records the current component-level
+verification results.  The Python suite exercises data prerequisites,
+coordinates, tile planning, geometry processing, manifests, cache behaviour,
+per-building publication, appearance references, and rollback.  The Java
+validators exercise coordinate conversion, selection and cache contracts, OBJ
+slicing, vertex-colour transfer, MiniMesh publication, and appearance-bridge
+components.
+
+\begin{table}[H]
+\centering
+\caption{Detailed component-verification results.}
+\label{tab:appendix-component-tests}
+\small
+\begin{tabularx}{\textwidth}{p{0.25\textwidth}p{0.18\textwidth}X}
+\toprule
+Test group & Result & Principal properties exercised\\
+\midrule
+Python integration suite & 124/124 passed & Input validation, coordinates,
+geometry rules, manifests, cache state, publication, rollback, roof references,
+panorama acquisition, and large-image bridge contracts.\\
+Large-image algorithm regressions & 9/9 passed & Fractional placement,
+coverage, feather continuity, colour-coordinate mapping, weighted RGB, and PLY
+round trip.\\
+Java bridge validators & 8/8 passed & MiniMesh conversion, selection identity,
+OBJ slicing, vertex colour, coordinate transfer, appearance integration, and
+GUI selection dispatch.\\
+Controlled geometry cases & 2 counterexamples reproduced & Bottom-surface
+classification and the vertical constraint in vertex stitching.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The controlled geometry cases correspond to the predicate results discussed in
+Chapters~\ref{Chap4} and~\ref{Chap5}.  Quantitative figures were generated from
+the same evaluated artefacts and record their relevant populations in their
+captions or surrounding text.
+
+\section{Model-example comparison record}
+
+The representation comparison is generated from the retained
+\texttt{modelsExample} directory.  Only the \texttt{BigImageModel} and
+\texttt{satelliteImageModel} request/result packages provide directly matched
+identity: both name OSM way~369245408 and contain the same target bounds and
+footprint geometry.  Their building OBJ files provide the geometry, topology,
+and vertex-colour evidence, while the result manifests provide the recorded DSM
+status and coverage reported in
+Section~\ref{sec:matched-building-comparison}.
+
+The CityEngine directory retains a CityEngine 2026 export log, OBJ, MTL, and
+three texture images, but no common OSM identifier.  The two route-labelled
+ChordAtlas directories retain OBJ/MTL outputs and diffuse/normal/specular map
+sets; the OBJ files do not embed the footprint identity.  The standalone
+ChordAtlas directory has no matching location or run manifest and is used only
+as an illustrative reference.  The reproducible audit and software renderer
+are stored in \texttt{research/scripts}; their JSON/CSV outputs are stored in
+\texttt{research/results/models\_example}.  The rendered comparison figures use
+derived vertex colour or stored material maps and do not embed the source
+satellite mosaic.
+
+\section{Data and licence notes}
+
+OpenStreetMap-derived content requires Open Database Licence attribution
+\cite{openstreetmapData}.  The Environment Agency 2022 first-return DSM is
+used under the Open Government Licence and retains its stated coordinate and
+height reference \cite{environmentAgencyDSM2022,nationalArchivesOGL3}.  Google
+imagery is not redistributed in the generated audit figures.  Credentials
+found in local prototypes are omitted from the report.
+
+
+\chapter{Additional Matched London Building Comparison}\label{app:models-example-2}
+
+\section{Matched satellite-derived outputs}
+
+The \texttt{modelsExample2} record provides a second geographically matched
+case for the large-image and independent-tile routes.  The two request
+packages contain identical selection bounds and footprint geometry for OSM
+ways~33719501 and~1455280501.  The large-image route processes a contiguous
+4-by-4 satellite mosaic through 100 overlapping inference windows, whereas
+the independent route assembles 20 separately generated meshes.  Both result
+packages record successful DSM sampling for all vertices in the extracted
+building assets.
+
+Table~\ref{tab:models-example-2-metrics} records the building-level geometry
+reported for both requested footprints.  Vertical relief is the range within
+each saved model and is not a surveyed building-height measurement.
+
+\begin{table}[H]
+\centering
+\caption{Recorded geometry metrics for the matched \texttt{modelsExample2}
+building assets.}
+\label{tab:models-example-2-metrics}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.18\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}rrr>{\raggedright\arraybackslash}X}
+\toprule
+Route & OSM way & Vertices & Faces & Relief (m) & Boundary / non-manifold
+edges\\
+\midrule
+Large-image & 33719501 & 122,119 & 242,601 & 37.75 & 1,617 / 0\\
+Independent tiles & 33719501 & 126,983 & 259,125 & 40.22 & 4,807 / 6,072\\
+Large-image & 1455280501 & 561 & 1,022 & 16.73 & 98 / 0\\
+Independent tiles & 1455280501 & 300 & 578 & 19.68 & 111 / 58\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+For the primary footprint, the large-image asset has fewer boundary and
+non-manifold edges than the independent-tile asset in this case.  All four
+extracted surfaces remain open rather than watertight.  The comparison
+therefore extends the case evidence in Chapter~\ref{Chap4} without treating
+mesh counts as a measure of reconstruction accuracy.
+
+Figure~\ref{fig:models-example-2-matched} compares the primary footprint under
+shared cameras and projection bounds.  The renders use the RGB attributes
+stored by each satellite-derived route; no source satellite image is embedded
+in the figure.  The generating script and machine-readable audit are retained
+under \texttt{research/scripts} and
+\texttt{research/results/models\_example2}, respectively.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{models_example2_matched_sat3dgen.pdf}
+\caption[Additional matched Sat3DGen example.]{Additional matched comparison
+for OSM way~33719501.  Panels (a,c) show the large-image output and panels
+(b,d) the independent-tile output under shared oblique and plan-view bounds.
+Colours are the per-vertex RGB attributes stored by the respective
+satellite-derived routes.}
+\label{fig:models-example-2-matched}
+\end{figure}
+\FloatBarrier
+
+\section{Six representations of the selected building}
+
+The \texttt{modelsExample2} record contains six representations of the same
+selected London Trocadero building.  They comprise the large-image and
+independent-tile Sat3DGen models, the corresponding ChordAtlas outputs, the
+CityEngine model, and the original ChordAtlas model.  The two Sat3DGen result
+manifests identify the building as OSM way~33719501.  The later OBJ/MTL exports
+belong to the same selected case, although they do not repeat the OSM
+identifier inside the model files.
+
+The two Sat3DGen routes retain dense, irregular satellite-conditioned surfaces
+and encode appearance as per-vertex colour.  Their corresponding ChordAtlas
+outputs replace vertex colour with UV-mapped diffuse, normal, and specular
+material structures while maintaining a similar horizontal building extent.
+The CityEngine model provides the most compact and regular envelope; its doors
+and windows are represented in shared image materials rather than as separate
+openings.  The ChordAtlas packages contain independently materialised facade
+regions, including window-labelled materials and, in the independent-tile
+output, door-labelled materials.  These differences describe geometry and
+appearance representation; greater face or material counts do not alone imply
+greater reconstruction accuracy.
+
+Table~\ref{tab:models-example-2-six-packages} describes the stored geometry
+and appearance representation in every package.  Face counts are reported as
+triangles after OBJ triangulation, except that the CityEngine row also retains
+its original polygon-record count.
+
+\begin{table}[H]
+\centering
+\caption[Six-package geometry and appearance records.]{Geometry and appearance
+records for the six representations in \texttt{modelsExample2}.}
+\label{tab:models-example-2-six-packages}
+\scriptsize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.18\textwidth}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}X}
+\toprule
+Representation & OBJ geometry & Appearance encoding & Method or stage\\
+\midrule
+Large-image Sat3DGen & 122,119 vertices; 242,601 triangles & RGB on every
+vertex; no UV material & Large-image route output\\
+Large-image ChordAtlas & 89,647 vertices; 728,314 triangles & 69,041 UV
+records; 527 materials; 394 diffuse--normal--specular triplets &
+ChordAtlas output from the large-image route\\
+CityEngine 2026 & 66 vertices; 23 polygon records (64 triangles after
+triangulation) & 52 UV records; two materials and two diffuse images &
+CityEngine model\\
+Independent-tile Sat3DGen & 126,983 vertices; 259,125 triangles & RGB on every
+vertex; no UV material & Independent-tile route output\\
+Independent-tile ChordAtlas & 226,056 vertices; 2,597,150 triangles & 156,686
+UV records; 3,151 materials; 2,841 diffuse--normal--specular triplets &
+ChordAtlas output from the independent-tile route\\
+Original ChordAtlas & 149,021 vertices; 1,027,970 triangles & 125,922 UV
+records; 572 materials; 424 diffuse--normal--specular triplets &
+Original ChordAtlas model\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Figure~\ref{fig:models-example-2-six-package} presents the six outputs with a
+common oblique camera direction and metric display scale.  Each model is
+translated to the centre of its panel without rescaling; the original
+ChordAtlas model is rotated by 180 degrees about its vertical axis so that the
+same side of the building is shown.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{models_example2_six_method_comparison.pdf}
+\caption[Six representations of the same selected London building.]{Six
+representations of the same selected London Trocadero building.  Panels (a,b)
+show the large-image Sat3DGen output before and after ChordAtlas processing;
+panels (d,e) show the corresponding independent-tile pair; panel (c) shows
+the CityEngine model; and panel (f) shows the original ChordAtlas model.  The
+two Sat3DGen meshes display stored vertex RGB, whereas the CityEngine and
+ChordAtlas models display UV-mapped diffuse materials.  All panels use a
+common camera direction and metric scale; models are centred without
+rescaling, and panel (f) uses the stated presentation rotation.}
+\label{fig:models-example-2-six-package}
+\end{figure}
+
+\FloatBarrier
+
+\end{appendices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GLOSSARY
+\clearpage
+\printglossaries
+
+% INDEX?
+
+\end{document}

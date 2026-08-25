@@ -1,0 +1,79 @@
+package org.twak.viewTrace.franken.style;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+import org.twak.utils.ui.ListDownLayout;
+import org.twak.viewTrace.franken.App;
+import org.twak.viewTrace.franken.NetInfo;
+import org.twak.viewTrace.franken.SelectedApps;
+import org.twak.viewTrace.franken.style.ui.UIVector;
+import org.twak.viewTrace.franken.style.ui.UIVector.MeanImageProvider;
+
+public class ConstantStyle implements StyleSource, MeanImageProvider {
+	
+	double[] mean;
+	Class target;
+	transient BufferedImage meanImage;
+	
+	public ConstantStyle(Class target) {
+		NetInfo ni = NetInfo.index.get(target);
+		this.mean = new double[ni.sizeZ];
+	}
+
+	@Override
+	public StyleSource copy() {
+		ConstantStyle out = new ConstantStyle( target );
+		out.meanImage = meanImage;
+		out.mean = Arrays.copyOf(mean, mean.length);
+		return out;
+	}
+
+	
+	@Override
+	public double[] draw( Random random, App app ) {
+		return mean;
+	}
+	
+	@Override
+	public JPanel getUI( Runnable update, SelectedApps sa ) {
+
+		JPanel out = new JPanel(new ListDownLayout() );
+		
+		out.add( new UIVector (mean, this, target, true, update ) );
+		
+		return out;
+	}
+	
+	public boolean install( SelectedApps next ) {
+		return false;
+	}
+	
+
+	@Override
+	public BufferedImage getMeanImage() {
+		return meanImage;
+	}
+
+	@Override
+	public void setMeanImage( File f ) {
+		meanImage = null;
+		if ( f != null )
+			try {
+				meanImage = ImageIO.read( f );
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+	}
+
+	@Override
+	public void install( App app ) {
+		app.styleSource = new ConstantStyle( app.getClass() );
+	}
+}

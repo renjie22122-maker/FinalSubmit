@@ -1,0 +1,74 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*credentials*
+*secrets*
+APItext.ipynb
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Java output
+target/
+*.class
+*.jar
+
+# Runtime data and generated outputs
+external/*
+!external/README.md
+/data/
+/datasets/
+/projects/
+/results/
+/output/
+/outputs/
+/pipeline_output/
+/logs/
+/checkpoints/
+components/chordatlas/projects/
+components/chordatlas/logs/
+components/sat3dgen/Sat3DGen/results/
+components/sat3dgen/pipeline_output/
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+*.obj
+*.mtl
+*.ply
+*.glb
+*.gltf
+*.npz
+*.npy
+*.tif
+*.tiff
+
+# LaTeX build products (source PDFs under figures/generated remain tracked)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp

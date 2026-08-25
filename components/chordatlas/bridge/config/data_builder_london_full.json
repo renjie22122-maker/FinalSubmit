@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "project_id": "data_builder_london_full",
+  "output_root": "../../projects",
+  "conda_environment": "sat3dgen",
+  "area": {
+    "target_bbox_wgs84": [-0.1349, 51.5029, -0.1205, 51.5119],
+    "fetch_bbox_wgs84": [-0.1379, 51.4999, -0.118167, 51.513913],
+    "note": "target range from data_builder/builder.ipynb; fetch range from osm_features/meta.json"
+  },
+  "paths": {
+    "chordatlas_root": "../..",
+    "sat3dgen_root": "../../../sat3dgen",
+    "data_builder_root": "../../../data_builder",
+    "facade_pytorch_root": "../../../../external/facade_pytorch",
+    "frankengan_root": "../../../../external/FrankenGAN/bikegan",
+    "conda_executable": "conda"
+  },
+  "footprints": {
+    "mode": "osm",
+    "source_geojson": "../../../../external/data/osm_features/building.geojson",
+    "selection_policy": "intersects",
+    "clip_to_mesh_bounds": false,
+    "dsm_fallback": {
+      "enabled": false,
+      "minimum_height_m": 3.0,
+      "minimum_area_m2": 20.0,
+      "ground_window_m": 35.0
+    }
+  },
+  "mesh": {
+    "mode": "generate",
+    "work_dir": "../../projects/_mesh_jobs/data_builder_london_full_top_level",
+    "output_name": "data_builder_london_full",
+    "pipeline_bbox_wgs84": [-0.1349, 51.5029, -0.1205, 51.5119],
+    "tile_source": "data_builder_grid",
+    "satellite_dirs": [
+      "../../../../external/data/satellite"
+    ],
+    "existing_mesh_dirs": [],
+    "osm_dir": "../../../../external/data/osm_features",
+    "dsm_dir": "../../../../external/data/dsm",
+    "zoom": 20,
+    "tile_size": 640,
+    "lat_step": 0.000534219395032275,
+    "lon_step": 0.000858302958601891,
+    "overlap_ratio": 0.0,
+    "crop_ratio": 0.0,
+    "download_missing": true,
+    "run_inference": true,
+    "allow_partial": false,
+    "osm_prealign": false,
+    "apply_dsm": false,
+    "origin": {
+      "mode": "top_level_manifest"
+    },
+    "ground_reference": {
+      "mode": "percentile",
+      "percentile": 2.0
+    },
+    "use_minimesh": true,
+    "enable_facade_enhancement": false,
+    "enable_pipeline_panoramas": false
+  },
+  "panoramas": {
+    "enabled": false,
+    "manifest_csv": "pano_manifest.example.csv",
+    "policy": "only self-owned or separately licensed 2:1 equirectangular JPG files"
+  },
+  "chordatlas": {
+    "java_executable": "java",
+    "heap_gb": 12,
+    "copy_example_assets": true,
+    "block_mesh_padding_m": 5.0
+  }
+}

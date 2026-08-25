@@ -1,0 +1,103 @@
+{
+  "source": {
+    "before": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\test_merge_scene.obj",
+    "after": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\test_merge_scene_corrected.obj",
+    "before_sha256": "2d679e74bd82badd1cccde6401eb7a682c1d674af38da152a4a9ad3f6db99653",
+    "after_sha256": "cc37d6e42d01faabf283755d29f9e471d6ca12d90f45477ebcf9cf6fc95d11b2",
+    "scene_vertices": 1915455,
+    "scene_faces": 4097374
+  },
+  "pair_checks": {
+    "same_vertex_order_and_count": true,
+    "same_xz_coordinates": true,
+    "same_rgb_attributes": true,
+    "same_face_indices": true,
+    "only_y_changed": true
+  },
+  "northwestern_2x3_cluster": {
+    "selection_rule": "X below the midpoint of the largest empty X gap",
+    "x_gap_lower_m": 124.186206,
+    "x_gap_upper_m": 554.68967,
+    "x_split_threshold_m": 339.437938,
+    "local_axis_convention": "X east, Y height, Z south",
+    "layout": "two north-south rows by three east-west columns",
+    "vertices": 696199,
+    "faces": 1485998,
+    "faces_crossing_component_gap": 0,
+    "bounds_min_xyz_m": [
+      -27.945966,
+      -26.743553,
+      -423.719603
+    ],
+    "bounds_max_xyz_m": [
+      124.186206,
+      18.761214,
+      -319.675357
+    ],
+    "horizontal_span_x_m": 152.132172,
+    "horizontal_span_z_m": 104.04424599999999
+  },
+  "before_y_m": {
+    "min": -26.743553,
+    "p05": -26.647531,
+    "median": -19.522535,
+    "mean": -15.906862903069383,
+    "p95": 4.702538,
+    "max": 18.761214
+  },
+  "after_y_m": {
+    "min": 6.284141,
+    "p05": 9.255511,
+    "median": 30.100793,
+    "mean": 28.519300756675896,
+    "p95": 54.207133,
+    "max": 67.892697
+  },
+  "delta_y_m": {
+    "min": 19.900883,
+    "p05": 32.956435,
+    "median": 38.578699,
+    "mean": 44.42616365974527,
+    "p95": 60.492102,
+    "max": 62.634977
+  },
+  "positive_displacement_vertices": 696199,
+  "spatial_displacement_map": {
+    "aggregation": "paired delta_y at the highest pre-correction vertex in each occupied cell",
+    "cell_size_m": 1.0,
+    "grid_shape_xz": [
+      153,
+      105
+    ],
+    "occupied_cells": 15914,
+    "empty_cells": 151,
+    "interpolation": "none",
+    "selection_geometry": "pre-correction mesh",
+    "semantic_scope": "display proxy, not roof classification",
+    "colour_scale_m": [
+      15.0,
+      60.0
+    ]
+  },
+  "rendering": {
+    "full_cluster_vertices_rendered": 696199,
+    "full_cluster_faces_rendered": 1485998,
+    "same_camera_and_union_xyz_bounds": true,
+    "identical_union_crop_rectangle": true,
+    "reference_outline_y_m": 0.0,
+    "display_axes": "X east, Y height, Z south",
+    "stored_vertex_rgb_displayed": false,
+    "before_uniform_rgb": [
+      0.6,
+      0.63,
+      0.67
+    ],
+    "after_uniform_rgb": [
+      0.3,
+      0.47,
+      0.66
+    ],
+    "pdf": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\dsm_scene_nw_2x3_comparison.pdf",
+    "png": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\dsm_scene_nw_2x3_comparison.png"
+  }
+}

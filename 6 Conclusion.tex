@@ -1,0 +1,74 @@
+\chapter{Conclusion} \label{Chap6}\label{chap:conclusion}
+
+\section{Research outcome}
+
+This dissertation asked to what extent overlapping satellite-conditioned
+predictions can be combined into a coloured regional mesh and integrated with
+geospatial context in ChordAtlas.  The study establishes both parts of this
+workflow.  A rectangular large-image method fuses density predictions at
+sub-voxel positions, replaces abrupt overlap changes with smooth weights, and
+recovers colour on the fixed global surface.  The resulting mesh is then
+placed in a shared spatial frame, associated with OSM footprints and DSM
+context, separated into modular assets, and published to ChordAtlas.
+
+The matched London experiment showed substantially lower window-boundary
+discontinuity without increasing the measured GPU-memory peak, and the colour
+pass covered the complete surface without changing its geometry.  The current
+on-demand integration retained that colour through coordinate conversion, DSM
+processing, footprint extraction, Java parsing, and building publication.
+Manifests, stable selection identities, cache checks, and explicit stage states
+make the process inspectable across the Python--Java boundary.
+
+\section{Principal contributions}
+
+The work makes three main contributions:
+
+\begin{enumerate}
+  \item It extends large-image Sat3DGen inference to rectangular mosaics through
+  sub-voxel density placement and smooth overlap fusion, and recovers global
+  vertex colour in a memory-bounded second pass without altering the extracted
+  geometry.
+  \item It defines a coordinate-explicit path from fused or independently
+  assembled geometry to footprint-associated ChordAtlas assets, preserving
+  selection identity and vertex appearance while adding OSM and DSM context.
+  \item It introduces and evaluates manifest, cache, validation, and
+  publication contracts across Python and Java, using data audits, matched
+  fusion measurements, coordinate checks, topology inspection, and controlled
+  regression cases.
+\end{enumerate}
+
+These contributions provide a practical connection between learned urban
+reconstruction and procedural authoring.  Sat3DGen supplies site-conditioned
+density and appearance, while OSM, DSM, and ChordAtlas add spatial identity,
+height context, modular asset boundaries, and an environment for further
+editing.  CityEngine clarifies the complementary value of rule-driven
+semantics and controllability, while the retained ChordAtlas exports illustrate
+the representation difference between per-vertex colour and structured
+procedural material maps.
+
+\section{Implications and next steps}
+
+The evaluation identifies the next research priorities.  Multi-area tests with
+independent geometry and appearance references are needed to determine whether
+smoother window transitions also improve reconstruction accuracy.  The
+independent-mesh path requires corrected vertical stitching and more selective
+DSM processing, while the published building assets require topology repair.
+For deployment, density and colour should be bound to one immutable model
+revision, the large-image scripts should be packaged with the bridge, and
+readiness should include Java conversion and visible loading acknowledgement.
+
+The current CityEngine export and retained ChordAtlas representation examples
+can be extended into a controlled authoring study with shared identity, inputs,
+and edit tasks, while
+Ubiq can test interactive and collaborative use of the resulting assets.
+
+\section{Closing statement}
+
+The dissertation connects bounded satellite predictions to a continuous
+coloured surface and an auditable urban-asset workflow.  Its central value lies
+in combining learned
+density and appearance with explicit coordinates, geographic identity, and
+publication state, so that generated geometry can participate in a larger
+editable system.  This provides a concrete foundation for evaluating regional
+reconstruction, procedural authoring, and collaborative XR with the same
+spatially identified assets.

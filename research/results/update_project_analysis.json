@@ -1,0 +1,490 @@
+{
+  "audited_at_local_date": "2026-08-15",
+  "ready_publication_roots": 11,
+  "ready_roots_with_building_schema": 10,
+  "published_buildings_with_metrics": 19,
+  "coarse_ready_buildings": 19,
+  "watertight_buildings": 0,
+  "buildings_with_boundary_edges": 19,
+  "buildings_reporting_nonmanifold_edges": 10,
+  "buildings_with_nonmanifold_edges": 9,
+  "known_building_vertices": 2068437,
+  "known_building_faces": 4197329,
+  "all_real_obj_vertices_coloured": true,
+  "colour_audited_buildings": 19,
+  "publications": [
+    {
+      "selection_id": "e78b1e83b6e5e3c1d038",
+      "finished": "2026-08-10T01:38:33",
+      "tile_count": 9,
+      "building_count": 0,
+      "building_statuses": [],
+      "corrected_scene_reused": null,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\e78b1e83b6e5e3c1d038\\result.json"
+    },
+    {
+      "selection_id": "85f4cc1a2929ed341901",
+      "finished": "2026-08-10T17:36:16",
+      "tile_count": 30,
+      "building_count": 3,
+      "building_statuses": [
+        "COARSE_READY",
+        "COARSE_READY",
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": true,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\result.json"
+    },
+    {
+      "selection_id": "4cb7958632a0bc589f86",
+      "finished": "2026-08-11T15:41:58",
+      "tile_count": 20,
+      "building_count": 1,
+      "building_statuses": [
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": false,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\4cb7958632a0bc589f86\\result.json"
+    },
+    {
+      "selection_id": "6c54ac934342be5f1b61",
+      "finished": "2026-08-11T15:42:59",
+      "tile_count": 16,
+      "building_count": 1,
+      "building_statuses": [
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": true,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\6c54ac934342be5f1b61\\result.json"
+    },
+    {
+      "selection_id": "3eb3c1db3f902f02773f",
+      "finished": "2026-08-11T15:47:09",
+      "tile_count": 9,
+      "building_count": 1,
+      "building_statuses": [
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": false,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\3eb3c1db3f902f02773f\\result.json"
+    },
+    {
+      "selection_id": "c569b5357510e3301b3e",
+      "finished": "2026-08-11T16:37:30",
+      "tile_count": 16,
+      "building_count": 3,
+      "building_statuses": [
+        "COARSE_READY",
+        "COARSE_READY",
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": false,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\result.json"
+    },
+    {
+      "selection_id": "ae59f5189867d3246dc7",
+      "finished": "2026-08-13T14:51:28",
+      "tile_count": 16,
+      "building_count": 1,
+      "building_statuses": [
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": true,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\ae59f5189867d3246dc7\\result.json"
+    },
+    {
+      "selection_id": "be4b2e248b857bc6f4ff",
+      "finished": "2026-08-13T14:59:13",
+      "tile_count": 20,
+      "building_count": 1,
+      "building_statuses": [
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": true,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\be4b2e248b857bc6f4ff\\result.json"
+    },
+    {
+      "selection_id": "789c85bcafa271b24a5c",
+      "finished": "2026-08-13T17:51:43",
+      "tile_count": 36,
+      "building_count": 4,
+      "building_statuses": [
+        "COARSE_READY",
+        "COARSE_READY",
+        "COARSE_READY",
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": false,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\result.json"
+    },
+    {
+      "selection_id": "de948cdb29aa69a872d7",
+      "finished": "2026-08-13T18:03:02",
+      "tile_count": 9,
+      "building_count": 2,
+      "building_statuses": [
+        "COARSE_READY",
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": true,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\de948cdb29aa69a872d7\\result.json"
+    },
+    {
+      "selection_id": "1b18605bb4ea29d8948d",
+      "finished": "2026-08-14T18:27:35",
+      "tile_count": 9,
+      "building_count": 2,
+      "building_statuses": [
+        "COARSE_READY",
+        "COARSE_READY"
+      ],
+      "corrected_scene_reused": false,
+      "model_completeness_enabled": false,
+      "result_path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\1b18605bb4ea29d8948d\\result.json"
+    }
+  ],
+  "vertex_colour_audit": [
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\buildings\\footprint-d5f594446349\\cropped.obj",
+      "vertex_count": 107510,
+      "coloured_vertex_count": 107510,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.011765,
+        0.015686,
+        0.043137
+      ],
+      "rgb_max": [
+        0.984314,
+        0.988235,
+        0.992157
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\buildings\\footprint-0f19c0df7a78\\cropped.obj",
+      "vertex_count": 45502,
+      "coloured_vertex_count": 45502,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.05098,
+        0.058824,
+        0.082353
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\buildings\\footprint-39a92e2bb7f5\\cropped.obj",
+      "vertex_count": 440313,
+      "coloured_vertex_count": 440313,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.031372,
+        0.039216,
+        0.047059
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\4cb7958632a0bc589f86\\buildings\\footprint-4cb7958632a0\\cropped.obj",
+      "vertex_count": 111113,
+      "coloured_vertex_count": 111113,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.035294,
+        0.031372,
+        0.039216
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\6c54ac934342be5f1b61\\buildings\\footprint-6c54ac934342\\cropped.obj",
+      "vertex_count": 148899,
+      "coloured_vertex_count": 148899,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.035294,
+        0.047059,
+        0.054902
+      ],
+      "rgb_max": [
+        0.984314,
+        0.988235,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\3eb3c1db3f902f02773f\\buildings\\footprint-3eb3c1db3f90\\cropped.obj",
+      "vertex_count": 4192,
+      "coloured_vertex_count": 4192,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.070588,
+        0.07451,
+        0.141176
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\buildings\\footprint-86b318914cb6\\cropped.obj",
+      "vertex_count": 29386,
+      "coloured_vertex_count": 29386,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.05098,
+        0.05098,
+        0.058824
+      ],
+      "rgb_max": [
+        0.992157,
+        0.992157,
+        0.992157
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\buildings\\footprint-5f9bb8bd1534\\cropped.obj",
+      "vertex_count": 44769,
+      "coloured_vertex_count": 44769,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.05098,
+        0.05098,
+        0.062745
+      ],
+      "rgb_max": [
+        0.976471,
+        0.984314,
+        0.992157
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\buildings\\footprint-84109581d6ff\\cropped.obj",
+      "vertex_count": 10443,
+      "coloured_vertex_count": 10443,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.066667,
+        0.078431,
+        0.062745
+      ],
+      "rgb_max": [
+        0.968627,
+        0.984314,
+        0.992157
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\ae59f5189867d3246dc7\\buildings\\footprint-ae59f5189867\\cropped.obj",
+      "vertex_count": 119749,
+      "coloured_vertex_count": 119749,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.027451,
+        0.043137,
+        0.027451
+      ],
+      "rgb_max": [
+        0.992157,
+        0.992157,
+        0.992157
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\be4b2e248b857bc6f4ff\\buildings\\footprint-be4b2e248b85\\cropped.obj",
+      "vertex_count": 384925,
+      "coloured_vertex_count": 384925,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.019608,
+        0.023529,
+        0.035294
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\buildings\\footprint-c2b8278e5a15\\cropped.obj",
+      "vertex_count": 500483,
+      "coloured_vertex_count": 500483,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.007843,
+        0.011765,
+        0.019608
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\buildings\\footprint-2a047fe2a6d7\\cropped.obj",
+      "vertex_count": 12548,
+      "coloured_vertex_count": 12548,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.047059,
+        0.058824,
+        0.078431
+      ],
+      "rgb_max": [
+        0.956863,
+        0.968627,
+        0.976471
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\buildings\\footprint-530773546416\\cropped.obj",
+      "vertex_count": 7955,
+      "coloured_vertex_count": 7955,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.07451,
+        0.070588,
+        0.105882
+      ],
+      "rgb_max": [
+        0.917647,
+        0.92549,
+        0.937255
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\buildings\\footprint-640d289a7d4d\\cropped.obj",
+      "vertex_count": 1596,
+      "coloured_vertex_count": 1596,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.07451,
+        0.07451,
+        0.105882
+      ],
+      "rgb_max": [
+        0.909804,
+        0.913725,
+        0.917647
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\de948cdb29aa69a872d7\\buildings\\footprint-48b374b3f546\\cropped.obj",
+      "vertex_count": 21555,
+      "coloured_vertex_count": 21555,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.043137,
+        0.047059,
+        0.066667
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\de948cdb29aa69a872d7\\buildings\\footprint-ea7908e580f7\\cropped.obj",
+      "vertex_count": 790,
+      "coloured_vertex_count": 790,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.278431,
+        0.294118,
+        0.337255
+      ],
+      "rgb_max": [
+        0.964706,
+        0.964706,
+        0.956863
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\1b18605bb4ea29d8948d\\buildings\\footprint-d41787bc94bf\\cropped.obj",
+      "vertex_count": 23177,
+      "coloured_vertex_count": 23177,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.043137,
+        0.047059,
+        0.058824
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    },
+    {
+      "path": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\1b18605bb4ea29d8948d\\buildings\\footprint-6bb8e0e7638d\\cropped.obj",
+      "vertex_count": 53532,
+      "coloured_vertex_count": 53532,
+      "all_vertices_coloured": true,
+      "rgb_min": [
+        0.031372,
+        0.027451,
+        0.043137
+      ],
+      "rgb_max": [
+        0.996078,
+        0.996078,
+        0.996078
+      ]
+    }
+  ],
+  "figure_sources": {
+    "on_demand_publications_update": [
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\e78b1e83b6e5e3c1d038\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\4cb7958632a0bc589f86\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\6c54ac934342be5f1b61\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\3eb3c1db3f902f02773f\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\ae59f5189867d3246dc7\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\be4b2e248b857bc6f4ff\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\de948cdb29aa69a872d7\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\1b18605bb4ea29d8948d\\result.json"
+    ],
+    "on_demand_building_topology_update": [
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\85f4cc1a2929ed341901\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\4cb7958632a0bc589f86\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\6c54ac934342be5f1b61\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\3eb3c1db3f902f02773f\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\c569b5357510e3301b3e\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\ae59f5189867d3246dc7\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\be4b2e248b857bc6f4ff\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\789c85bcafa271b24a5c\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\de948cdb29aa69a872d7\\result.json",
+      "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\1b18605bb4ea29d8948d\\result.json"
+    ],
+    "on_demand_vertex_colour_building": "E:\\UCL\\Project\\myProject\\projects\\data_builder_london_on_demand\\generated_blocks\\3eb3c1db3f902f02773f\\buildings\\footprint-3eb3c1db3f90\\cropped.obj"
+  }
+}

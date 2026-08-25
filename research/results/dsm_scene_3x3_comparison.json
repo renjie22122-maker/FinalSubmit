@@ -1,0 +1,98 @@
+{
+  "source": {
+    "before": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\test_merge_scene.obj",
+    "after": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\test_merge_scene_corrected.obj",
+    "before_sha256": "2d679e74bd82badd1cccde6401eb7a682c1d674af38da152a4a9ad3f6db99653",
+    "after_sha256": "cc37d6e42d01faabf283755d29f9e471d6ca12d90f45477ebcf9cf6fc95d11b2",
+    "scene_vertices": 1915455,
+    "scene_faces": 4097374
+  },
+  "pair_checks": {
+    "same_vertex_order_and_count": true,
+    "same_xz_coordinates": true,
+    "same_rgb_attributes": true,
+    "same_face_indices": true,
+    "only_y_changed": true
+  },
+  "larger_eastern_3x3_cluster": {
+    "x_gap_lower_m": 124.186206,
+    "x_gap_upper_m": 554.68967,
+    "x_split_threshold_m": 339.437938,
+    "vertices": 1219256,
+    "faces": 2611376,
+    "bounds_min_xyz_m": [
+      554.68967,
+      -26.768325,
+      -124.269021
+    ],
+    "bounds_max_xyz_m": [
+      706.895241,
+      12.46426,
+      27.977184
+    ],
+    "horizontal_span_x_m": 152.20557100000008,
+    "horizontal_span_z_m": 152.246205
+  },
+  "before_y_m": {
+    "min": -26.768325,
+    "p05": -26.607872,
+    "median": -20.093214,
+    "mean": -17.642025278082688,
+    "p95": -1.373018,
+    "max": 12.46426
+  },
+  "after_y_m": {
+    "min": 1.857015,
+    "p05": 9.553055,
+    "median": 19.255511,
+    "mean": 23.343714970221193,
+    "p95": 52.36558175,
+    "max": 67.940354
+  },
+  "delta_y_m": {
+    "min": 15.811809,
+    "p05": 30.575527,
+    "median": 35.738992,
+    "mean": 40.9857402483039,
+    "p95": 55.476095,
+    "max": 59.22434199999999
+  },
+  "positive_displacement_vertices": 1219256,
+  "spatial_displacement_map": {
+    "aggregation": "paired delta_y at the highest pre-correction vertex in each occupied cell",
+    "cell_size_m": 1.0,
+    "grid_shape_xz": [
+      153,
+      153
+    ],
+    "occupied_cells": 23409,
+    "empty_cells": 0,
+    "interpolation": "none",
+    "selection_geometry": "pre-correction mesh",
+    "semantic_scope": "display proxy, not roof classification",
+    "colour_scale_m": [
+      15.0,
+      60.0
+    ]
+  },
+  "rendering": {
+    "full_cluster_vertices_rendered": 1219256,
+    "full_cluster_faces_rendered": 2611376,
+    "same_camera_and_union_xyz_bounds": true,
+    "reference_outline_y_m": 0.0,
+    "display_axes": "X east, Y height, Z south",
+    "stored_vertex_rgb_displayed": false,
+    "before_uniform_rgb": [
+      0.6,
+      0.63,
+      0.67
+    ],
+    "after_uniform_rgb": [
+      0.3,
+      0.47,
+      0.66
+    ],
+    "pdf": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\dsm_scene_3x3_comparison.pdf",
+    "png": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\dsm_scene_3x3_comparison.png"
+  }
+}

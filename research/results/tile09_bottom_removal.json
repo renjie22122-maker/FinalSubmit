@@ -1,0 +1,128 @@
+{
+  "source": {
+    "before": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\debug_per_tile_crop\\tile_09.obj",
+    "after": "E:\\UCL\\Project\\Sat3DGen\\pipeline_output\\final_v36\\debug_per_tile_no_bottom\\tile_09.obj",
+    "before_sha256": "603ffb6a5b62bf011499b33bf43612b12d35fed9a25de763412ad1cd67a59076",
+    "after_sha256": "3c72ef47176badc1008571a7d1f95dbedddb6f916d93ab1bf1c3bcb85c63f56d",
+    "stage_before": "cropped, placed and semantically pre-aligned tile; before bottom removal and stitching",
+    "stage_after": "same tile after bottom removal; before stitching"
+  },
+  "predicate": {
+    "active_rule": "minimum face-vertex Y <= tile minimum Y + tolerance",
+    "tolerance_m": 0.5,
+    "tile_min_y_m": -29.208305,
+    "threshold_y_m": -28.708305,
+    "all_removed_faces_have_all_three_vertices_in_band": true
+  },
+  "pair_checks": {
+    "after_vertex_xyz_rgb_records_are_subset": true,
+    "after_faces_equal_coordinate_rgb_complement": true,
+    "removed_and_retained_faces_share_no_vertex_indices": true,
+    "same_x_bounds": true,
+    "same_z_bounds": true
+  },
+  "counts": {
+    "before_vertices": 150470,
+    "before_faces": 298649,
+    "after_vertices": 112054,
+    "after_faces": 222599,
+    "removed_orphan_vertices": 38416,
+    "removed_faces": 76050,
+    "removed_vertex_fraction": 0.2553067056556124,
+    "removed_face_fraction": 0.2546467592391068
+  },
+  "bounds_xyz_m": {
+    "before_min": [
+      68.29886,
+      -29.208305,
+      -375.62769
+    ],
+    "before_max": [
+      124.185781,
+      8.323306,
+      -319.675467
+    ],
+    "after_min": [
+      68.29886,
+      -26.734505,
+      -375.62769
+    ],
+    "after_max": [
+      124.185781,
+      8.323306,
+      -319.675467
+    ],
+    "removed_plane_min": [
+      68.467775,
+      -29.208305,
+      -375.455282
+    ],
+    "removed_plane_max": [
+      124.012654,
+      -29.151836,
+      -319.849438
+    ]
+  },
+  "removed_plane_geometry": {
+    "span_xyz_m": [
+      55.544878999999995,
+      0.05646899999999988,
+      55.60584399999999
+    ],
+    "x_coverage_of_tile_span": 0.9938797487161619,
+    "z_coverage_of_tile_span": 0.9938093791197544,
+    "face_y_span_m": {
+      "median": 0.001198999999999728,
+      "p95": 0.005777550000000534,
+      "max": 0.03205000000000169
+    },
+    "absolute_normal_y": {
+      "min": 0.9958813595979643,
+      "p05": 0.9998342073322743,
+      "median": 0.9999920637952191
+    }
+  },
+  "rendering": {
+    "full_before_faces_rendered": 298649,
+    "full_after_faces_rendered": 222599,
+    "same_camera_parameters": true,
+    "common_union_bounds_xyz_m": [
+      [
+        68.29886,
+        -29.208305,
+        -375.62769
+      ],
+      [
+        124.185781,
+        8.323306,
+        -319.675467
+      ]
+    ],
+    "camera_front": [
+      0.62,
+      -0.48,
+      -0.62
+    ],
+    "camera_up": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "camera_zoom": 0.68,
+    "view": "underside oblique",
+    "display_axes": "X east, Y height, Z south",
+    "stored_vertex_rgb_displayed": false,
+    "retained_uniform_rgb": [
+      0.48,
+      0.64,
+      0.78
+    ],
+    "removed_plane_uniform_rgb": [
+      0.9,
+      0.43,
+      0.13
+    ],
+    "pdf": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\tile09_bottom_removal.pdf",
+    "png": "E:\\UCL\\Project\\UCL_Master_s_Thesis_Template2\\figures\\generated\\tile09_bottom_removal.png"
+  }
+}

@@ -1,0 +1,171 @@
+\chapter{Introduction} \label{Chap1}\label{chap:introduction}
+\pagenumbering{arabic}
+
+
+
+\section{Motivation and problem statement}
+
+Deep generative models conditioned on widely available satellite imagery offer
+a promising route to detailed urban geometry.  Their outputs are not,
+however, immediately suitable for an editable city-modelling environment.
+Inference is performed over bounded image windows; neighbouring predictions
+may disagree in position, height, and topology; and a mesh file does not by
+itself identify its geographic extent, building ownership, coordinate frame,
+or processing history.  These issues become particularly important when the
+output must support procedural editing or interactive use rather than a single
+rendered view.  Figure~\ref{fig:sat3dgen-tile-example} illustrates the form of
+one retained local output.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{sat3dgen_tile_example.pdf}
+\caption[Representative Sat3DGen mesh from one London inference tile.]{Representative
+Sat3DGen output for a London inference tile centred at $51.510303^{\circ}$~N,
+$0.133978^{\circ}$~W.  Panel (a) renders the stored predicted vertex colours;
+panel (b) renders the same vertices and triangles with a uniform material.  The
+paired views separate predicted appearance from the generated surface in the
+model's normalised local frame.}
+\label{fig:sat3dgen-tile-example}
+\end{figure}
+
+Procedural city systems address a complementary part of the problem.  Building
+footprints, semantic parts, and explicit rules provide stable identity and
+authoring control, but do not recover the observed appearance and geometric
+detail of a real location automatically.  This dissertation studies the
+interface between these representations.  It asks how learned urban geometry
+can be combined with open geospatial context and delivered as building-level
+assets to ChordAtlas, an existing procedural urban-modelling environment
+\cite{kellyChordAtlas2024}.
+
+A case study is centred on London and uses Sat3DGen as the
+satellite-conditioned generator \cite{qian2026sat3dgen}.  The study extends its large-image workflow with continuous density placement, smooth
+overlap weighting, and vertex-colour recovery before connecting the resulting
+surface to downstream geospatial processing.  OpenStreetMap (OSM)
+provides footprints and contextual semantics, while an Environment Agency
+digital surface model (DSM) supplies an external vertical reference
+\cite{openstreetmapData,environmentAgencyDSM2022}.  The resulting problem is
+both geometric and operational: tiles must be placed and combined coherently,
+and every published asset must retain enough spatial and processing metadata
+to be interpreted by the downstream system.
+
+\section{Research aim and question}
+
+The aim is to develop and evaluate a hybrid machine-learning/procedural
+workflow that reconstructs a contiguous region from overlapping
+satellite-conditioned predictions and converts the resulting geometry into
+coordinate-explicit, building-associated assets for ChordAtlas.  The study
+addresses the following research question:
+
+\begin{quote}
+\textbf{To what extent can overlapping satellite-conditioned predictions be
+combined into a coloured regional mesh and integrated with geospatial context
+in ChordAtlas through a manifest-driven, coordinate-explicit workflow?}
+\end{quote}
+
+The question treats integration as more than file conversion.  A useful result
+must establish a consistent spatial frame, associate geometry with geographic
+features, preserve appearance information, expose processing state, and
+support repeatable transfer between Python mesh processing and the Java-based
+ChordAtlas environment.
+
+\section{Design rationale and evaluated scope}
+
+The broader project theme concerned geographically steered world generation
+for interactive and collaborative environments.  Sat3DGen was selected because
+it produces explicit coloured geometry from satellite imagery, making it a
+more direct input to an editing system than an image-only generator.  Initial
+feasibility work established local model inference and explored Unity/Ubiq
+integration.  A London cross-view collection was then prepared to investigate
+location-specific data requirements.
+
+Resource analysis showed that reproducing the released Sat3DGen training
+regime would dominate the available computational budget.  The empirical study
+therefore retains the released model and evaluates two complementary forms of
+regional assembly.  The first adapts the released large-image wrapper so that
+rectangular mosaics are fused smoothly in density space and colour is recovered
+on the global surface.  The second places independently extracted meshes in a
+shared geographic frame and evaluates stitching, height reconciliation, and
+building association.  Both paths subsequently enter the same publication
+architecture.
+
+OSM and DSM data serve different roles in this design.  Footprints provide
+building identity and a basis for per-building extraction; the DSM provides a
+metric surface-height reference for vertical processing.  ChordAtlas provides
+the procedural destination, including its tiled MiniMesh representation and
+building-generation workflow.  BigSUR and FrankenGAN inform the wider goal of
+structured fa\c{c}ade modelling, while CityEngine provides a procedural
+workflow comparator and Ubiq motivates future collaborative deployment
+\cite{kelly2017bigsur,kelly2018frankengan,esriCityEngineIntro2026,
+friston2021ubiq}.  These systems establish the architectural context for the
+study; the evaluated contribution comprises the London data study, large-image
+density and colour method, mesh-processing experiments, and ChordAtlas
+integration path.
+
+\section{Objectives}
+
+Six objectives make the research question operational:
+
+\begin{enumerate}
+  \item construct and characterise a London multimodal case study comprising
+  satellite imagery, panoramas, OSM context, and DSM data;
+  \item adapt and evaluate large-image density fusion and per-vertex colour
+  recovery while retaining the released Sat3DGen model;
+  \item define the coordinate, tiling, and metadata contracts that connect
+  geographic inputs, Sat3DGen density and mesh spaces, and ChordAtlas;
+  \item implement mesh-space placement, cropping, overlap processing,
+  DSM-informed height correction, and footprint-based building extraction;
+  \item implement static and on-demand publication of building assets to
+  ChordAtlas while preserving stable identity and vertex colour; and
+  \item evaluate data integrity, geometric behaviour, topology, coordinate
+  consistency, and cross-language publication, and relate the findings to
+  Sat3DGen and procedural city-generation methods.
+\end{enumerate}
+
+\section{Contributions}
+
+The first contribution is a London data-preparation and integrity study that
+connects cross-view imagery with OSM and DSM context.  It quantifies geographic
+support, channel availability, duplicate imagery, split relationships, and
+candidate-label geometry.  These measurements show which properties must be
+checked before a geographically assembled collection is used for learning or
+evaluation.
+
+The second contribution is a rectangular large-image inference method.  It
+places overlapping density predictions at sub-voxel coordinates, blends them
+with smooth spatial weights, extracts one global surface, and recovers
+per-vertex RGB in a memory-bounded second pass.  A matched experiment measures
+the reduction in window-boundary discontinuity relative to hard-crop fusion.
+
+The third contribution is a mesh-space integration method for placing and
+combining independently generated tiles.  The method introduces explicit
+coordinate conversion, footprint association, DSM-informed vertical
+processing, and per-building extraction.  Controlled geometry cases and
+topological measurements evaluate the assumptions made by bottom removal,
+stitching, and height correction.
+
+The fourth contribution is a ChordAtlas bridge that publishes selected geometry
+as modular building assets.  Stable request identities, manifests, validation
+gates, staged publication, vertex-colour transfer, and Python--Java conversion
+make the data boundary inspectable and repeatable.  The evaluation identifies
+the conditions under which this bridge operates reliably and the geometry and
+transaction properties that most strongly affect regional extension.
+
+Sat3DGen, ChordAtlas, BigSUR, FrankenGAN, CityEngine, and Ubiq are pre-existing
+systems.  The project-specific work reported here comprises the London data
+workflow, large-image density and colour extension, geospatial mesh-processing
+method, ChordAtlas integration, and their evaluation.  External software,
+datasets, and published methods are identified and cited where they are used.
+
+\section{Dissertation structure}
+
+Chapter~\ref{chap:background} reviews procedural urban modelling,
+satellite-conditioned reconstruction, semantic city representations,
+geospatial contracts, and related systems.  Chapter~\ref{chap:methodology}
+defines the data, large-image inference, coordinate, mesh-processing,
+publication, and evaluation methods.  Chapter~\ref{chap:results} reports the
+data-integrity, density-fusion, colour, geometry, coordinate, and ChordAtlas
+integration results.  Chapter~\ref{chap:discussion}
+interprets the findings, compares the approach with Sat3DGen and CityEngine,
+and evaluates validity and future directions.  Chapter~\ref{chap:conclusion}
+summarises the research outcome and contributions.  The appendix records
+implementation provenance and detailed component-test results.

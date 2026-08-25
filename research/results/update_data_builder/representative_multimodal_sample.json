@@ -1,0 +1,32 @@
+{
+  "selection_rule": "Among sparse-grid tiles with valid_ratio=1.0, maximise the number of non-empty OSM category masks, then the number of rank-1 linked panorama queries.",
+  "satellite_tile": "sat_51.503434_-0.132325.png",
+  "latitude": 51.503434,
+  "longitude": -0.132325,
+  "dsm_valid_ratio": 1.0,
+  "nonempty_osm_categories": [
+    "building",
+    "building_with_height",
+    "road",
+    "water",
+    "landuse",
+    "green",
+    "railway",
+    "barrier"
+  ],
+  "rank_1_linked_query_count": 27,
+  "closest_linked_panorama": {
+    "pano_id": "pano_753",
+    "label_header": "pano_753,51.503456,-0.132323,.jpg",
+    "candidate_distance_px": 26.34274093559742
+  },
+  "files": {
+    "satellite": "E:\\UCL\\Project\\data_builder\\data_builder\\satellite\\sat_51.503434_-0.132325.png",
+    "model_relative_depth": "E:\\UCL\\Project\\data_builder\\data_builder\\london_vigor_root\\London\\sat_depth\\sat_51.503434_-0.132325.png",
+    "normalised_dsm_raster": "E:\\UCL\\Project\\data_builder\\data_builder\\london_vigor_root\\London\\sat_depth_dsm_raster\\sat_51.503434_-0.132325.png",
+    "equirectangular_panorama": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\panorama\\pano_753,51.503456,-0.132323,.jpg",
+    "sky_mask": "E:\\UCL\\Project\\data_builder\\data_builder\\LondonDataSet\\London\\pano_sky_mask\\pano_753,51.503456,-0.132323,.png",
+    "osm_mask_pattern": "E:\\UCL\\Project\\data_builder\\data_builder\\osm_features\\masks\\{category}\\sat_51.503434_-0.132325.png"
+  },
+  "caption_boundary": "This panel illustrates stored channels only. The model depth is relative, the DSM image is patch-normalised rather than metric, and the OSM masks are not validated ground truth."
+}

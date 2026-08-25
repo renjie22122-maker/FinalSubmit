@@ -1,0 +1,19 @@
+name: sat3dgen
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - scipy=1.15.3
+  - pillow=11.1.0
+  - pyproj=3.6.1
+  - rasterio=1.4.4
+  - shapely=2.1.2
+  - trimesh=4.12.2
+  - scikit-image
+  - matplotlib
+  - pandas>=2.1,<2.4
+  - numba
+  - pip:
+      - -r requirements.txt
