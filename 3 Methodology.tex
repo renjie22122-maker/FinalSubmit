@@ -312,6 +312,40 @@ placement and spatial taper.  A zero denominator is treated as an invalid
 coverage state.  Marching Cubes is applied once to $\bar{D}$ at the evaluated
 isovalue of 4.5, so overlap is resolved before surface extraction.
 
+Algorithm~\ref{alg:fractional-density-fusion} gives the corresponding
+semi-formal procedure.  The two accumulators separate predicted density from
+its support weight, which permits a final normalised field to be extracted by
+a single Marching Cubes operation.
+
+\begin{algorithm}[H]
+\caption{Fractional feather fusion of overlapping density predictions}
+\label{alg:fractional-density-fusion}
+\begin{algorithmic}[1]
+\Require Rectangular mosaic $I$; source-window starts $S$; predictor $M$;
+cropped density width $L$; halo $h$; isovalue $\tau$
+\Ensure Global vertices $V$ and faces $F$
+\State Initialise density sum $A\gets 0$ and horizontal weight sum $W\gets 0$
+\ForAll{$(r_i,c_i)\in S$}
+  \State $D_i\gets\Call{PredictDensity}{M,I,r_i,c_i}$
+  \State $D_i\gets\Call{CropHalo}{D_i,h}$
+  \State $(o_{r},o_{c})\gets(r_iL/640,c_iL/640)$
+  \State $K_i\gets\Call{RaisedCosineWeights}{L,h,\text{mosaic-edge flags}}$
+  \State $(f_r,f_c)\gets(o_r-\lfloor o_r\rfloor,o_c-\lfloor o_c\rfloor)$
+  \ForAll{$(a,b)\in\{0,1\}^{2}$}
+    \State $\alpha_{ab}\gets(af_r+(1-a)(1-f_r))(bf_c+(1-b)(1-f_c))$
+    \State \Call{Accumulate}{$A,\alpha_{ab}K_iD_i,\lfloor o_r\rfloor+a,
+      \lfloor o_c\rfloor+b$}
+    \State \Call{Accumulate}{$W,\alpha_{ab}K_i,\lfloor o_r\rfloor+a,
+      \lfloor o_c\rfloor+b$}
+  \EndFor
+\EndFor
+\State \textbf{require} $W(p)>0$ for every covered horizontal position $p$
+\State $\bar D\gets A/W$ \Comment{broadcast $W$ over the vertical axis}
+\State $(V,F)\gets\Call{MarchingCubes}{\bar D,\tau}$
+\State \Return $(V,F)$
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Memory-bounded vertex-colour recovery}
 
 The released large-image wrapper discards each tri-plane after density
@@ -347,6 +381,37 @@ A two-dimensional spatial index limits each window to nearby vertices, and
 only one tri-plane is resident at a time.  Export requires positive colour
 weight for every vertex, finite RGB values, unchanged vertex and face arrays,
 and an exact colour round trip after reloading the PLY.
+
+Algorithm~\ref{alg:vertex-colour-recovery} describes the second pass.  It uses
+the geometry-fusion weights again, but accumulates RGB only for vertices whose
+continuous coordinates lie inside a window's weighted support.
+
+\begin{algorithm}[H]
+\caption{Memory-bounded recovery of colour on a fixed global mesh}
+\label{alg:vertex-colour-recovery}
+\begin{algorithmic}[1]
+\Require Mosaic $I$; fixed mesh $(V,F)$; window plan $S$; predictor $M$;
+fusion metadata
+\Ensure Per-vertex RGB array $C$ on unchanged $(V,F)$
+\State Build a two-dimensional spatial index $B$ over the horizontal axes of $V$
+\State Initialise RGB sum $R\gets 0$ and vertex weight sum $Z\gets 0$
+\ForAll{windows $i\in S$}
+  \State $T_i\gets\Call{EncodeWindow}{M,I,i}$ \Comment{one resident tri-plane}
+  \State $(J,w)\gets\Call{SupportedVertices}{V,B,i,\text{fusion metadata}}$
+  \ForAll{paired batches $(Q,w_Q)$ drawn from $(J,w)$}
+    \State $q\gets\Call{ModelCoordinates}{V[Q],i}$
+    \State $c\gets\Call{QueryColour}{M,T_i,q}$
+    \State $R[Q]\gets R[Q]+w_Qc$
+    \State $Z[Q]\gets Z[Q]+w_Q$
+  \EndFor
+  \State Release $T_i$
+\EndFor
+\State \textbf{require} $Z(v)>0$ and finite for every $v\in V$
+\State $C\gets\Call{QuantiseRGB}{R/Z}$
+\State \Call{ExportAndReloadVerify}{$V,F,C$}
+\State \Return $C$
+\end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[H]
 \centering

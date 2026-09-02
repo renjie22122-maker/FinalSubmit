@@ -1,4 +1,5 @@
 timm  
+einops
 scikit-learn 
 scikit-image  
 PyYAML 

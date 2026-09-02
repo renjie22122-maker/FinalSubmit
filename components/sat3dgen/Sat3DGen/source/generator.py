@@ -363,9 +363,19 @@ class Sat3DGen(ModelMixin, ConfigMixin):
             self.opt.render_size = 256 
         self.point_sampler_definition(self.opt.render_size if hasattr(self.opt, 'render_size') else 256)
 
+    def _current_device(self, triplane_ori=None):
+        if triplane_ori is not None:
+            if isinstance(triplane_ori, (list, tuple)) and len(triplane_ori) > 0:
+                first_item = triplane_ori[0]
+                if torch.is_tensor(first_item):
+                    return first_item.device
+            elif torch.is_tensor(triplane_ori):
+                return triplane_ori.device
+        return next(self.parameters()).device
+
     def point_sampler_definition(self, render_size=256):
         pano_size = np.array([render_size*2,render_size//2]) / self.sr_factor
-        self.pano_direction = get_original_coord(W=int(pano_size[0]),H=int(pano_size[1]),full=True).unsqueeze(0).cuda().float() # different with the original one
+        self.pano_direction = get_original_coord(W=int(pano_size[0]),H=int(pano_size[1]),full=True).unsqueeze(0).to(self._current_device()).float() # different with the original one
         # point_sampling_kwargs.pano_direction = 
         self.point_sampler = Point_sampler_pano(pano_direction=self.pano_direction,**self.opt.network.point_sampling_kwargs)
         self.point_sampler_per = PointSamplerPerspective(num_points=self.opt.network.point_sampling_kwargs.num_points,aabb_strict=True,render_size=[render_size// self.sr_factor,render_size// self.sr_factor])
@@ -757,10 +767,11 @@ class Sat3DGen(ModelMixin, ConfigMixin):
     @torch.no_grad()
     def forward_grid(self, planes, grid_size=256,position_scale_factor=1,crop=False):
         max_batch = 15000000
+        device = self._current_device(planes)
         # size = int(grid_size/self.position_scale_factor)
-        voxel_grid = create_voxel(N=grid_size,position_scale_factor=1)['voxel_grid'].cuda()
+        voxel_grid = create_voxel(N=grid_size,position_scale_factor=1)['voxel_grid'].to(device)
         densities = torch.zeros(
-            (voxel_grid.shape[0], voxel_grid.shape[1], 1)).cuda()
+            (voxel_grid.shape[0], voxel_grid.shape[1], 1), device=device)
         # data/CVACT/satview_correct/
 
         # read img to cuda, [-1,1]

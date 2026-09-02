@@ -1,5 +1,7 @@
 # myProject Bridge（Windows）
 
+> English version: [README_EN.md](README_EN.md)
+
 ## 全景导入与门窗约束
 
 推荐直接使用与原版 ChordAtlas 相同位置的 Block 后续入口，不复用 `data_builder` 以前的 panorama 数据：选中由当前 OSM footprint 建立的 `block`，在 Block Options 点击 `get Street View panoramas`。程序只根据这个 Block 的 footprint 和 workspace `manifest.json` 地理原点规划候选相机，查询 metadata，并按 pano id 去重；随后先下载一张样本并显示预览。只有在 `Approve selected-block Street View batch` 对话框点击 `Yes` 才会继续批量，点击 `No` 会保留样本并停止。完成后 GUI 会自动创建或刷新当前 workspace `panos` 目录的 PanoGen 图层，再按 `render panoramas -> find image features -> find profiles -> optimize` 使用真实门窗约束。

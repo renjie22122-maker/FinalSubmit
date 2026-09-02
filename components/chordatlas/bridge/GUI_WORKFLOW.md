@@ -1,5 +1,8 @@
 # ChordAtlas GUI 操作与验收
 
+> English version: [GUI_WORKFLOW_EN.md](GUI_WORKFLOW_EN.md)
+
+
 ## OSM 完整显示、按选择生成 MiniMesh
 
 这是当前推荐入口。项目启动时只有完整 OSM 建筑外轮廓，不要求预先拥有城市 MiniMesh：

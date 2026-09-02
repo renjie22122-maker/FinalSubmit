@@ -170,6 +170,8 @@ I, Renjie Li, declare that the thesis has been composed by myself and that the w
 The empirical study uses four principal implementations: the London
 data-preparation workflow, the Sat3DGen large-image extension, the active mesh
 assembly package, and the ChordAtlas integration layer.
+The project source code and submission package are available at
+\url{https://github.com/renjie22122-maker/FinalSubmit}.
 Runtime import and entry-point tracing identify the implementation used for
 each experiment.  The published Sat3DGen,
 ChordAtlas, BigSUR, FrankenGAN, CityEngine, and Ubiq systems are referenced in
@@ -213,6 +215,30 @@ The controlled geometry cases correspond to the predicate results discussed in
 Chapters~\ref{Chap4} and~\ref{Chap5}.  Quantitative figures were generated from
 the same evaluated artefacts and record their relevant populations in their
 captions or surrounding text.
+
+\section{Selected implementation excerpts}
+
+The following short excerpts connect Algorithms~\ref{alg:fractional-density-fusion}
+and~\ref{alg:vertex-colour-recovery} to the submitted Python implementation.
+They are included verbatim from the project-authored scripts; the complete
+files, command-line interfaces, validation logic, and tests remain under
+\path{research/scripts}.
+
+\lstinputlisting[
+  language=Python,
+  firstline=157,
+  lastline=188,
+  caption={Raised-cosine axis weights used by the large-image density-fusion script.},
+  label={lst:raised-cosine-weights}
+]{research/scripts/run_sat3dgen_big_image_app192.py}
+
+\lstinputlisting[
+  language=Python,
+  firstline=241,
+  lastline=274,
+  caption={Exact support-weight selection used by the memory-bounded colour pass.},
+  label={lst:window-vertex-weights}
+]{research/scripts/colorize_sat3dgen_big_mesh.py}
 
 \section{Model-example comparison record}
 

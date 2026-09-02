@@ -1,5 +1,7 @@
 # Sat3DGen 原方法与本项目活动管线对比（审计备忘录，2026-08-13）
 
+[English version](SAT3DGEN_METHOD_COMPARISON_2026_EN.md)
+
 ## 0. 结论先行
 
 1. **Sat3DGen 的原创贡献位于学习式生成模型与训练约束层。** 原论文采用冻结的 DINOv3 编码器、三平面 NeRF 表示、空间 token、重力方向密度变化损失、卫星视角相对深度先验和全景到透视视角训练，并通过 Marching Cubes 导出网格。

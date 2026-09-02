@@ -1,5 +1,7 @@
 # CityEngine 对比与扩展文献综述备忘录（2026）
 
+> English version: [CITYENGINE_AND_LITERATURE_REVIEW_2026_EN.md](CITYENGINE_AND_LITERATURE_REVIEW_2026_EN.md)
+
 更新日期：2026-08-13（Europe/London）  
 用途：供论文 Introduction/Background、Discussion、References 更新时采用。  
 证据状态：CityEngine 结论来自 Esri 官方产品文档、官方 SDK 文档和原始论文；本地论文工作区没有检索到 CityEngine 实验记录，因此下文的 CityEngine 集成与实验均标为“建议”，不能写成“已实现”或“已验证”。
